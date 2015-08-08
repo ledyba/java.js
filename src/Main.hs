@@ -17,7 +17,8 @@ isStaticField :: Klass -> String -> Bool
 isStaticField klass m = elem m (staticFields klass)
 
 compileConstant (CString str) = "Java.mkString(\"" ++ unpack str ++"\")"
-popStacks n = (foldl (++) "" $ fmap (\i -> "var i"++show i++"=stack.pop();") [n..1], "["++(foldl (++) "" $ fmap (\i -> "i"++show i++",") [1..n])++"]")
+popStacks 0 = ("","[]")
+popStacks n = (foldl (++) "" $ fmap (\i -> "var i"++show i++"=stack.pop();") [(n-1)..0], "["++(foldl (++) "" $ fmap (\i -> "i"++show i++",") [0..n-1])++"]")
 showImm I0 = "0"
 showImm I1 = "1"
 showImm I2 = "2"
