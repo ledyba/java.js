@@ -35,6 +35,15 @@ compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fld
 		fldName = unpack (ntName nt)
 		static = isStaticField klass fldName
 
+compileBody klass (LDC1 idx) = "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);"
+	where
+		pool = constantPool klass
+		Just constant = M.lookup idx pool
+		CField kls nt = constant
+		klsName = unpack kls
+		fldName = unpack (ntName nt)
+		static = isStaticField klass fldName
+
 compileBody klass RETURN = "return;"
 compileBody klass code = (show code)
 
