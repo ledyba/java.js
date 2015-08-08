@@ -13,9 +13,28 @@ import Data.ByteString.Lazy.Char8 (unpack)
 
 wrapWithFunJS str = "(function(){\n"++str++"})();\n"
 
+isStaticField :: Klass -> String -> Bool
+isStaticField klass m = elem m (staticFields klass)
+
+compileBody :: Klass -> Instruction -> String
+compileBody klass (BIPUSH w) = "stack.push("++show w++");"
+compileBody klass (PUTSTATIC idx) =
+		if static then "Java[\""++klsName++"\"][\""++fldName++"\"] = stack.pop();"
+							else "this[\""++fldName++"\"] = stack.pop();"
+	where
+		pool = constantPool klass
+		Just constant = M.lookup idx pool
+		CField kls nt = constant
+		klsName = unpack kls
+		fldName = unpack (ntName nt)
+		static = isStaticField klass fldName
+
+compileBody klass RETURN = "return;"
+compileBody klass code = (show code)
+
 compileFun :: Klass -> (MethodSignature, Maybe Code) -> String
 compileFun klass (_, Nothing) = "function(){}";
-compileFun klass (_, code) = "function(){}";
+compileFun klass (_, (Just code)) = "function(){\nvar stack = [];\nvar local=[this, null, null, null];\n" ++ (foldl (\r i -> r ++ i ++ "\n") "" (fmap (compileBody klass) (codeInstructions code))) ++"}";
 
 tryCompileFun :: Klass -> Maybe(MethodSignature, Maybe Code) -> String
 tryCompileFun klass Nothing = "function(){}"
@@ -37,7 +56,8 @@ data Klass = Klass {
 		fields :: [String],
 		staticFields :: [String],
 		methods :: M.Map String (MethodSignature, Maybe Code),
-		staticMethods :: M.Map String (MethodSignature, Maybe Code)
+		staticMethods :: M.Map String (MethodSignature, Maybe Code),
+		constantPool :: Pool Direct
 	} deriving (Show)
 
 loadKlass cls = Klass {
@@ -46,7 +66,8 @@ loadKlass cls = Klass {
 	staticFields = map getFieldName $ filter (\m -> isStatic (fieldAccessFlags m)) $ classFields cls,
 	fields =  map getFieldName $ filter (\m -> not $ isStatic (fieldAccessFlags m)) $ classFields cls,
 	staticMethods = M.fromList $ map extMeth $ filter (\m -> isStatic (methodAccessFlags m)) $ classMethods cls,
-	methods = M.fromList $ map extMeth $ filter (\m -> not $ isStatic (methodAccessFlags m)) $ classMethods cls
+	methods = M.fromList $ map extMeth $ filter (\m -> not $ isStatic (methodAccessFlags m)) $ classMethods cls,
+	constantPool = constsPool cls
 }
 	where
 		isStatic accs = S.member ACC_STATIC accs
