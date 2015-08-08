@@ -18,9 +18,15 @@ isStaticField klass m = elem m (staticFields klass)
 
 compileBody :: Klass -> Instruction -> String
 compileBody klass (BIPUSH w) = "stack.push("++show w++");"
-compileBody klass (PUTSTATIC idx) =
-		if static then "Java[\""++klsName++"\"][\""++fldName++"\"] = stack.pop();"
-							else "this[\""++fldName++"\"] = stack.pop();"
+compileBody klass (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"] = stack.pop();"
+	where
+		pool = constantPool klass
+		Just constant = M.lookup idx pool
+		CField kls nt = constant
+		klsName = unpack kls
+		fldName = unpack (ntName nt)
+
+compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);";
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
