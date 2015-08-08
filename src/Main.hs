@@ -26,7 +26,7 @@ compileBody klass (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"] 
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
 
-compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);";
+compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
