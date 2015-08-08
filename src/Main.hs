@@ -16,6 +16,13 @@ wrapWithFunJS str = "(function(){\n"++str++"})();\n"
 isStaticField :: Klass -> String -> Bool
 isStaticField klass m = elem m (staticFields klass)
 
+compileConstant (CString str) = "Java.mkString(\"" ++ unpack str ++"\")"
+popStacks n = (foldl (++) "" $ fmap (\i -> "var i"++show i++"=stack.pop();") [n..1], "["++(foldl (++) "" $ fmap (\i -> "i"++show i++",") [1..n])++"]")
+showImm I0 = "0"
+showImm I1 = "1"
+showImm I2 = "2"
+showImm I3 = "3"
+
 compileBody :: Klass -> Instruction -> String
 compileBody klass (BIPUSH w) = "stack.push("++show w++");"
 compileBody klass (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"] = stack.pop();"
@@ -33,19 +40,44 @@ compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fld
 		CField kls nt = constant
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
-		static = isStaticField klass fldName
 
-compileBody klass (LDC1 idx) = "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);"
+compileBody klass (INVOKEVIRTUAL idx) = pops++"var self = stack.pop(); stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
-		CField kls nt = constant
+		(pops, args) = popStacks 1
+		CMethod kls nt = constant
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
-		static = isStaticField klass fldName
+--
+compileBody klass (INVOKESPECIAL idx) = pops++"var self = stack.pop(); stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
+	where
+		pool = constantPool klass
+		Just constant = M.lookup idx pool
+		(pops, args) = popStacks 0
+		CMethod kls nt = constant
+		klsName = unpack kls
+		fldName = unpack (ntName nt)
 
+compileBody klass (LDC1 idx) = "stack.push("++compileConstant constant++");"
+	where
+		pool = constantPool klass
+		Just constant = M.lookup (fromIntegral idx) pool
+
+compileBody klass (ALOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileBody klass (ILOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileBody klass (LLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileBody klass (FLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileBody klass (DLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileBody klass (ICONST_0) = "stack.push(0);"
+compileBody klass (ICONST_1) = "stack.push(1);"
+compileBody klass (ICONST_2) = "stack.push(2);"
+compileBody klass (ICONST_3) = "stack.push(3);"
+compileBody klass (ICONST_4) = "stack.push(4);"
+compileBody klass (ICONST_M1) = "stack.push(-1);"
+compileBody klass IRETURN = "return stack.pop();"
 compileBody klass RETURN = "return;"
-compileBody klass code = (show code)
+compileBody klass code = show code
 
 compileFun :: Klass -> (MethodSignature, Maybe Code) -> String
 compileFun klass (_, Nothing) = "function(){}";
@@ -58,11 +90,12 @@ tryCompileFun klass (Just body) = compileFun klass body
 toJS :: Klass -> String
 toJS klass =
 				wrapWithFunJS $
-					"var klass = "++tryCompileFun klass (M.lookup "<clinit>" (staticMethods klass))++";\n"++
+					"var klass = "++tryCompileFun klass (M.lookup "<init>" (methods klass))++";\n"++
 					"klass.prototype = Java[\""++superKlass klass++"\"];\n"++
 					"Java[\""++klassName klass++"\"] = klass;\n"++
-					(M.foldlWithKey (\l key meth -> l++"klass[\""++key++"\"] = "++compileFun klass meth++";\n") "" $ M.filterWithKey (\key _ -> not $ key == "<clinit>") (staticMethods klass)) ++
-					(foldl (\l f -> l ++ "Java[\""++f++"\"] = null;\n") "" $ staticFields klass) ++
+					(M.foldlWithKey (\l key meth -> l++"klass[\""++key++"\"] = "++compileFun klass meth++";\n") "" $ (staticMethods klass)) ++
+					(M.foldlWithKey (\l key meth -> l++"klass[\""++key++"\"] = "++compileFun klass meth++";\n") "" $ M.filterWithKey (\key _ -> not $ key == "<init>") (methods klass)) ++
+					(foldl (\l f -> l ++ "klass[\""++f++"\"] = null;\n") "" $ staticFields klass) ++
 					"(klass[\"<clinit>\"]).call(klass);\n"
 
 data Klass = Klass {
