@@ -1,74 +1,60 @@
 Classfile /home/psi/Dropbox/src/haskell/java.js/sample/Hello.class
-  Last modified Aug 8, 2015; size 508 bytes
-  MD5 checksum d2731104ee3a1af8f47983c6496360fa
+  Last modified Aug 8, 2015; size 557 bytes
+  MD5 checksum e2fb08941d5699f863a6c1402dd5fef4
   Compiled from "Hello.java"
 public class Hello
   minor version: 0
   major version: 50
   flags: ACC_PUBLIC, ACC_SUPER
 Constant pool:
-   #1 = Methodref          #7.#20         // java/lang/Object."<init>":()V
-   #2 = Fieldref           #6.#21         // Hello.value:I
-   #3 = Fieldref           #22.#23        // java/lang/System.out:Ljava/io/PrintStream;
-   #4 = String             #24            // Hello world
-   #5 = Methodref          #25.#26        // java/io/PrintStream.println:(Ljava/lang/String;)V
-   #6 = Class              #27            // Hello
-   #7 = Class              #28            // java/lang/Object
+   #1 = Fieldref           #21.#22        // java/lang/System.out:Ljava/io/PrintStream;
+   #2 = String             #23            // Hello world
+   #3 = Methodref          #24.#25        // java/io/PrintStream.println:(Ljava/lang/String;)V
+   #4 = Methodref          #7.#26         // java/lang/Object."<init>":()V
+   #5 = Fieldref           #6.#27         // Hello.value:I
+   #6 = Class              #28            // Hello
+   #7 = Class              #29            // java/lang/Object
    #8 = Utf8               value
    #9 = Utf8               I
-  #10 = Utf8               <init>
-  #11 = Utf8               ()V
+  #10 = Utf8               main
+  #11 = Utf8               ([Ljava/lang/String;)V
   #12 = Utf8               Code
   #13 = Utf8               LineNumberTable
-  #14 = Utf8               main
-  #15 = Utf8               ([Ljava/lang/String;)V
-  #16 = Utf8               test
-  #17 = Utf8               ()I
-  #18 = Utf8               SourceFile
-  #19 = Utf8               Hello.java
-  #20 = NameAndType        #10:#11        // "<init>":()V
-  #21 = NameAndType        #8:#9          // value:I
-  #22 = Class              #29            // java/lang/System
-  #23 = NameAndType        #30:#31        // out:Ljava/io/PrintStream;
-  #24 = Utf8               Hello world
-  #25 = Class              #32            // java/io/PrintStream
-  #26 = NameAndType        #33:#34        // println:(Ljava/lang/String;)V
-  #27 = Utf8               Hello
-  #28 = Utf8               java/lang/Object
-  #29 = Utf8               java/lang/System
-  #30 = Utf8               out
-  #31 = Utf8               Ljava/io/PrintStream;
-  #32 = Utf8               java/io/PrintStream
-  #33 = Utf8               println
-  #34 = Utf8               (Ljava/lang/String;)V
+  #14 = Utf8               test
+  #15 = Utf8               ()I
+  #16 = Utf8               <init>
+  #17 = Utf8               ()V
+  #18 = Utf8               <clinit>
+  #19 = Utf8               SourceFile
+  #20 = Utf8               Hello.java
+  #21 = Class              #30            // java/lang/System
+  #22 = NameAndType        #31:#32        // out:Ljava/io/PrintStream;
+  #23 = Utf8               Hello world
+  #24 = Class              #33            // java/io/PrintStream
+  #25 = NameAndType        #34:#35        // println:(Ljava/lang/String;)V
+  #26 = NameAndType        #16:#17        // "<init>":()V
+  #27 = NameAndType        #8:#9          // value:I
+  #28 = Utf8               Hello
+  #29 = Utf8               java/lang/Object
+  #30 = Utf8               java/lang/System
+  #31 = Utf8               out
+  #32 = Utf8               Ljava/io/PrintStream;
+  #33 = Utf8               java/io/PrintStream
+  #34 = Utf8               println
+  #35 = Utf8               (Ljava/lang/String;)V
 {
-  public int value;
+  public static int value;
     descriptor: I
-    flags: ACC_PUBLIC
-
-  public Hello();
-    descriptor: ()V
-    flags: ACC_PUBLIC
-    Code:
-      stack=2, locals=1, args_size=1
-         0: aload_0
-         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
-         4: aload_0
-         5: bipush        123
-         7: putfield      #2                  // Field value:I
-        10: return
-      LineNumberTable:
-        line 1: 0
-        line 5: 4
+    flags: ACC_PUBLIC, ACC_STATIC
 
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
       stack=2, locals=1, args_size=1
-         0: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
-         3: ldc           #4                  // String Hello world
-         5: invokevirtual #5                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+         0: getstatic     #1                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: ldc           #2                  // String Hello world
+         5: invokevirtual #3                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
          8: return
       LineNumberTable:
         line 3: 0
@@ -83,5 +69,28 @@ Constant pool:
          1: ireturn
       LineNumberTable:
         line 7: 0
+
+  public Hello();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #4                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 9: 0
+        line 10: 4
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: bipush        123
+         2: putstatic     #5                  // Field value:I
+         5: return
+      LineNumberTable:
+        line 5: 0
 }
 SourceFile: "Hello.java"

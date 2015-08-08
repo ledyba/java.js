@@ -27,7 +27,7 @@ executable java2js
   main-is:             Main.hs
   -- other-modules:
   -- other-extensions:
-  build-depends:       base >=4.6 && <4.7, java2js, hs-java, bytestring
+  build-depends:       base >=4.6 && <4.7, java2js, hs-java, bytestring, containers
   -- hs-source-dirs:
   default-language:    Haskell2010
   hs-source-dirs:      src
