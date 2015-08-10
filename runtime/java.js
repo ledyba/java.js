@@ -12,7 +12,7 @@ var Java = {};
 	Java["java/io/PrintStream"] = (function(){
 		var klass = function(){};
 		klass["<init>"] = function(){};
-		klass.println = function(){
+		klass["println(Ljava/lang/String;)V"] = function(){
 			log.apply(console, arguments);
 		};
 		return klass;

@@ -4,19 +4,41 @@ module Main where
 import JVM.Common ()
 import JVM.Converter
 import JVM.ClassFile
-import JVM.Dump
-import Java2js.Convert
+--import Java2js.Convert
 import JVM.Assembler
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
+import Data.List (intercalate)
 import Data.ByteString.Lazy.Char8 (unpack)
 
 wrapWithFunJS str = "(function(){\n"++str++"})();\n"
 
+returnsValue :: MethodSignature -> Bool
+returnsValue (MethodSignature _ ReturnsVoid) = False
+returnsValue (MethodSignature _ _) = True
+
+mangleMethod name (MethodSignature args ret) = (unpack name) ++ "("++(intercalate "," (fmap sigToSym args))++")"++retToSym ret
+																								where
+																									sigToSym :: FieldType -> String
+																									sigToSym SignedByte = "B"
+																									sigToSym CharByte = "C"
+																									sigToSym DoubleType = "D"
+																									sigToSym FloatType = "F"
+																									sigToSym IntType = "I"
+																									sigToSym LongInt = "J"
+																									sigToSym ShortInt = "S"
+																									sigToSym BoolType = "Z"
+																									sigToSym (ObjectType cls) = 'L':cls++";"
+																									sigToSym (Array _ ft) = '[':(sigToSym ft)
+																									retToSym :: ReturnSignature -> String
+																									retToSym ReturnsVoid = "V"
+																									retToSym (Returns v) = sigToSym v
+
 isStaticField :: Klass -> String -> Bool
 isStaticField klass m = elem m (staticFields klass)
 
-compileConstant (CString str) = "Java.mkString(\"" ++ unpack str ++"\")"
+compileConstant :: Constant Direct -> String
+compileConstant (CString str) = "(\"" ++ unpack str ++"\")"
 popStacks 0 = ("","[]")
 popStacks n = (foldl (++) "" $ fmap (\i -> "var i"++show i++"=stack.pop();") [(n-1)..0], "["++(foldl (++) "" $ fmap (\i -> "i"++show i++",") [0..n-1])++"]")
 showImm I0 = "0"
@@ -42,20 +64,30 @@ compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fld
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
 
-compileBody klass (INVOKEVIRTUAL idx) = pops++"var self = stack.pop(); stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
+compileBody klass (INVOKEVIRTUAL idx) =
+					pops++"var self = stack.pop(); "++
+					if returns then "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
+										else "Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
-		(pops, args) = popStacks 1
+		MethodSignature margs mret = ntSignature nt
+		returns = returnsValue (ntSignature nt)
+		(pops, args) = popStacks (length margs)
 		CMethod kls nt = constant
 		klsName = unpack kls
-		fldName = unpack (ntName nt)
+		fldName = mangleMethod (ntName nt) (ntSignature nt)
 --
-compileBody klass (INVOKESPECIAL idx) = pops++"var self = stack.pop(); stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
+compileBody klass (INVOKESPECIAL idx) =
+					pops++"var self = stack.pop(); "++
+					if returns then "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
+										else "Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
-		(pops, args) = popStacks 0
+		MethodSignature margs mret = ntSignature nt
+		returns = returnsValue (ntSignature nt)
+		(pops, args) = popStacks (length margs)
 		CMethod kls nt = constant
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
