@@ -17,6 +17,9 @@ var Java = {};
 		proto["println(Ljava/lang/String;)V"] = function(){
 			log.apply(console, arguments);
 		};
+		proto["println(D)V"] = function(){
+			log.apply(console, arguments);
+		};
 		return klass;
 	})();
 	Java["java/lang/System"] = (function(){

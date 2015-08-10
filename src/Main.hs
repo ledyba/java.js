@@ -9,7 +9,7 @@ import Java2js.Load
 import Java2js.Type
 
 main = do
-	cls <- parseClassFile "sample/Hello.class"
+	cls <- parseClassFile "sample/Pi.class"
 	let klass = loadKlass cls
 	print klass
 	putStrLn $ compileKlass klass
