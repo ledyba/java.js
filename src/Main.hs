@@ -1,11 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import JVM.Common ()
-import JVM.Converter
-import JVM.ClassFile
+import Java2js.JVM.Common ()
+import Java2js.JVM.Converter
+import Java2js.JVM.ClassFile
 --import Java2js.Convert
-import JVM.Assembler
+import Java2js.JVM.Assembler
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
 import Data.List (intercalate)
@@ -46,9 +46,9 @@ showImm I1 = "1"
 showImm I2 = "2"
 showImm I3 = "3"
 
-compileBody :: Klass -> Instruction -> String
-compileBody klass (BIPUSH w) = "stack.push("++show w++");"
-compileBody klass (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"] = stack.pop();"
+compileInst :: Klass -> Int -> Instruction -> String
+compileInst klass _ (BIPUSH w) = "stack.push("++show w++");"
+compileInst klass _ (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"] = stack.pop();"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -56,7 +56,7 @@ compileBody klass (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"] 
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
 
-compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);"
+compileInst klass _ (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -64,7 +64,7 @@ compileBody klass (GETSTATIC idx) = "stack.push(Java[\""++klsName++"\"][\""++fld
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
 
-compileBody klass (INVOKEVIRTUAL idx) =
+compileInst klass _ (INVOKEVIRTUAL idx) =
 					pops++"var self = stack.pop(); "++
 					if returns then "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
 										else "Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++");"
@@ -78,7 +78,7 @@ compileBody klass (INVOKEVIRTUAL idx) =
 		klsName = unpack kls
 		fldName = mangleMethod (ntName nt) (ntSignature nt)
 --
-compileBody klass (INVOKESPECIAL idx) =
+compileInst klass _ (INVOKESPECIAL idx) =
 					pops++"var self = stack.pop(); "++
 					if returns then "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
 										else "Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++");"
@@ -92,29 +92,35 @@ compileBody klass (INVOKESPECIAL idx) =
 		klsName = unpack kls
 		fldName = unpack (ntName nt)
 
-compileBody klass (LDC1 idx) = "stack.push("++compileConstant constant++");"
+compileInst klass _ (LDC1 idx) = "stack.push("++compileConstant constant++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup (fromIntegral idx) pool
 
-compileBody klass (ALOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileBody klass (ILOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileBody klass (LLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileBody klass (FLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileBody klass (DLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileBody klass (ICONST_0) = "stack.push(0);"
-compileBody klass (ICONST_1) = "stack.push(1);"
-compileBody klass (ICONST_2) = "stack.push(2);"
-compileBody klass (ICONST_3) = "stack.push(3);"
-compileBody klass (ICONST_4) = "stack.push(4);"
-compileBody klass (ICONST_M1) = "stack.push(-1);"
-compileBody klass IRETURN = "return stack.pop();"
-compileBody klass RETURN = "return;"
-compileBody klass code = show code
+compileInst klass _ (ALOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileInst klass _ (ILOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileInst klass _ (LLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileInst klass _ (FLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileInst klass _ (DLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
+compileInst klass _ (ICONST_0) = "stack.push(0);"
+compileInst klass _ (ICONST_1) = "stack.push(1);"
+compileInst klass _ (ICONST_2) = "stack.push(2);"
+compileInst klass _ (ICONST_3) = "stack.push(3);"
+compileInst klass _ (ICONST_4) = "stack.push(4);"
+compileInst klass _ (ICONST_M1) = "stack.push(-1);"
+compileInst klass _ IRETURN = "return stack.pop();"
+compileInst klass _ LRETURN = "return stack.pop();"
+compileInst klass _ FRETURN = "return stack.pop();"
+compileInst klass _ DRETURN = "return stack.pop();"
+compileInst klass _ ARETURN = "return stack.pop();"
+compileInst klass _ RETURN = "return;"
+compileInst klass _ code = show code
 
 compileFun :: Klass -> (MethodSignature, Maybe Code) -> String
 compileFun klass (_, Nothing) = "function(){}";
-compileFun klass (_, (Just code)) = "function(){\nvar stack = [];\nvar local=[this, null, null, null];\n" ++ (foldl (\r i -> r ++ i ++ "\n") "" (fmap (compileBody klass) (codeInstructions code))) ++"}";
+compileFun klass (_, (Just code)) =
+													"function(){\n\tvar stack = [];\n\tvar local=[this, null, null, null];\n\tvar pc=0;\n\twhile(true){\n\t\tswitch(pc){\n\t\tcase 0:\n"
+													++ (intercalate "\n" (fmap (\(addr,inst) -> "\t\t\t"++compileInst klass addr inst) (codeInstructions code))) ++"\n\t\t}\n\t}\n}";
 
 tryCompileFun :: Klass -> Maybe(MethodSignature, Maybe Code) -> String
 tryCompileFun klass Nothing = "function(){}"

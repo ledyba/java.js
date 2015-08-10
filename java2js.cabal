@@ -18,16 +18,37 @@ cabal-version:       >=1.10
 Library
   Default-Language:     Haskell2010
   GHC-Options:          -Wall
-  Exposed-Modules:
-            Java2js.Convert
-  hs-source-dirs:       lib
-  Build-Depends:        base,hs-java
+  Exposed-Modules:            Java2js.Convert
+                 Java2js.JVM.Common
+                 Java2js.JVM.ClassFile
+                 Java2js.JVM.Assembler
+                 Java2js.JVM.Converter
+                 Java2js.JVM.Dump
+                 Java2js.JVM.Exceptions
+                 Java2js.Java.Lang
+                 Java2js.Java.IO
+                 Java2js.Java.ClassPath
+                 Java2js.Java.ClassPath.Types
+                 Java2js.Java.ClassPath.Common
+                 Java2js.Java.JAR
+                 Java2js.Java.JAR.Archive
+                 Java2js.Java.META
+                 Java2js.Java.META.Types
+                 Java2js.Java.META.Spec
+                 Java2js.Java.META.Parser
 
-executable java2js
+  hs-source-dirs:       lib
+  Build-Depends:        base >= 4.6 && <= 5, containers, binary,
+                  mtl, directory, filepath, utf8-string, array,
+                  bytestring, data-binary-ieee754, binary-state >= 0.1.1,
+                  control-monad-exception, data-default >= 0.5.0,
+                  MissingH, LibZip, Glob, parsec >= 3 && <4
+
+executable java.js
   main-is:             Main.hs
   -- other-modules:
   -- other-extensions:
-  build-depends:       base >=4.6 && <4.7, java2js, hs-java, bytestring, containers
+  build-depends:       base >=4.6 && <4.7, java2js, bytestring, containers
   -- hs-source-dirs:
   default-language:    Haskell2010
   hs-source-dirs:      src
