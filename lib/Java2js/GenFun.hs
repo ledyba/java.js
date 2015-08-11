@@ -9,6 +9,7 @@ import Data.ByteString.Lazy.Char8 (unpack, ByteString)
 import Data.Text.Template (template, render, substitute)
 import Data.List (intercalate)
 import Data.String.Utils (replace)
+import qualified Data.Set as S
 import qualified Data.Map.Strict as M
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as L
@@ -405,10 +406,10 @@ compileArgumentBind (MethodSignature args _) isStatic =
 		loop (DoubleType:args) aidx idx = "local["++show aidx++"] = arguments["++show idx++"];"++(loop args (aidx+2) (idx+1))
 		loop (_:args) aidx idx = "local["++show aidx++"] = arguments["++show idx++"];"++(loop args (aidx+1) (idx+1))
 
-compileMethod :: Klass -> (MethodSignature, Maybe Code) -> Bool -> String
-compileMethod _ (_, Nothing) _ = "function(){}";
-compileMethod klass (signature, (Just code)) isStatic = L.unpack $ render methodTemplate ((T.pack).ctx)
+compileMethod :: Klass -> (Method Direct, Maybe Code) -> String
+compileMethod _ (_, Nothing) = "function(){}";
+compileMethod klass (meth, (Just code))  = L.unpack $ render methodTemplate ((T.pack).ctx)
 	where
-		ctx "argbinding" = compileArgumentBind signature isStatic
+		ctx "argbinding" = compileArgumentBind (methodSignature meth) (S.member ACC_STATIC (methodAccessFlags meth))
 		ctx "locals" = show (codeMaxLocals code)
 		ctx "body" = (intercalate "\n" (fmap (\(addr,inst) -> "\t\t\tcase "++show addr++": pc = "++show addr++"; /* "++(show inst)++" */ "++compileInst klass addr inst) (codeInstructions code)))

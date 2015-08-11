@@ -6,6 +6,8 @@ import qualified Data.Map.Strict as M
 import Java2js.Type
 import Data.Text.Template (template, render)
 import Java2js.GenFun
+import Java2js.JVM.ClassFile
+import qualified Data.Set as S
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as L
 
@@ -18,7 +20,6 @@ klassTemplate = template "\
 \var proto = klass.prototype = Object.create(Java[\"${superKlass}\"]().prototype);\n\
 \proto.constructor = klass;\n\
 \${staticFields}\n\
-\${staticMethods}\n\
 \${methods}\n\
 \klass.classObj = Java.mkClassObj(klass, \"${klassName}\");\n\
 \var clinit = klass[\"<clinit>()V\"];\
@@ -35,8 +36,10 @@ compileKlass klass = L.unpack $ render klassTemplate ctx
 				ctx "klassName" = T.pack (klassName klass)
 				ctx "superKlass" = T.pack (superKlass klass)
 				ctx "staticFields" = compileStaticFields klass
-				ctx "staticMethods" = T.pack (M.foldlWithKey (\l key meth -> l++"klass[\""++key++"\"] = "++compileMethod klass meth True++";\n") "" $ staticMethods klass)
-				ctx "methods" = T.pack (M.foldlWithKey (\l key meth -> l++"proto[\""++key++"\"] = "++compileMethod klass meth False++";\n") "" $ methods klass)
+				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
+												where
+													stored meth = if S.member ACC_STATIC maccs then "klass" else "proto"
+																				where maccs = methodAccessFlags meth
 
 compileStaticFields klass = T.pack $ intercalate "\n" (fmap (\(name, constant) -> "klass[\""++name++"\"] = "++compileConstant' constant++";") $ staticFields klass)
 												where

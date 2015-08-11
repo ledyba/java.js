@@ -10,7 +10,10 @@
 		<script type="text/javascript" src="./java.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./out.js" charset="utf-8"></script>
 		<script>
-			Java["Pi"].main();
+			var jsutil = Java["FESI/jslib/JSUtil"]();
+			console.log(jsutil);
+			var eval = jsutil["makeEvaluator()LFESI/jslib/JSGlobalObject;"]();
+			console.log(eval);
 		</script>
 	</body>
 </html>

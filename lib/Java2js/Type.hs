@@ -10,7 +10,6 @@ data Klass = Klass {
 		superKlass::String,
 		fields :: [(String, Maybe (Constant Direct))],
 		staticFields :: [(String, Maybe (Constant Direct))],
-		methods :: M.Map String (MethodSignature, Maybe Code),
-		staticMethods :: M.Map String (MethodSignature, Maybe Code),
+		methods :: M.Map String (Method Direct, Maybe Code),
 		constantPool :: Pool Direct
 	} deriving (Show)
