@@ -16,7 +16,6 @@ buildClassPath = do
 
 main = do
 	entries <- execClassPath $ buildClassPath
-	print entries
 	klasses <- loadCPEntries entries
 	let src = fmap compileKlass klasses
-	print src
+	mapM putStrLn src
