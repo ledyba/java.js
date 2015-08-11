@@ -36,6 +36,10 @@ mangleMethod name (MethodSignature args ret) = (unpack name) ++ "("++(intercalat
 compileConstant :: Constant Direct -> String
 compileConstant (CString str) = "(\"" ++ unpack str ++"\")"
 compileConstant (CDouble v) = "(" ++ show v ++")"
+compileConstant (CInteger v) =  "(" ++ show v ++")"
+compileConstant (CFloat v) =  "(" ++ show v ++")"
+compileConstant (CLong v) =  "(" ++ show v ++")"
+compileConstant (CDouble v) =  "(" ++ show v ++")"
 
 popStacks :: [FieldType] -> (String, String)
 popStacks [] = ("","[]")
@@ -268,6 +272,7 @@ methodTemplate = template "\
 \\t\tswitch(pc){\n\
 \${body}\n\
 \\t\t}}catch(e){\n\
+\\t\t\t return; //FIXME\n\
 \\t\t}\n\
 \\t}\n\
 \}\
