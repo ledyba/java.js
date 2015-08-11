@@ -29,7 +29,9 @@ import Java2js.JVM.ClassFile
 -- import Debug.Trace
 
 instance BinaryState Integer Int16 where
-  put x = liftOffset 2 Binary.put x
+  get = getZ
+
+instance BinaryState Integer Int32 where
   get = getZ
 
 -- | Immediate constant. Corresponding value will be added to base opcode.
@@ -231,8 +233,8 @@ data Instruction =
   | GOTO Int16             -- ^ 167
   | JSR Int16              -- ^ 168
   | RET Word8              -- ^ 169
-  | TABLESWITCH Word8 Word32 Word32 Word32 [Word32]     -- ^ 170
-  | LOOKUPSWITCH Word8 Word32 Word32 [(Word32, Word32)] -- ^ 171
+  | TABLESWITCH Int32 Int32 Int32 [Int32]     -- ^ 170
+  | LOOKUPSWITCH Word32 Word32 [(Word32, Word32)] -- ^ 171
   | IRETURN                -- ^ 172
   | LRETURN                -- ^ 173
   | FRETURN                -- ^ 174
@@ -439,7 +441,7 @@ instance BinaryState Integer Instruction where
              low <- get
              high <- get
              offs <- replicateM (fromIntegral $ high - low + 1) get
-             return $ TABLESWITCH (fromIntegral pads) def low high offs
+             return $ TABLESWITCH def low high offs
       171 -> do
              offset <- bytesRead
              let pads = padding offset
@@ -447,7 +449,7 @@ instance BinaryState Integer Instruction where
              def <- get
              n <- get
              pairs <- replicateM (fromIntegral n) get
-             return $ LOOKUPSWITCH (fromIntegral pads) def n pairs
+             return $ LOOKUPSWITCH def n pairs
       172 -> return IRETURN
       173 -> return LRETURN
       174 -> return FRETURN
