@@ -4,6 +4,7 @@ module Java2js.Load(loadKlass, withKlass, loadCPEntry, loadCPEntries) where
 
 import Data.ByteString.Lazy.Char8 (unpack)
 import Java2js.Type
+import Java2js.Mangle
 import Java2js.Java.ClassPath
 import Java2js.Java.JAR.Archive (readFromJAR)
 import Java2js.JVM.Common ()
@@ -41,7 +42,7 @@ loadKlass cls = Klass {
 	where
 		isStatic accs = S.member ACC_STATIC accs
 		getFieldName f = unpack $ fieldName f
-		extMeth meth = (unpack $ methodName meth, (methodSignature meth, extCode meth))
+		extMeth meth = (mangleMethod meth, (methodSignature meth, extCode meth))
 		extCode :: Method Direct -> Maybe Code
 		extCode meth = fmap decodeMethod (attrByName meth "Code")
 

@@ -10,6 +10,7 @@ import Java2js.Gen
 import Java2js.Load
 import Java2js.Type
 import Data.String.Utils (endswith)
+import System.IO
 
 --import Java2js.Java.JAR.Archive
 --import Java2js.JVM.Assembler
@@ -28,5 +29,6 @@ buildClassPath = do
 main = do
 	entries <- execClassPath $ buildClassPath
 	klasses <- loadCPEntries entries
+	putStrLn $ show (length klasses) ++ " classes."
 	let src = fmap compileKlass klasses
-	mapM putStrLn src
+	withFile "out.js" WriteMode (\f -> mapM (hPutStrLn f) src)

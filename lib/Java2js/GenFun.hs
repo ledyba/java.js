@@ -2,6 +2,7 @@
 module Java2js.GenFun(compileMethod) where
 --
 import Java2js.Type
+import Java2js.Mangle
 import Java2js.JVM.Assembler
 import Java2js.JVM.ClassFile
 import Data.ByteString.Lazy.Char8 (unpack, ByteString)
@@ -15,23 +16,6 @@ returnsValue :: MethodSignature -> Bool
 returnsValue (MethodSignature _ ReturnsVoid) = False
 returnsValue (MethodSignature _ _) = True
 
-mangleMethod :: ByteString -> MethodSignature -> String
-mangleMethod name (MethodSignature args ret) = (unpack name) ++ "("++(intercalate "," (fmap sigToSym args))++")"++retToSym ret
-																								where
-																									sigToSym :: FieldType -> String
-																									sigToSym SignedByte = "B"
-																									sigToSym CharByte = "C"
-																									sigToSym DoubleType = "D"
-																									sigToSym FloatType = "F"
-																									sigToSym IntType = "I"
-																									sigToSym LongInt = "J"
-																									sigToSym ShortInt = "S"
-																									sigToSym BoolType = "Z"
-																									sigToSym (ObjectType cls) = 'L':cls++";"
-																									sigToSym (Array _ ft) = '[':(sigToSym ft)
-																									retToSym :: ReturnSignature -> String
-																									retToSym ReturnsVoid = "V"
-																									retToSym (Returns v) = sigToSym v
 --
 compileConstant :: Constant Direct -> String
 compileConstant (CString str) = "(\"" ++ unpack str ++"\")"
@@ -222,7 +206,7 @@ compileInst klass _ (INVOKEVIRTUAL idx) =
 		returns = returnsValue (ntSignature nt)
 		(pops, args) = popStacks (margs)
 		CMethod _ nt = constant
-		fldName = mangleMethod (ntName nt) (ntSignature nt)
+		fldName = mangleMethod nt
 --
 compileInst klass _ (INVOKESPECIAL idx) =
 					pops++pushRet mret++"var self = stack.pop(); "++
@@ -236,7 +220,7 @@ compileInst klass _ (INVOKESPECIAL idx) =
 		(pops, args) = popStacks (margs)
 		CMethod kls nt = constant
 		klsName = unpack kls
-		fldName = unpack (ntName nt)
+		fldName = mangleMethod nt
 
 compileInst klass _ (INVOKESTATIC idx) =
 					pops++pushRet mret++
@@ -250,7 +234,7 @@ compileInst klass _ (INVOKESTATIC idx) =
 		(pops, args) = popStacks (margs)
 		CMethod kls nt = constant
 		klsName = unpack kls
-		fldName = unpack (ntName nt)
+		fldName = mangleMethod nt
 
 compileInst _ _ IRETURN = "return stack.pop();"
 compileInst _ _ LRETURN = "return stack.pop();"

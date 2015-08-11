@@ -23,6 +23,7 @@ Library
                  Java2js.Load
                  Java2js.Gen
                  Java2js.GenFun
+                 Java2js.Mangle
                  Java2js.JVM.Common
                  Java2js.JVM.ClassFile
                  Java2js.JVM.Assembler
