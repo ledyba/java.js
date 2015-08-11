@@ -27,7 +27,6 @@ import Data.BinaryState
 import Java2js.JVM.ClassFile
 
 -- import Debug.Trace
-
 instance BinaryState Integer Int16 where
   get = getZ
 

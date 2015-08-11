@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, StandaloneDeriving, FlexibleInstances, FlexibleContexts, UndecidableInstances, RecordWildCards, OverloadedStrings #-}
+{-# LANGUAGE TypeFamilies, StandaloneDeriving, FlexibleInstances, FlexibleContexts, UndecidableInstances, RecordWildCards, OverloadedStrings, ScopedTypeVariables #-}
 -- | Functions to convert from low-level .class format representation and
 -- high-level Java classes, methods etc representation
 module Java2js.JVM.Converter
@@ -6,7 +6,8 @@ module Java2js.JVM.Converter
    classFile2Direct,
    methodByName,
    attrByName,
-   methodCode
+   methodCode,
+   fieldConstant
   )
   where
 
@@ -15,6 +16,7 @@ import Data.List
 import Data.Word
 import Data.Bits
 import Data.Binary
+import Data.Binary.Get (getWord32be,getWord16be,runGet)
 import Data.Default () -- import instances only
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.Char8 ()
@@ -138,6 +140,7 @@ accessFile2Direct w = S.fromList $ concat $ zipWith (\i f -> if testBit w i then
    ACC_INTERFACE,
    ACC_ABSTRACT ]
 
+
 fieldFile2Direct :: Pool Direct -> Field File -> Field Direct
 fieldFile2Direct pool (Field {..}) = Field {
   fieldAccessFlags = accessFile2Direct fieldAccessFlags,
@@ -166,6 +169,11 @@ methodByName :: Class Direct -> B.ByteString -> Maybe (Method Direct)
 methodByName cls name =
   find (\m -> methodName m == name) (classMethods cls)
 
+-- | Try to get class field by name
+fieldByName :: Class Direct -> B.ByteString -> Maybe (Field Direct)
+fieldByName cls name =
+  find (\m -> fieldName m == name) (classFields cls)
+
 -- | Try to get object attribute by name
 attrByName :: (HasAttributes a) => a Direct -> B.ByteString -> Maybe B.ByteString
 attrByName x name =
@@ -179,3 +187,14 @@ methodCode :: Class Direct
 methodCode cls name = do
   method <- methodByName cls name
   attrByName method "Code"
+
+fieldConstant :: Class Direct -> B.ByteString -> Maybe (Constant Direct)
+fieldConstant cls name = do
+  field <- fieldByName cls name
+  bytes <- attrByName field "ConstantValue"
+  runGet parse bytes
+  where
+    pool = constsPool cls
+    parse = do
+      cpoint <- getWord16be
+      return (M.lookup (fromIntegral cpoint) pool)

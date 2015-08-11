@@ -11,14 +11,20 @@ import qualified Data.Text.Lazy as L
 
 klassTemplate = template "\
 \(function(){\n\
-\var klass = function(){ this[\"<init>\"].apply(this,arguments); };\n\
-\Java[\"${klassName}\"] = klass;\n\
+\var klass = null;\n\
+\Java[\"${klassName}\"] = function(){\n\
+\if(klass === null){\n\
+\klass = function(){ var init = klass[\"<init>()V\"]; if(init){init.apply(this,[]); }{throw \"NoDefaultConstructor\";}};\n\
 \var proto = klass.prototype = Object.create(Java[\"${superKlass}\"].prototype);\n\
 \proto.constructor = klass;\n\
 \${staticFields}\n\
 \${staticMethods}\n\
 \${methods}\n\
-\if(klass[\"<clinit>\"]){klass[\"<clinit>\"].call(null)};\n\
+\var clinit = klass[\"<clinit>()V\"];\
+\if(clinit){clinit.call(null)};\n\
+\}\n\
+\return klass;\n\
+\}\n\
 \})();\n\
 \"
 
@@ -31,4 +37,7 @@ compileKlass klass = L.unpack $ render klassTemplate ctx
 				ctx "staticMethods" = T.pack (M.foldlWithKey (\l key meth -> l++"klass[\""++key++"\"] = "++compileMethod klass meth True++";\n") "" $ staticMethods klass)
 				ctx "methods" = T.pack (M.foldlWithKey (\l key meth -> l++"proto[\""++key++"\"] = "++compileMethod klass meth False++";\n") "" $ methods klass)
 
-compileStaticFields klass = T.pack $ intercalate "\n" (fmap (\f -> "proto[\""++f++"\"] = null;") $ staticFields klass)
+compileStaticFields klass = T.pack $ intercalate "\n" (fmap (\(name, constant) -> "klass[\""++name++"\"] = "++compileConstant' constant++";") $ staticFields klass)
+												where
+													compileConstant' Nothing = "null"
+													compileConstant' (Just s) = compileConstant s

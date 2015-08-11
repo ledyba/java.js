@@ -12,19 +12,16 @@ import Java2js.Type
 import Data.String.Utils (endswith)
 import System.IO
 
---import Java2js.Java.JAR.Archive
---import Java2js.JVM.Assembler
+import Java2js.Java.JAR.Archive
+import Java2js.JVM.Assembler
 
 buildClassPath = do
 		addJAR "sample/rhino-1.5r4.1.jar"
-{-
-		cls <- readFromJAR "sample/rhino-1.5r4.1.jar" "org/mozilla/javascript/tools/shell/Global.class"
-		print $ zip [1..] (fmap methodName (classMethods cls))
-		let (Just meth) = methodByName cls "runProcess"
-		let (Just bin) = (attrByName meth "Code")
-		let m = decodeMethod bin
-		print $ m --codeLength m
--}
+
+_main = do
+		cls <- readFromJAR "sample/rhino-1.5r4.1.jar" "org/mozilla/javascript/Context.class"
+		let meths = classFields cls
+		mapM (\m -> putStrLn $ show (fieldName m) ++" "++show (fieldAccessFlags m)++" "++show (fieldAttributes m)) meths
 
 main = do
 	entries <- execClassPath $ buildClassPath

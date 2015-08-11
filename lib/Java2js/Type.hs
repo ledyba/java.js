@@ -8,8 +8,8 @@ import Java2js.JVM.ClassFile
 data Klass = Klass {
 		klassName::String,
 		superKlass::String,
-		fields :: [String],
-		staticFields :: [String],
+		fields :: [(String, Maybe (Constant Direct))],
+		staticFields :: [(String, Maybe (Constant Direct))],
 		methods :: M.Map String (MethodSignature, Maybe Code),
 		staticMethods :: M.Map String (MethodSignature, Maybe Code),
 		constantPool :: Pool Direct

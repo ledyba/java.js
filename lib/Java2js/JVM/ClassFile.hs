@@ -33,6 +33,7 @@ module Java2js.JVM.ClassFile
   )
   where
 
+import Data.Int
 import Control.Monad
 import Control.Monad.Trans (lift)
 import Control.Applicative
@@ -175,9 +176,9 @@ data Constant stage =
   | CMethod (Link stage B.ByteString) (Link stage (NameType (Method stage)))
   | CIfaceMethod (Link stage B.ByteString) (Link stage (NameType (Method stage)))
   | CString (Link stage B.ByteString)
-  | CInteger Word32
+  | CInteger Int32
   | CFloat Float
-  | CLong Word64
+  | CLong Int64
   | CDouble Double
   | CNameType (Link stage B.ByteString) (Link stage B.ByteString)
   | CUTF8 {getString :: B.ByteString}
@@ -256,22 +257,7 @@ defaultClass = Class {
   classAttributes = def }
 
 instance Binary (Class File) where
-  put (Class {..}) = do
-    put magic
-    put minorVersion
-    put majorVersion
-    putPool constsPool
-    put accessFlags
-    put thisClass
-    put superClass
-    put interfacesCount
-    forM_ interfaces put
-    put classFieldsCount
-    forM_ classFields put
-    put classMethodsCount
-    forM_ classMethods put
-    put classAttributesCount
-    forM_ (attributesList classAttributes) put
+  put = undefined
 
   get = do
     magic <- get
@@ -465,32 +451,6 @@ long :: Constant stage -> Bool
 long (CLong _)   = True
 long (CDouble _) = True
 long _           = False
-
-putPool :: Pool File -> Put
-putPool pool = do
-    let list = M.elems pool
-        d = length $ filter long list
-    putWord16be $ fromIntegral (M.size pool + d + 1)
-    forM_ list putC
-  where
-    putC (CClass i) = putWord8 7 >> put i
-    putC (CField i j) = putWord8 9 >> put i >> put j
-    putC (CMethod i j) = putWord8 10 >> put i >> put j
-    putC (CIfaceMethod i j) = putWord8 11 >> put i >> put j
-    putC (CString i) = putWord8 8 >> put i
-    putC (CInteger x) = putWord8 3 >> put x
-    putC (CFloat x)   = putWord8 4 >> putFloat32be x
-    putC (CLong x)    = putWord8 5 >> put x
-    putC (CDouble x)  = putWord8 6 >> putFloat64be x
-    putC (CNameType i j) = putWord8 12 >> put i >> put j
-    putC (CUTF8 bs) = do
-                     putWord8 1
-                     put (fromIntegral (B.length bs) :: Word16)
-                     putLazyByteString bs
-    putC (CUnicode bs) = do
-                     putWord8 2
-                     put (fromIntegral (B.length bs) :: Word16)
-                     putLazyByteString bs
 
 getPool :: Word16 -> Get (Pool File)
 getPool n = do

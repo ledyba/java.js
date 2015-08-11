@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Java2js.GenFun(compileMethod) where
+module Java2js.GenFun(compileMethod, compileConstant) where
 --
 import Java2js.Type
 import Java2js.Mangle
@@ -8,6 +8,7 @@ import Java2js.JVM.ClassFile
 import Data.ByteString.Lazy.Char8 (unpack, ByteString)
 import Data.Text.Template (template, render, substitute)
 import Data.List (intercalate)
+import Data.String.Utils (replace)
 import qualified Data.Map.Strict as M
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as L
@@ -16,9 +17,10 @@ returnsValue :: MethodSignature -> Bool
 returnsValue (MethodSignature _ ReturnsVoid) = False
 returnsValue (MethodSignature _ _) = True
 
---
+encodeJavaScriptString x = foldl (\ m f -> f m) x $ fmap (uncurry replace) [("\n", "\\n"), ("\\", "\\\\"), ("\"","\\\"")]
+
 compileConstant :: Constant Direct -> String
-compileConstant (CString str) = "(\"" ++ unpack str ++"\")"
+compileConstant (CString str) = "(\"" ++ encodeJavaScriptString (unpack str) ++"\")"
 compileConstant (CDouble v) = "(" ++ show v ++")"
 compileConstant (CInteger v) =  "(" ++ show v ++")"
 compileConstant (CFloat v) =  "(" ++ show v ++")"
@@ -190,8 +192,8 @@ compileInst _ _ (LSHL) = "var a = stack.pop(); stack.pop(); var b = stack.pop();
 compileInst _ _ (I2D) = "var a = stack.pop(); stack.push(null); stack.push(a);"
 compileInst _ _ (I2C) = "var a = stack.pop(); stack.push(a&0xffff);"
 compileInst _ _ (I2F) = ""
-compileInst _ _ (I2B) = ""
-compileInst _ _ (I2S) = ""
+compileInst _ _ (I2B) = "var a = stack.pop(); stack.push(a&0xffff);"
+compileInst _ _ (I2S) = "var a = stack.pop(); stack.push(a&0xff);"
 compileInst _ _ (I2L) = "var a = stack.pop(); stack.push(null); stack.push(a);"
 
 compileInst _ _ (L2I) = "var a = stack.pop(); stack.pop(); stack.push(a & 0xffffffff);"
@@ -227,7 +229,7 @@ compileInst _ _ (IFNONNULL off) = "if(stack.pop() !== null){pc += "++show off++"
 compileInst _ _ (IFNULL off) = "if(stack.pop() === null){pc += "++show off++"; break;}"
 
 compileInst _ _ (TABLESWITCH def low high offs) =
-														L.unpack $ substitute (T.pack "var a = stack.pop(); if (a < (${low}) || a > (${high})) { pc += ${def};break; }else{ pc+=(${offs})[a-${low}];break; }") ctx
+														L.unpack $ substitute (T.pack "var a = stack.pop(); if (a < (${low}) || a > (${high})) { pc += ${def};break; }else{ pc+=(${offs})[a-(${low})];break; }") ctx
 																where
 																	ctx "low" = T.pack (show low)
 																	ctx "def" = T.pack (show def)
@@ -240,7 +242,7 @@ compileInst _ _ (LOOKUPSWITCH def _ offs) =
 																	ctx "offs" = T.pack $ foldl (\ b (v,off) -> b ++ "case "++show v++": pc += "++show off++"; break;") "" offs
 ---
 
-compileInst klass _ (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"] = stack.pop();" ++ pops
+compileInst klass _ (PUTSTATIC idx) = "Java[\""++klsName++"\"]()[\""++fldName++"\"] = stack.pop();" ++ pops
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -249,7 +251,7 @@ compileInst klass _ (PUTSTATIC idx) = "Java[\""++klsName++"\"][\""++fldName++"\"
 		fldName = unpack (ntName nt)
 		pops = if isWideField (nt) then "stack.pop();" else ""
 
-compileInst klass _ (GETSTATIC idx) = pushs++"stack.push(Java[\""++klsName++"\"][\""++fldName++"\"]);"
+compileInst klass _ (GETSTATIC idx) = pushs++"stack.push(Java[\""++klsName++"\"]()[\""++fldName++"\"]);"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -274,7 +276,7 @@ compileInst klass _ (GETFIELD idx) = pushs++"stack.push(self[\""++fldName++"\"])
 		fldName = unpack (ntName nt)
 		pushs = if isWideField (nt) then "stack.push(null);" else ""
 
-compileInst klass _ (NEW idx) = "stack.push(new Java[\""++klsName++"\"]());"
+compileInst klass _ (NEW idx) = "stack.push(new (Java[\""++klsName++"\"]())());"
 		where
 			pool = constantPool klass
 			Just constant = M.lookup idx pool
@@ -307,8 +309,8 @@ compileInst klass _ (INVOKEINTERFACE idx _) =
 		fldName = mangleMethod nt
 compileInst klass _ (INVOKESPECIAL idx) =
 					pops++pushRet mret++"var self = stack.pop(); "++
-					if returns then "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++"));"
-										else "Java[\""++klsName++"\"][\""++fldName++"\"].apply(self, "++args++");"
+					if returns then "stack.push(Java[\""++klsName++"\"]()[\""++fldName++"\"].apply(self, "++args++"));"
+										else "Java[\""++klsName++"\"]()[\""++fldName++"\"].apply(self, "++args++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -321,8 +323,8 @@ compileInst klass _ (INVOKESPECIAL idx) =
 
 compileInst klass _ (INVOKESTATIC idx) =
 					pops++pushRet mret++
-					if returns then "stack.push(Java[\""++klsName++"\"][\""++fldName++"\"].apply(null, "++args++"));"
-										else "Java[\""++klsName++"\"][\""++fldName++"\"].apply(null, "++args++");"
+					if returns then "stack.push(Java[\""++klsName++"\"]()[\""++fldName++"\"].apply(null, "++args++"));"
+										else "Java[\""++klsName++"\"]()[\""++fldName++"\"].apply(null, "++args++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -334,13 +336,13 @@ compileInst klass _ (INVOKESTATIC idx) =
 		klsName = unpack kls
 		fldName = mangleMethod nt
 --
-compileInst klass _ (CHECKCAST idx) = "Java.checkCast(Java[\""++klsName++"\"], stack[stack.length-1]);"
+compileInst klass _ (CHECKCAST idx) = "Java.checkCast(Java[\""++klsName++"\"](), stack[stack.length-1]);"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
 		CClass kls = constant
 		klsName = unpack kls
-compileInst klass _ (INSTANCEOF idx) = "stack.push(Java.instanceOf(Java[\""++klsName++"\"], stack.pop()));"
+compileInst klass _ (INSTANCEOF idx) = "stack.push(Java.instanceOf(Java[\""++klsName++"\"](), stack.pop()));"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -372,7 +374,7 @@ methodTemplate = template "\
 \\t\tswitch(pc){\n\
 \${body}\n\
 \\t\t}}catch(e){\n\
-\\t\t\t return; //FIXME\n\
+\\t\t\t throw e; //FIXME\n\
 \\t\t}\n\
 \\t}\n\
 \}\
