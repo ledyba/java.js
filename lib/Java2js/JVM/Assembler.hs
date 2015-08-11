@@ -230,7 +230,7 @@ data Instruction =
   | IF_ACMP CMP Int16      -- ^ 165, 166
   | GOTO Int16             -- ^ 167
   | JSR Int16              -- ^ 168
-  | RET                    -- ^ 169
+  | RET Word8              -- ^ 169
   | TABLESWITCH Word8 Word32 Word32 Word32 [Word32]     -- ^ 170
   | LOOKUPSWITCH Word8 Word32 Word32 [(Word32, Word32)] -- ^ 171
   | IRETURN                -- ^ 172
@@ -430,7 +430,7 @@ instance BinaryState Integer Instruction where
       166 -> IF_ACMP C_NE <$> get
       167 -> GOTO <$> get
       168 -> JSR <$> get
-      169 -> return RET
+      169 -> RET <$> get
       170 -> do
              offset <- bytesRead
              let pads = padding offset
