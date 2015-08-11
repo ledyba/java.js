@@ -131,6 +131,11 @@ data Instruction =
   | FLOAD Word8    -- ^ 23
   | DLOAD Word8    -- ^ 24
   | ALOAD Word8    -- ^ 25
+  | ILOAD_W Word16    -- ^ 196 21
+  | LLOAD_W Word16    -- ^ 196 22
+  | FLOAD_W Word16    -- ^ 196 23
+  | DLOAD_W Word16    -- ^ 196 24
+  | ALOAD_W Word16    -- ^ 196 25
   | ILOAD_ IMM     -- ^ 26, 27, 28, 29
   | LLOAD_ IMM     -- ^ 30, 31, 32, 33
   | FLOAD_ IMM     -- ^ 34, 35, 36, 37
@@ -149,6 +154,11 @@ data Instruction =
   | FSTORE Word8   -- ^ 56
   | DSTORE Word8   -- ^ 57
   | ASTORE Word8   -- ^ 58
+  | ISTORE_W Word16  -- ^ 196 54
+  | LSTORE_W Word16   -- ^ 196 55
+  | FSTORE_W Word16   -- ^ 196 56
+  | DSTORE_W Word16   -- ^ 196 57
+  | ASTORE_W Word16   -- ^ 196 58
   | ISTORE_ IMM    -- ^ 59, 60, 61, 62
   | LSTORE_ IMM    -- ^ 63, 64, 65, 66
   | FSTORE_ IMM    -- ^ 67, 68, 69, 70
@@ -208,6 +218,7 @@ data Instruction =
   | IXOR           -- ^ 130
   | LXOR           -- ^ 131
   | IINC Word8 Word8       -- ^ 132
+  | IINC_W Word16 Word16       -- ^ 196 132
   | I2L                    -- ^ 133
   | I2F                    -- ^ 134
   | I2D                    -- ^ 135
@@ -232,6 +243,7 @@ data Instruction =
   | GOTO Int16             -- ^ 167
   | JSR Int16              -- ^ 168
   | RET Word8              -- ^ 169
+  | RET_W Word16              -- ^ 196 169
   | TABLESWITCH Int32 Int32 Int32 [Int32]     -- ^ 170
   | LOOKUPSWITCH Word32 Word32 [(Word32, Word32)] -- ^ 171
   | IRETURN                -- ^ 172
@@ -257,7 +269,7 @@ data Instruction =
   | INSTANCEOF Word16      -- ^ 193
   | MONITORENTER           -- ^ 194
   | MONITOREXIT            -- ^ 195
-  | WIDE Word8 Instruction -- ^ 196
+  -- | WIDE Word8 Instruction -- ^ 196
   | MULTINANEWARRAY Word16 Word8 -- ^ 197
   | IFNULL Word16          -- ^ 198
   | IFNONNULL Word16       -- ^ 199
@@ -472,7 +484,22 @@ instance BinaryState Integer Instruction where
       193 -> INSTANCEOF <$> get
       194 -> return MONITORENTER
       195 -> return MONITOREXIT
-      196 -> WIDE <$> get <*> get
+      196 -> do
+          op <- getByte
+          case op of
+            21 -> ILOAD_W <$> get
+            22 -> LLOAD_W <$> get
+            23 -> FLOAD_W <$> get
+            24 -> DLOAD_W <$> get
+            25 -> ALOAD_W <$> get
+            54 -> ISTORE_W <$> get
+            55 -> LSTORE_W <$> get
+            56 -> FSTORE_W <$> get
+            57 -> DSTORE_W <$> get
+            58 -> ASTORE_W <$> get
+            132 -> IINC_W <$> get <*> get
+            169 -> RET_W <$> get
+            _ -> fail $ "Unknown wide instruction byte code: " ++ show c
       197 -> MULTINANEWARRAY <$> get <*> get
       198 -> IFNULL <$> get
       199 -> IFNONNULL <$> get
