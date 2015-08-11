@@ -35,8 +35,8 @@ loadKlass cls = Klass {
 	superKlass = unpack (superClass cls),
 	staticFields = map extField $ filter (\m -> isStatic (fieldAccessFlags m)) $ classFields cls,
 	fields =  map extField $ filter (\m -> not $ isStatic (fieldAccessFlags m)) $ classFields cls,
-	staticMethods = M.fromList $ map extMeth $ filter (\m -> isStatic (methodAccessFlags m)) $ classMethods cls,
-	methods = M.fromList $ map extMeth $ filter (\m -> not $ isStatic (methodAccessFlags m)) $ classMethods cls,
+	staticMethods = M.fromList $ map extMeth $ filter (\m -> isStatic (methodAccessFlags m)) (classMethods cls),
+	methods = M.fromList $ map extMeth $ filter (\m -> not $ isStatic (methodAccessFlags m)) (classMethods cls),
 	constantPool = constsPool cls
 }
 	where

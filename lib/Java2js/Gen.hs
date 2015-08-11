@@ -14,12 +14,13 @@ klassTemplate = template "\
 \var klass = null;\n\
 \Java[\"${klassName}\"] = function(){\n\
 \if(klass === null){\n\
-\klass = function(){ var init = klass[\"<init>()V\"]; if(init){init.apply(this,[]); }{throw \"NoDefaultConstructor\";}};\n\
-\var proto = klass.prototype = Object.create(Java[\"${superKlass}\"].prototype);\n\
+\klass = function(){};\n\
+\var proto = klass.prototype = Object.create(Java[\"${superKlass}\"]().prototype);\n\
 \proto.constructor = klass;\n\
 \${staticFields}\n\
 \${staticMethods}\n\
 \${methods}\n\
+\klass.classObj = Java.mkClassObj(klass, \"${klassName}\");\n\
 \var clinit = klass[\"<clinit>()V\"];\
 \if(clinit){clinit.call(null)};\n\
 \}\n\

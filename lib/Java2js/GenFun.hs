@@ -17,7 +17,7 @@ returnsValue :: MethodSignature -> Bool
 returnsValue (MethodSignature _ ReturnsVoid) = False
 returnsValue (MethodSignature _ _) = True
 
-encodeJavaScriptString x = foldl (\ m f -> f m) x $ fmap (uncurry replace) [("\n", "\\n"), ("\\", "\\\\"), ("\"","\\\"")]
+encodeJavaScriptString x = foldl (\ m f -> f m) x $ fmap (uncurry replace) [("\\", "\\\\"), ("\"","\\\""), ("\n", "\\n"), ("\r", "\\r")]
 
 compileConstant :: Constant Direct -> String
 compileConstant (CString str) = "(\"" ++ encodeJavaScriptString (unpack str) ++"\")"
@@ -26,6 +26,8 @@ compileConstant (CInteger v) =  "(" ++ show v ++")"
 compileConstant (CFloat v) =  "(" ++ show v ++")"
 compileConstant (CLong v) =  "(" ++ show v ++")"
 compileConstant (CDouble v) =  "(" ++ show v ++")"
+compileConstant (CClass kls) =  "(Java[" ++ show kls ++"]().classObj)"
+compileConstant v =  error $ "(" ++ show v ++")"
 
 popStacks :: [FieldType] -> (String, String)
 popStacks [] = ("","[]")
@@ -109,6 +111,11 @@ compileInst _ _ (ILOAD idx) = "stack.push(local["++show idx++"]);"
 compileInst _ _ (LLOAD idx) = "stack.push(null);stack.push(local["++show idx++"]);"
 compileInst _ _ (FLOAD idx) = "stack.push(local["++show idx++"]);"
 compileInst _ _ (DLOAD idx) = "stack.push(null);stack.push(local["++show idx++"]);"
+compileInst _ _ (ALOAD_W idx) = "stack.push(local["++show idx++"]);"
+compileInst _ _ (ILOAD_W idx) = "stack.push(local["++show idx++"]);"
+compileInst _ _ (LLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"]);"
+compileInst _ _ (FLOAD_W idx) = "stack.push(local["++show idx++"]);"
+compileInst _ _ (DLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"]);"
 compileInst _ _ (ALOAD_ idx) = "stack.push(local["++showImm idx++"]);"
 compileInst _ _ (ILOAD_ idx) = "stack.push(local["++showImm idx++"]);"
 compileInst _ _ (LLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"]);"
@@ -120,6 +127,11 @@ compileInst _ _ (ISTORE idx) = "local["++show idx++"]=stack.pop();"
 compileInst _ _ (LSTORE idx) = "local["++show idx++"]=stack.pop();stack.pop();"
 compileInst _ _ (FSTORE idx) = "local["++show idx++"]=stack.pop();"
 compileInst _ _ (DSTORE idx) = "local["++show idx++"]=stack.pop();stack.pop();"
+compileInst _ _ (ASTORE_W idx) = "local["++show idx++"]=stack.pop();"
+compileInst _ _ (ISTORE_W idx) = "local["++show idx++"]=stack.pop();"
+compileInst _ _ (LSTORE_W idx) = "local["++show idx++"]=stack.pop();stack.pop();"
+compileInst _ _ (FSTORE_W idx) = "local["++show idx++"]=stack.pop();"
+compileInst _ _ (DSTORE_W idx) = "local["++show idx++"]=stack.pop();stack.pop();"
 compileInst _ _ (ASTORE_ idx) = "local["++showImm idx++"]=stack.pop();"
 compileInst _ _ (ISTORE_ idx) = "local["++showImm idx++"]=stack.pop();"
 compileInst _ _ (LSTORE_ idx) = "local["++showImm idx++"]=stack.pop();stack.pop();"
@@ -140,10 +152,12 @@ compileInst _ _ (DALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push
 compileInst _ _ (DASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); a[b]=c;"
 compileInst _ _ (AALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(a[b]);"
 compileInst _ _ (AASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); a[b]=c;"
+
 compileInst _ _ (ARRAYLENGTH) = "var a = stack.pop(); stack.push(a.length);"
 
 ---
 compileInst _ _ (IINC localNum delta) = "local["++show localNum++"]+="++show delta++";"
+compileInst _ _ (IINC_W localNum delta) = "local["++show localNum++"]+="++show delta++";"
 
 compileInst _ _ (IADD) = "stack.push(stack.pop()+stack.pop());"
 compileInst _ _ (LADD) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a+b);"
@@ -200,7 +214,9 @@ compileInst _ _ (L2I) = "var a = stack.pop(); stack.pop(); stack.push(a & 0xffff
 compileInst _ _ (L2F) = "var a = stack.pop(); stack.pop(); stack.push(a);"
 compileInst _ _ (L2D) = ""
 
-compileInst _ _ (F2I) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
+compileInst _ _ (F2L) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
+compileInst _ _ (F2D) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
+compileInst _ _ (F2I) =	""
 
 compileInst _ _ (D2I) = "var a = stack.pop(); stack.pop(); stack.push(a & 0xffffffff);"
 compileInst _ _ (D2F) = "var a = stack.pop(); stack.pop(); stack.push(a);"
@@ -309,8 +325,8 @@ compileInst klass _ (INVOKEINTERFACE idx _) =
 		fldName = mangleMethod nt
 compileInst klass _ (INVOKESPECIAL idx) =
 					pops++pushRet mret++"var self = stack.pop(); "++
-					if returns then "stack.push(Java[\""++klsName++"\"]()[\""++fldName++"\"].apply(self, "++args++"));"
-										else "Java[\""++klsName++"\"]()[\""++fldName++"\"].apply(self, "++args++");"
+					if returns then "stack.push(Java[\""++klsName++"\"]().prototype[\""++fldName++"\"].apply(self, "++args++"));"
+										else "Java[\""++klsName++"\"]().prototype[\""++fldName++"\"].apply(self, "++args++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -374,7 +390,7 @@ methodTemplate = template "\
 \\t\tswitch(pc){\n\
 \${body}\n\
 \\t\t}}catch(e){\n\
-\\t\t\t throw e; //FIXME\n\
+\\t\t\t console.log(e); throw e; //FIXME\n\
 \\t\t}\n\
 \\t}\n\
 \}\

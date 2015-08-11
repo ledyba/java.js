@@ -16,7 +16,7 @@ import Java2js.Java.JAR.Archive
 import Java2js.JVM.Assembler
 
 buildClassPath = do
-		addJAR "sample/rhino-1.5r4.1.jar"
+		addJAR "sample/fesi.jar"
 
 _main = do
 		cls <- readFromJAR "sample/rhino-1.5r4.1.jar" "org/mozilla/javascript/Context.class"
