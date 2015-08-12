@@ -2,7 +2,7 @@
 module Java2js.Java.ClassPath
   (module Java2js.Java.ClassPath.Types,
    module Java2js.Java.ClassPath.Common,
-   appendPath, addDirectory, loadClass,
+   appendPath, addDirectory, loadClass, addClassFile, mergeClassPath,
    runClassPath, execClassPath,
    getEntry
   ) where
@@ -69,6 +69,20 @@ loadClass path = do
                                return (File $ LoadedJAR jarfile cls)
       | otherwise = return t
     load ps (File _) = fail $ "Found file when expecting directory! " ++ show ps
+
+-- | Add given Class file to ClassPath
+addClassFile :: FilePath -> ClassPath ()
+addClassFile clsfile = do
+  cp <- St.get
+  St.put (File (NotLoaded clsfile):cp)
+
+-- | Merge two classpath
+mergeClassPath :: ClassPath a -> ClassPath b -> ClassPath ()
+mergeClassPath a b = do
+  cp <- St.get
+  acp <- St.lift $ St.execStateT a cp
+  bcp <- St.lift $ St.execStateT b acp
+  St.put (merge $ cp ++ acp ++ bcp)
 
 -- | Get one ClassPath entry
 getEntry :: [Tree CPEntry] -> String -> IO (Maybe CPEntry)
