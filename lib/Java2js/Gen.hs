@@ -41,7 +41,8 @@ compileKlass klass = L.unpack $ render klassTemplate ctx
 													stored meth = if S.member ACC_STATIC maccs then "klass" else "proto"
 																				where maccs = methodAccessFlags meth
 
-compileStaticFields klass = T.pack $ intercalate "\n" (fmap (\(name, constant) -> "klass[\""++name++"\"] = "++compileConstant' constant++";") $ staticFields klass)
+compileStaticFields klass = T.pack $ intercalate "\n" (fmap (\(name, (_,constant)) -> "klass[\""++name++"\"] = "++compileConstant' constant++";") staticFields)
 												where
+													staticFields = filter (\(_,(fld,_)) -> S.member ACC_STATIC (fieldAccessFlags fld)) (fields klass)
 													compileConstant' Nothing = "null"
 													compileConstant' (Just s) = compileConstant s

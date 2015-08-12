@@ -16,6 +16,12 @@ var Java = {};
 			return kls;
 		};
 	}
+	Java.instanceOf = function(kls, obj){
+		// FIXME: チェックしよう
+	};
+	Java.checkCast = function(kls, obj){
+		// FIXME: チェックしよう
+	};
 	Java["java/lang/Object"] = Java.mkNativeClass(function(){
 		var klass = function(){};
 		var proto = klass.prototype;

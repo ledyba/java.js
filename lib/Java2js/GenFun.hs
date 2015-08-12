@@ -407,7 +407,7 @@ compileArgumentBind (MethodSignature args _) isStatic =
 		loop (_:args) aidx idx = "local["++show aidx++"] = arguments["++show idx++"];"++(loop args (aidx+1) (idx+1))
 
 compileMethod :: Klass -> (Method Direct, Maybe Code) -> String
-compileMethod _ (_, Nothing) = "function(){}";
+compileMethod _ (_, Nothing) = "null";
 compileMethod klass (meth, (Just code))  = L.unpack $ render methodTemplate ((T.pack).ctx)
 	where
 		ctx "argbinding" = compileArgumentBind (methodSignature meth) (S.member ACC_STATIC (methodAccessFlags meth))
