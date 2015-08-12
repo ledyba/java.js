@@ -16,6 +16,7 @@ klassTemplate = template "\
 \\tvar klass = function(){};\n\
 \\tvar proto = klass.prototype = Object.create(Java[\"${superKlass}\"]().prototype);\n\
 \\tproto.constructor = klass;\n\
+\klass.classObj = Java.mkClassObj(klass, \"${klassName}\");\n\
 \${fields}\n\
 \${methods}\n\
 \\treturn klass;\n\
