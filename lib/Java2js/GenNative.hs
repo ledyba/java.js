@@ -64,20 +64,35 @@ generateNativeMethod (meth, Nothing) =
 							"null"
 generateNativeMethod (meth, _) = renderMethod meth "\t\t\tthrow 'NotImplemented.';\n"
 
+extractDepsFromType :: FieldType -> [String]
+extractDepsFromType (ObjectType cls) = [cls]
+extractDepsFromType (Array _ ft) = extractDepsFromType ft
+extractDepsFromType _ = []
 
-generateNativeKlass :: Class Direct -> String
-generateNativeKlass klass = L.unpack $ render klassTemplate ctx
+generateNativeKlass :: Class Direct -> (String, [String])
+generateNativeKlass klass = (L.unpack $ render klassTemplate ctx, deps)
 			where
+				deps = concat [superClassDep, visibleFields >>= extractDepsFromField, classMethods klass >>= extractMethodDeps]
+				superClassDep = if name == [] then [] else [name]
+					where name = T.unpack superClassName
+				visibleFields = filter isVisibleField (classFields klass)
+				visibleMethods = filter isVisibleMethod (classMethods klass)
+				extractDepsFromField fld = extractDepsFromType $ fieldSignature fld
+				extractMethodDeps meth = retDeps ++ (argts >>= extractDepsFromType)
+					where
+						MethodSignature argts rts = methodSignature meth
+						retDeps = case rts of
+												ReturnsVoid -> []
+												Returns t -> extractDepsFromType t
+				superClassName = decodeUtf8 $ BL.toStrict $ superClass klass
 				ctx "klassName" = decodeUtf8 (BL.toStrict $ thisClass klass)
-				ctx "superKlass" = decodeUtf8 (BL.toStrict $ superClass klass)
-				ctx "fields" = compileFields klass
+				ctx "superKlass" = superClassName
+				ctx "fields" = compileFields klass visibleFields
 				ctx "methods" = T.pack (foldl (\l meth -> l++"\t\t"++stored meth++"[\""++mangleMethod meth++"\"] = "++generateNativeMethod (meth,methodCode klass (methodName meth))++";\n") "" visibleMethods)
 												where
-													visibleMethods = filter isVisibleMethod (classMethods klass)
 													stored meth = if isStaticMethod meth then "klass" else "proto"
 
-compileFields :: Class Direct -> T.Text
-compileFields klass = T.pack $ intercalate "\n" (fmap (\fld -> "\t\t"++stored fld++"["++(show (fieldName fld))++"] = "++compileConstant' (fieldConstant klass (fieldName fld))++";") $ filter isVisibleField $ classFields klass)
+compileFields klass visibleFields = T.pack $ intercalate "\n" (fmap (\fld -> "\t\t"++stored fld++"["++(show (fieldName fld))++"] = "++compileConstant' (fieldConstant klass (fieldName fld))++";") visibleFields)
 												where
 													compileConstant' Nothing = "null"
 													compileConstant' (Just s) = compileConstant s

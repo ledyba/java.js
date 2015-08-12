@@ -52,7 +52,7 @@ genWithDep [] entries loaded converted = return $ converted
 genWithDep (kls:left) entries loaded converted | (S.member kls loaded) = genWithDep left entries loaded converted
 genWithDep (kls:left) entries loaded converted | otherwise =
 																			do
-																				putStrLn $ "Loading: " ++ (show kls)
+																				putStrLn $ "Target: " ++ (show kls)
 																				let loaded' = S.insert kls loaded
 																				cpent <- getEntry entries kls
 																				case cpent of
@@ -60,8 +60,16 @@ genWithDep (kls:left) entries loaded converted | otherwise =
 																						fail $ "Class Not Found: "++ kls
 																					Just ent -> do
 																						cls <- entry2Direct ent
-																						let converted' = (generateNativeKlass cls):converted
-																						genWithDep left entries loaded' converted'
+																						let (compiled, deps) = generateNativeKlass cls
+																						let sdeps = S.toList $ S.difference (S.fromList deps) loaded'
+																						let converted' = compiled:converted
+																						if (length sdeps > 0) then
+																							do
+																								putStrLn "  <<Dependencies>>"
+																								mapM (\t -> putStr "    " >> putStrLn t) sdeps
+																								return ()
+																						else return ()
+																						genWithDep (left++sdeps) entries loaded' converted'
 
 gen files = do
 	let (classPath,classFiles,targetClass,targetJS) = parseArguments files "gen.js"
