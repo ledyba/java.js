@@ -10,12 +10,13 @@ import Java2js.Gen
 import Java2js.GenNative
 import Java2js.Load
 import Java2js.Type
-import Data.String.Utils (endswith)
+import Data.String.Utils (endswith,startswith)
 import System.IO
 import System.Environment (getArgs)
 import System.FilePath (takeExtension, dropExtension)
 import qualified Data.Set as S
 import qualified Data.ByteString.Lazy as BL
+import qualified Control.Exception as E
 
 import Java2js.Java.JAR.Archive
 import Java2js.JVM.Assembler
@@ -46,9 +47,9 @@ build files = do
 	putStrLn $ "Compile to: "++targetJS
 	let src = fmap compileKlass klasses
 	withFile targetJS WriteMode (\f -> mapM (hPutStrLn f) src)
-	return ()
+	putStrLn "All done, have fun."
 
-genWithDep [] entries loaded converted = return $ converted
+genWithDep [] entries loaded converted = return $ ("//"++(show $ S.toList loaded)):converted
 genWithDep (kls:left) entries loaded converted | (S.member kls loaded) = genWithDep left entries loaded converted
 genWithDep (kls:left) entries loaded converted | otherwise =
 																			do
@@ -71,16 +72,21 @@ genWithDep (kls:left) entries loaded converted | otherwise =
 																						else return ()
 																						genWithDep (left++sdeps) entries loaded' converted'
 
+readAlreadyLoaded fname = do
+	withFile fname ReadMode (\hand -> do
+		line <- hGetLine hand
+		return $ if "//" `startswith` line then (S.fromList $ read (drop 2 line)) else S.empty)
+
 gen files = do
-	let (classPath,classFiles,targetClass,targetJS) = parseArguments files "gen.js"
+	let (classPath,classFiles,targetClass,targetJS) = parseArguments files "rt.js"
+	loaded <- readAlreadyLoaded targetJS `E.catch` ((\_ -> return $ S.empty) :: E.IOException -> IO (S.Set String))
 	entries <- execClassPath $ classPath
 	mapM (\fp -> putStrLn $ "Reading: "++fp) classFiles
-	putStrLn $ "Total "++show (length entries) ++ " classes."
 	mapM (\fp -> putStrLn $ "Target: "++fp) targetClass
 	putStrLn $ "Compile to: "++targetJS
-	src <- genWithDep targetClass entries S.empty []
-	withFile targetJS WriteMode (\f -> mapM (hPutStrLn f) src)
-	return ()
+	src <- genWithDep targetClass entries loaded []
+	withFile targetJS ReadWriteMode (\f -> mapM (hPutStrLn f) src)
+	putStrLn "All done, have fun."
 
 usage = do
 	putStrLn "<usage>"
