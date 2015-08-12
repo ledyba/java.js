@@ -46,7 +46,7 @@ Java["java/lang/Object"] = Java.mkNativeClass(function(){
 			/* Native Method */
 			throw 'NotImplemented.';
 		};
-		proto["wait(J,I)V"] = null;
+		proto["wait(JI)V"] = null;
 		proto["wait()V"] = null;
 		proto["finalize()V"] = function(){
 			var self = this;
@@ -78,39 +78,39 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([C,I,I)V"] = function(arr_ch0,i1,i2){
+		proto["<init>([CII)V"] = function(arr_ch0,i1,i2){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([I,I,I)V"] = function(arr_i0,i1,i2){
+		proto["<init>([III)V"] = function(arr_i0,i1,i2){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([B,I,I,I)V"] = function(arr_sb0,i1,i2,i3){
+		proto["<init>([BIII)V"] = function(arr_sb0,i1,i2,i3){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([B,I)V"] = function(arr_sb0,i1){
+		proto["<init>([BI)V"] = function(arr_sb0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([B,I,I,Ljava/lang/String;)V"] = function(arr_sb0,i1,i2,ref3){
+		proto["<init>([BIILjava/lang/String;)V"] = function(arr_sb0,i1,i2,ref3){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([B,I,I,Ljava/nio/charset/Charset;)V"] = function(arr_sb0,i1,i2,ref3){
+		proto["<init>([BIILjava/nio/charset/Charset;)V"] = function(arr_sb0,i1,i2,ref3){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([B,Ljava/lang/String;)V"] = function(arr_sb0,ref1){
+		proto["<init>([BLjava/lang/String;)V"] = function(arr_sb0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([B,Ljava/nio/charset/Charset;)V"] = function(arr_sb0,ref1){
+		proto["<init>([BLjava/nio/charset/Charset;)V"] = function(arr_sb0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([B,I,I)V"] = function(arr_sb0,i1,i2){
+		proto["<init>([BII)V"] = function(arr_sb0,i1,i2){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -126,11 +126,11 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>([C,Z)V"] = function(arr_ch0,b1){
+		proto["<init>([CZ)V"] = function(arr_ch0,b1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>(I,I,[C)V"] = function(i0,i1,arr_ch2){
+		proto["<init>(II[C)V"] = function(i0,i1,arr_ch2){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -154,23 +154,23 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["codePointCount(I,I)I"] = function(i0,i1){
+		proto["codePointCount(II)I"] = function(i0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["offsetByCodePoints(I,I)I"] = function(i0,i1){
+		proto["offsetByCodePoints(II)I"] = function(i0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["getChars([C,I)V"] = function(arr_ch0,i1){
+		proto["getChars([CI)V"] = function(arr_ch0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["getChars(I,I,[C,I)V"] = function(i0,i1,arr_ch2,i3){
+		proto["getChars(II[CI)V"] = function(i0,i1,arr_ch2,i3){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["getBytes(I,I,[B,I)V"] = function(i0,i1,arr_sb2,i3){
+		proto["getBytes(II[BI)V"] = function(i0,i1,arr_sb2,i3){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -210,15 +210,15 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["regionMatches(I,Ljava/lang/String;,I,I)Z"] = function(i0,ref1,i2,i3){
+		proto["regionMatches(ILjava/lang/String;II)Z"] = function(i0,ref1,i2,i3){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["regionMatches(Z,I,Ljava/lang/String;,I,I)Z"] = function(b0,i1,ref2,i3,i4){
+		proto["regionMatches(ZILjava/lang/String;II)Z"] = function(b0,i1,ref2,i3,i4){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["startsWith(Ljava/lang/String;,I)Z"] = function(ref0,i1){
+		proto["startsWith(Ljava/lang/String;I)Z"] = function(ref0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -238,7 +238,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["indexOf(I,I)I"] = function(i0,i1){
+		proto["indexOf(II)I"] = function(i0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -246,7 +246,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["lastIndexOf(I,I)I"] = function(i0,i1){
+		proto["lastIndexOf(II)I"] = function(i0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -254,11 +254,11 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["indexOf(Ljava/lang/String;,I)I"] = function(ref0,i1){
+		proto["indexOf(Ljava/lang/String;I)I"] = function(ref0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		klass["indexOf([C,I,I,[C,I,I,I)I"] = function(arr_ch0,i1,i2,arr_ch3,i4,i5,i6){
+		klass["indexOf([CII[CIII)I"] = function(arr_ch0,i1,i2,arr_ch3,i4,i5,i6){
 			var self = null;
 			throw 'NotImplemented.';
 		};
@@ -266,11 +266,11 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["lastIndexOf(Ljava/lang/String;,I)I"] = function(ref0,i1){
+		proto["lastIndexOf(Ljava/lang/String;I)I"] = function(ref0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		klass["lastIndexOf([C,I,I,[C,I,I,I)I"] = function(arr_ch0,i1,i2,arr_ch3,i4,i5,i6){
+		klass["lastIndexOf([CII[CIII)I"] = function(arr_ch0,i1,i2,arr_ch3,i4,i5,i6){
 			var self = null;
 			throw 'NotImplemented.';
 		};
@@ -278,11 +278,11 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["substring(I,I)Ljava/lang/String;"] = function(i0,i1){
+		proto["substring(II)Ljava/lang/String;"] = function(i0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["subSequence(I,I)Ljava/lang/CharSequence;"] = function(i0,i1){
+		proto["subSequence(II)Ljava/lang/CharSequence;"] = function(i0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -290,7 +290,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["replace(C,C)Ljava/lang/String;"] = function(ch0,ch1){
+		proto["replace(CC)Ljava/lang/String;"] = function(ch0,ch1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -302,19 +302,19 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["replaceFirst(Ljava/lang/String;,Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
+		proto["replaceFirst(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["replaceAll(Ljava/lang/String;,Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
+		proto["replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["replace(Ljava/lang/CharSequence;,Ljava/lang/CharSequence;)Ljava/lang/String;"] = function(ref0,ref1){
+		proto["replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;"] = function(ref0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["split(Ljava/lang/String;,I)[Ljava/lang/String;"] = function(ref0,i1){
+		proto["split(Ljava/lang/String;I)[Ljava/lang/String;"] = function(ref0,i1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -350,11 +350,11 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		klass["format(Ljava/lang/String;,[Ljava/lang/Object;)Ljava/lang/String;"] = function(ref0,arr_ref1){
+		klass["format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"] = function(ref0,arr_ref1){
 			var self = null;
 			throw 'NotImplemented.';
 		};
-		klass["format(Ljava/util/Locale;,Ljava/lang/String;,[Ljava/lang/Object;)Ljava/lang/String;"] = function(ref0,ref1,arr_ref2){
+		klass["format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"] = function(ref0,ref1,arr_ref2){
 			var self = null;
 			throw 'NotImplemented.';
 		};
@@ -366,11 +366,11 @@ Java["java/lang/String"] = Java.mkNativeClass(function(){
 			var self = null;
 			throw 'NotImplemented.';
 		};
-		klass["valueOf([C,I,I)Ljava/lang/String;"] = function(arr_ch0,i1,i2){
+		klass["valueOf([CII)Ljava/lang/String;"] = function(arr_ch0,i1,i2){
 			var self = null;
 			throw 'NotImplemented.';
 		};
-		klass["copyValueOf([C,I,I)Ljava/lang/String;"] = function(arr_ch0,i1,i2){
+		klass["copyValueOf([CII)Ljava/lang/String;"] = function(arr_ch0,i1,i2){
 			var self = null;
 			throw 'NotImplemented.';
 		};
@@ -441,27 +441,27 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(){
 		proto["keySet"] = null;
 		proto["entrySet"] = null;
 		proto["values"] = null;
-		klass["entryAt([Ljava/util/concurrent/ConcurrentHashMap$HashEntry;,I)Ljava/util/concurrent/ConcurrentHashMap$HashEntry;"] = function(arr_ref0,i1){
+		klass["entryAt([Ljava/util/concurrent/ConcurrentHashMap$HashEntry;I)Ljava/util/concurrent/ConcurrentHashMap$HashEntry;"] = function(arr_ref0,i1){
 			var self = null;
 			throw 'NotImplemented.';
 		};
-		klass["setEntryAt([Ljava/util/concurrent/ConcurrentHashMap$HashEntry;,I,Ljava/util/concurrent/ConcurrentHashMap$HashEntry;)V"] = function(arr_ref0,i1,ref2){
+		klass["setEntryAt([Ljava/util/concurrent/ConcurrentHashMap$HashEntry;ILjava/util/concurrent/ConcurrentHashMap$HashEntry;)V"] = function(arr_ref0,i1,ref2){
 			var self = null;
 			throw 'NotImplemented.';
 		};
-		klass["segmentAt([Ljava/util/concurrent/ConcurrentHashMap$Segment;,I)Ljava/util/concurrent/ConcurrentHashMap$Segment;"] = function(arr_ref0,i1){
+		klass["segmentAt([Ljava/util/concurrent/ConcurrentHashMap$Segment;I)Ljava/util/concurrent/ConcurrentHashMap$Segment;"] = function(arr_ref0,i1){
 			var self = null;
 			throw 'NotImplemented.';
 		};
-		klass["entryForHash(Ljava/util/concurrent/ConcurrentHashMap$Segment;,I)Ljava/util/concurrent/ConcurrentHashMap$HashEntry;"] = function(ref0,i1){
+		klass["entryForHash(Ljava/util/concurrent/ConcurrentHashMap$Segment;I)Ljava/util/concurrent/ConcurrentHashMap$HashEntry;"] = function(ref0,i1){
 			var self = null;
 			throw 'NotImplemented.';
 		};
-		proto["<init>(I,F,I)V"] = function(i0,flt1,i2){
+		proto["<init>(IFI)V"] = function(i0,flt1,i2){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["<init>(I,F)V"] = function(i0,flt1){
+		proto["<init>(IF)V"] = function(i0,flt1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -501,11 +501,11 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["put(Ljava/lang/Object;,Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
+		proto["put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["putIfAbsent(Ljava/lang/Object;,Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
+		proto["putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
@@ -517,15 +517,15 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["remove(Ljava/lang/Object;,Ljava/lang/Object;)Z"] = function(ref0,ref1){
+		proto["remove(Ljava/lang/Object;Ljava/lang/Object;)Z"] = function(ref0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["replace(Ljava/lang/Object;,Ljava/lang/Object;,Ljava/lang/Object;)Z"] = function(ref0,ref1,ref2){
+		proto["replace(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z"] = function(ref0,ref1,ref2){
 			var self = this;
 			throw 'NotImplemented.';
 		};
-		proto["replace(Ljava/lang/Object;,Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
+		proto["replace(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
 			var self = this;
 			throw 'NotImplemented.';
 		};

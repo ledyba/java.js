@@ -9,7 +9,7 @@ class Manglable a where
 	mangleMethod :: a -> String
 
 mangleMethod' :: ByteString -> MethodSignature -> String
-mangleMethod' name (MethodSignature args ret) = (unpack name) ++ "("++(intercalate "," (fmap sigToSym args))++")"++retToSym ret
+mangleMethod' name (MethodSignature args ret) = (unpack name) ++ "("++(concat (fmap sigToSym args))++")"++retToSym ret
 																								where
 																									sigToSym :: FieldType -> String
 																									sigToSym SignedByte = "B"
