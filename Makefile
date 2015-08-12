@@ -1,7 +1,9 @@
 .PHONY: all gen
 
 all:
-	cabal run build sample/fesi.jar runtime/out.js
+	cabal run build \
+			sample/fesi.jar \
+			runtime/out.js
 
 gen:
 	cabal run gen \
@@ -9,4 +11,4 @@ gen:
 			java/lang/Object \
 			java/lang/String \
 			java/util/concurrent/ConcurrentHashMap \
-			sample/rt.js
+			runtime/rt.js

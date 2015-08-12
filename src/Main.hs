@@ -18,9 +18,6 @@ import System.FilePath (takeExtension, dropExtension)
 import Java2js.Java.JAR.Archive
 import Java2js.JVM.Assembler
 
-buildClassPath = do
-		addJAR "sample/fesi.jar"
-
 _main = do
 		cls <- readFromJAR "sample/rhino-1.5r4.1.jar" "org/mozilla/javascript/Context.class"
 		let meths = classFields cls
@@ -51,7 +48,7 @@ build files = do
 
 gen files = do
 	let (classPath,classFiles,targetClass,targetJS) = parseArguments files "gen.js"
-	entries <- execClassPath $ buildClassPath
+	entries <- execClassPath $ classPath
 	klasses <- loadCPEntries entries
 	mapM (\fp -> putStrLn $ "Reading: "++fp) classFiles
 	putStrLn $ "Total "++show (length klasses) ++ " classes."
