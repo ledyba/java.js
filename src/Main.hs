@@ -14,6 +14,8 @@ import Data.String.Utils (endswith)
 import System.IO
 import System.Environment (getArgs)
 import System.FilePath (takeExtension, dropExtension)
+import qualified Data.Set as S
+import qualified Data.ByteString.Lazy as BL
 
 import Java2js.Java.JAR.Archive
 import Java2js.JVM.Assembler
@@ -27,7 +29,7 @@ parseArguments args defTargetJS = parseArguments' args (return ()) [] [] defTarg
 	where
 		parseArguments' [] classPath  classFiles targetClass targetJS = (classPath, classFiles, targetClass, targetJS)
 		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isClass p) = parseArguments' left (classPath `mergeClassPath` addClassFile (dropExtension p)) (p:classFiles) targetClass targetJS
-		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isJAR p) = parseArguments' left (classPath `mergeClassPath` addJAR p) (p:classFiles) targetClass targetJS
+		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isJAR p) = parseArguments' left (classPath `mergeClassPath` addAllJAR p) (p:classFiles) targetClass targetJS
 		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isJS p)= parseArguments' left classPath classFiles targetClass p
 		parseArguments' (p:left) classPath classFiles targetClass targetJS | otherwise = parseArguments' left classPath classFiles (p:targetClass) targetJS
 		isClass fname = (takeExtension fname) == ".class"
@@ -37,7 +39,7 @@ parseArguments args defTargetJS = parseArguments' args (return ()) [] [] defTarg
 build files = do
 	let (classPath,classFiles,targetClass,targetJS) = parseArguments files "out.js"
 	entries <- execClassPath $ classPath
-	klasses <- loadCPEntries entries
+	klasses <- fmap concat $  mapM loadCPEntry entries
 	mapM (\fp -> putStrLn $ "Reading: "++fp) classFiles
 	putStrLn $ "Total "++show (length klasses) ++ " classes."
 	mapM (\fp -> putStrLn $ "Target: "++fp) targetClass
@@ -46,15 +48,29 @@ build files = do
 	withFile targetJS WriteMode (\f -> mapM (hPutStrLn f) src)
 	return ()
 
+genWithDep [] entries loaded converted = return $ converted
+genWithDep (kls:left) entries loaded converted | (S.member kls loaded) = genWithDep left entries loaded converted
+genWithDep (kls:left) entries loaded converted | otherwise =
+																			do
+																				putStrLn $ "Loading: " ++ (show kls)
+																				let loaded' = S.insert kls loaded
+																				cpent <- getEntry entries kls
+																				case cpent of
+																					Nothing -> do
+																						fail $ "Class Not Found: "++ kls
+																					Just ent -> do
+																						cls <- entry2Direct ent
+																						let converted' = (generateNativeKlass cls):converted
+																						genWithDep left entries loaded' converted'
+
 gen files = do
 	let (classPath,classFiles,targetClass,targetJS) = parseArguments files "gen.js"
 	entries <- execClassPath $ classPath
-	klasses <- loadCPEntries entries
 	mapM (\fp -> putStrLn $ "Reading: "++fp) classFiles
-	putStrLn $ "Total "++show (length klasses) ++ " classes."
+	putStrLn $ "Total "++show (length entries) ++ " classes."
 	mapM (\fp -> putStrLn $ "Target: "++fp) targetClass
 	putStrLn $ "Compile to: "++targetJS
-	let src = fmap generateNativeKlass klasses
+	src <- genWithDep targetClass entries S.empty []
 	withFile targetJS WriteMode (\f -> mapM (hPutStrLn f) src)
 	return ()
 

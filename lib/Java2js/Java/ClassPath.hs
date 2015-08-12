@@ -4,7 +4,7 @@ module Java2js.Java.ClassPath
    module Java2js.Java.ClassPath.Common,
    appendPath, addDirectory, loadClass, addClassFile, mergeClassPath,
    runClassPath, execClassPath,
-   getEntry
+   getEntry,dumpTree
   ) where
 
 import qualified Control.Monad.State as St
@@ -17,6 +17,17 @@ import Java2js.JVM.Converter
 import Java2js.Java.ClassPath.Types
 import Java2js.Java.ClassPath.Common
 import Java2js.Java.JAR.Archive
+
+dumpTree :: [Tree t] -> IO ()
+dumpTree tree = dumpTree' "" tree
+  where
+    dumpTree' _ [] = return ()
+    dumpTree' indent (Directory p k:left) = do
+      putStrLn (indent ++ p)
+      dumpTree' ('\t':indent) k
+      dumpTree' indent left
+      return ()
+    dumpTree' indent (_:left) = dumpTree' indent left
 
 -- | For given list of glob masks, return list of matching files
 glob :: FilePath -> [FilePath] -> IO [FilePath]
@@ -110,4 +121,5 @@ getEntry cp path = get cp (split "/" path)
     get (File i@(LoadedJAR f c):es) [p]
       | toString (thisClass c) == path = return (Just i)
       | otherwise = get es [p]
-    get x y = fail $ "Unexpected arguments for ClassPath.getEntry.get: " ++ show x ++ ", " ++ show y
+    get (_:es) p = get es p
+--    get x y = fail $ "Unexpected arguments for ClassPath.getEntry.get: " ++ show x ++ ", " ++ show y

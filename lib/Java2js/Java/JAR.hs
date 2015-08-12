@@ -3,7 +3,8 @@ module Java2js.Java.JAR
   (readManifest,
    readJAR,
    readMainClass,
-   addJAR
+   addJAR,
+   addAllJAR
   ) where
 
 import Control.Monad.Trans (liftIO)
@@ -63,6 +64,14 @@ readJAR jarfile = do
 addJAR :: FilePath -> ClassPath ()
 addJAR jarfile = do
   classes <- liftIO $ readJAR jarfile
+  cp <- St.get
+  let cp' = merge $ cp ++ classes
+  St.put cp'
+
+-- | Add given JAR file to ClassPath
+addAllJAR :: FilePath -> ClassPath ()
+addAllJAR jarfile = do
+  classes <- liftIO $ readAllJAR jarfile
   cp <- St.get
   let cp' = merge $ cp ++ classes
   St.put cp'

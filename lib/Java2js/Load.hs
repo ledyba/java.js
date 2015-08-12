@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Java2js.Load(loadKlass, withKlass, loadCPEntry, loadCPEntries) where
+module Java2js.Load(loadKlass, withKlass, loadCPEntry, entry2Direct) where
 --
 
 import Data.ByteString.Lazy.Char8 (unpack)
@@ -14,20 +14,23 @@ import Java2js.JVM.Assembler
 import qualified Data.Set as S
 import qualified Data.Map.Strict as M
 
-loadCPEntries' :: String -> [Tree CPEntry] -> IO [Klass]
-loadCPEntries' prefix entries = fmap concat (mapM (loadCPEntry' prefix) entries)
+loadCPEntry :: Tree CPEntry -> IO [Klass]
+loadCPEntry x = fmap (fmap loadKlass) $ treeCPEntry2Direct x
 
-loadCPEntries :: [Tree CPEntry] -> IO [Klass]
-loadCPEntries = loadCPEntries' ""
+treeCPEntry2Direct :: Tree CPEntry -> IO [Class Direct]
+treeCPEntry2Direct = treeCPEntry2Direct' ""
 
-loadCPEntry' :: String -> Tree CPEntry -> IO [Klass]
-loadCPEntry' prefix (Directory dir left) = loadCPEntries' (prefix++dir++"/") left
-loadCPEntry' _ (File (Loaded _ cls)) = return [loadKlass cls]
-loadCPEntry' _ (File (LoadedJAR _ cls)) = return [loadKlass cls]
-loadCPEntry' prefix (File (NotLoaded f)) = fmap (\cls -> [loadKlass cls]) (parseClassFile (prefix++f))
-loadCPEntry' prefix (File (NotLoadedJAR jarfile path)) = fmap (\cls -> [loadKlass cls]) (readFromJAR jarfile (prefix++path))
-loadCPEntry :: Tree CPEntry-> IO [Klass]
-loadCPEntry = loadCPEntry' ""
+treeCPEntry2Direct' :: String -> Tree CPEntry -> IO [Class Direct]
+treeCPEntry2Direct' prefix (Directory dir left) =  fmap concat (mapM (treeCPEntry2Direct' (prefix++dir++"/")) left)
+treeCPEntry2Direct' _ (File (Loaded _ cls)) = return [cls]
+treeCPEntry2Direct' _ (File (LoadedJAR _ cls)) = return [cls]
+treeCPEntry2Direct' prefix (File (NotLoaded f)) = fmap (\cls -> [cls]) (parseClassFile (prefix++f))
+treeCPEntry2Direct' prefix (File (NotLoadedJAR jarfile path)) = fmap (\cls -> [cls]) (readFromJAR jarfile (prefix++path))
+
+entry2Direct :: CPEntry -> IO (Class Direct)
+entry2Direct (Loaded _ cls) = return cls
+entry2Direct (LoadedJAR _ cls) = return cls
+entry2Direct x = fail (show x)
 
 loadKlass :: Class Direct -> Klass
 loadKlass cls = Klass {
