@@ -3903,8 +3903,7 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/ArrayList#ensureCapacity(I)V");
 	};
 	proto["size()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#size()I");
+		return this.list.length;
 	};
 	proto["isEmpty()Z"] = function(){
 		var self = this;
@@ -3939,8 +3938,7 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/ArrayList#elementData(I)Ljava/lang/Object;");
 	};
 	proto["get(I)Ljava/lang/Object;"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#get(I)Ljava/lang/Object;");
+		return this.list[i0];
 	};
 	proto["set(ILjava/lang/Object;)Ljava/lang/Object;"] = function(i0,ref1){
 		var self = this;
@@ -3955,16 +3953,17 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/ArrayList#add(ILjava/lang/Object;)V");
 	};
 	proto["remove(I)Ljava/lang/Object;"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#remove(I)Ljava/lang/Object;");
+		var obj = this.list[i0];
+		this.list.splice(i0,1);
+		return obj;
 	};
 	proto["remove(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/ArrayList#remove(Ljava/lang/Object;)Z");
 	};
 	proto["clear()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#clear()V");
+		this.list = [];
+		this.size = 0;
 	};
 	proto["addAll(Ljava/util/Collection;)Z"] = function(ref0){
 		var self = this;
@@ -7707,8 +7706,7 @@ Java["java/util/Vector"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/Vector#<init>(I)V");
 	};
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#<init>()V");
+		this.list = [];
 	};
 	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
 		var self = this;
@@ -7895,8 +7893,7 @@ Java["java/util/Vector"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/Vector#listIterator()Ljava/util/ListIterator;");
 	};
 	proto["iterator()Ljava/util/Iterator;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#iterator()Ljava/util/Iterator;");
+		return Java.mkIterator(this.list);
 	};
 
 });
@@ -8125,8 +8122,7 @@ Java["java/lang/Long"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Long#toBinaryString(J)Ljava/lang/String;");
 	};
 	klass["toString(J)Ljava/lang/String;"] = function(l0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Long#toString(J)Ljava/lang/String;");
+		return Java.mkString(l0.toString());
 	};
 	klass["getChars(JI[C)V"] = function(l0,i1,arr_ch2){
 		var self = null;
@@ -8141,8 +8137,7 @@ Java["java/lang/Long"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Long#parseLong(Ljava/lang/String;I)J");
 	};
 	klass["parseLong(Ljava/lang/String;)J"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Long#parseLong(Ljava/lang/String;)J");
+		return Java.mkLong(ref0.val);
 	};
 	klass["valueOf(Ljava/lang/String;I)Ljava/lang/Long;"] = function(ref0,i1){
 		var self = null;
@@ -16607,8 +16602,11 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#toString()Ljava/lang/String;");
 	};
 	proto["toCharArray()[C"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#toCharArray()[C");
+		var r = [];
+		for (var i=0;i<this.val.length; i++){
+			r.push(this.val.charCodeAt(i));
+		}
+		return r;
 	};
 	klass["format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"] = function(ref0,arr_ref1){
 		var self = null;
@@ -16979,8 +16977,7 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#toBinaryString(I)Ljava/lang/String;");
 	};
 	klass["toString(I)Ljava/lang/String;"] = function(i0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Integer#toString(I)Ljava/lang/String;");
+		return Java.mkString(i0.toString());
 	};
 	klass["getChars(II[C)V"] = function(i0,i1,arr_ch2){
 		var self = null;
@@ -17166,8 +17163,7 @@ Java["java/lang/Double"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Double#parseDouble(Ljava/lang/String;)D");
 	};
 	klass["isNaN(D)Z"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Double#isNaN(D)Z");
+		return !(db0 === db0)
 	};
 	klass["isInfinite(D)Z"] = function(db0){
 		var self = null;
@@ -17226,7 +17222,7 @@ Java["java/lang/Double"] = Java.mkNativeClass(function(klass){
 		}
 	};
 	klass["doubleToLongBits(D)J"] = function(db0){
-		return 0; //FIXME!!!
+		return Java.Long.ZERO; //FIXME!!!
 	};
 	klass["doubleToRawLongBits(D)J"] = function(db0){
 		var self = null;
@@ -18736,6 +18732,86 @@ Java["java/io/StringReader"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/io/StringReader#reset()V");
 	};
 	proto["close()V"] = function(){
+	};
+
+});
+
+//"java/util/AbstractSet"
+Java["java/util/AbstractSet"] = Java.mkNativeClass(function(klass){
+	var proto = klass.prototype = Object.create(Java["java/util/AbstractCollection"]().prototype);
+	proto.constructor = klass;
+	proto["__class__"] = Java.mkClassObj(klass, "java/util/AbstractSet");
+
+	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractSet#equals(Ljava/lang/Object;)Z");
+	};
+	proto["hashCode()I"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractSet#hashCode()I");
+	};
+	proto["removeAll(Ljava/util/Collection;)Z"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractSet#removeAll(Ljava/util/Collection;)Z");
+	};
+
+});
+
+//"java/util/HashSet"
+Java["java/util/HashSet"] = Java.mkNativeClass(function(klass){
+	var proto = klass.prototype = Object.create(Java["java/util/AbstractSet"]().prototype);
+	proto.constructor = klass;
+	proto["__class__"] = Java.mkClassObj(klass, "java/util/HashSet");
+
+	proto["<init>()V"] = function(){
+		this.set = {};
+		this.size = 0;
+	};
+	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#<init>(Ljava/util/Collection;)V");
+	};
+	proto["<init>(IF)V"] = function(i0,flt1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#<init>(IF)V");
+	};
+	proto["<init>(I)V"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#<init>(I)V");
+	};
+	proto["iterator()Ljava/util/Iterator;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#iterator()Ljava/util/Iterator;");
+	};
+	proto["size()I"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#size()I");
+	};
+	proto["isEmpty()Z"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#isEmpty()Z");
+	};
+	proto["contains(Ljava/lang/Object;)Z"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#contains(Ljava/lang/Object;)Z");
+	};
+	proto["add(Ljava/lang/Object;)Z"] = function(ref0){
+		var has = Object.prototype.hasOwnProperty(this.set, ref0);
+		this.set[ref0] = true;
+		return has;
+	};
+	proto["remove(Ljava/lang/Object;)Z"] = function(ref0){
+		var has = Object.prototype.hasOwnProperty(this.set, ref0);
+		delete this.set[ref0];
+		return has;
+	};
+	proto["clear()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#clear()V");
+	};
+	proto["clone()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashSet#clone()Ljava/lang/Object;");
 	};
 
 });

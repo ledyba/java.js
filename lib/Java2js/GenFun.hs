@@ -5,6 +5,7 @@ import Java2js.Type
 import Java2js.Mangle
 import Java2js.JVM.Assembler
 import Java2js.JVM.ClassFile
+import Data.Int (Int16, Int8)
 import Data.ByteString.Lazy.Char8 (unpack, ByteString)
 import Data.Text.Template (template, render, substitute)
 import Data.List (intercalate)
@@ -25,7 +26,7 @@ compileConstant (CString str) = "(Java.mkString(\"" ++ encodeJavaScriptString (u
 compileConstant (CDouble v) = "(" ++ show v ++")"
 compileConstant (CInteger v) =  "(" ++ show v ++")"
 compileConstant (CFloat v) =  "(" ++ show v ++")"
-compileConstant (CLong v) =  "(" ++ show v ++")"
+compileConstant (CLong v) =  "Java.mkLong(\"" ++ show v ++"\")"
 compileConstant (CDouble v) =  "(" ++ show v ++")"
 compileConstant (CClass kls) =  "(Java[" ++ show kls ++"]().prototype['__class__'])"
 compileConstant v =  error $ "(" ++ show v ++")"
@@ -66,8 +67,8 @@ isWideField nt = isWide (ntSignature nt)
 ---
 
 compileInst :: Klass -> Int -> Instruction -> String
-compileInst _ _ (BIPUSH w) = "stack.push("++show w++");"
-compileInst _ _ (SIPUSH w) = "stack.push("++show w++");"
+compileInst _ _ (BIPUSH w) = "stack.push("++show ((fromIntegral w) :: Int8)++");"
+compileInst _ _ (SIPUSH w) = "stack.push("++show ((fromIntegral w) :: Int16)++");"
 compileInst klass _ (LDC1 idx) = "stack.push("++compileConstant constant++");"
 	where
 		pool = constantPool klass
@@ -88,8 +89,8 @@ compileInst _ _ (ICONST_3) = "stack.push(3);"
 compileInst _ _ (ICONST_4) = "stack.push(4);"
 compileInst _ _ (ICONST_5) = "stack.push(5);"
 compileInst _ _ (ICONST_M1) = "stack.push(-1);"
-compileInst _ _ (LCONST_0) = "stack.push(null);stack.push(0);"
-compileInst _ _ (LCONST_1) = "stack.push(null);stack.push(1);"
+compileInst _ _ (LCONST_0) = "stack.push(null);stack.push(Java.Long.ZERO);"
+compileInst _ _ (LCONST_1) = "stack.push(null);stack.push(Java.Long.ONE);"
 compileInst _ _ (FCONST_0) = "stack.push(0);"
 compileInst _ _ (FCONST_1) = "stack.push(1);"
 compileInst _ _ (FCONST_2) = "stack.push(2);"
@@ -126,17 +127,17 @@ compileInst _ _ (SWAP) = "var tmp = stack[stack.length-1]; stack[stack.length-1]
 --
 compileInst _ _ (ALOAD idx) = "stack.push(local["++show idx++"]);"
 compileInst _ _ (ILOAD idx) = "stack.push(local["++show idx++"] || 0);"
-compileInst _ _ (LLOAD idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (LLOAD idx) = "stack.push(null);stack.push(local["++show idx++"] || Java.Long.ZERO);"
 compileInst _ _ (FLOAD idx) = "stack.push(local["++show idx++"] || 0);"
 compileInst _ _ (DLOAD idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
 compileInst _ _ (ALOAD_W idx) = "stack.push(local["++show idx++"]);"
 compileInst _ _ (ILOAD_W idx) = "stack.push(local["++show idx++"] || 0);"
 compileInst _ _ (LLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
 compileInst _ _ (FLOAD_W idx) = "stack.push(local["++show idx++"] || 0);"
-compileInst _ _ (DLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (DLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"] || Java.Long.ZERO);"
 compileInst _ _ (ALOAD_ idx) = "stack.push(local["++showImm idx++"]);"
 compileInst _ _ (ILOAD_ idx) = "stack.push(local["++showImm idx++"] || 0);"
-compileInst _ _ (LLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"] || 0);"
+compileInst _ _ (LLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"] || Java.Long.ZERO);"
 compileInst _ _ (FLOAD_ idx) = "stack.push(local["++showImm idx++"] || 0);"
 compileInst _ _ (DLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"] || 0);"
 
@@ -165,9 +166,9 @@ compileInst _ _ (CASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = s
 compileInst _ _ (IALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
 compileInst _ _ (IASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
 compileInst _ _ (LALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(null); stack.push(b[a]);"
-compileInst _ _ (LASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); c[b]=a;"
+compileInst _ _ (LASTORE) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
 compileInst _ _ (DALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(null); stack.push(b[a]);"
-compileInst _ _ (DASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); c[b]=a;"
+compileInst _ _ (DASTORE) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
 compileInst _ _ (AALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
 compileInst _ _ (AASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
 
@@ -178,32 +179,32 @@ compileInst _ _ (IINC localNum delta) = "local["++show localNum++"]+="++show del
 compileInst _ _ (IINC_W localNum delta) = "local["++show localNum++"]+="++show delta++";"
 
 compileInst _ _ (IADD) = "stack.push((stack.pop()+stack.pop())|0);"
-compileInst _ _ (LADD) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a+b);"
+compileInst _ _ (LADD) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a.add(b));"
 compileInst _ _ (FADD) = "stack.push(stack.pop()+stack.pop());"
 compileInst _ _ (DADD) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a+b);"
 
 compileInst _ _ (IMUL) = "stack.push((stack.pop()*stack.pop())|0);"
-compileInst _ _ (LMUL) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a*b);"
+compileInst _ _ (LMUL) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a.multiply(b));"
 compileInst _ _ (FMUL) = "stack.push(stack.pop()*stack.pop());"
 compileInst _ _ (DMUL) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a*b);"
 
 compileInst _ _ (ISUB) = "var a = stack.pop(); var b = stack.pop(); stack.push((b-a)|0);"
-compileInst _ _ (LSUB) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b-a);"
+compileInst _ _ (LSUB) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b.subtract(a));"
 compileInst _ _ (FSUB) = "var a = stack.pop(); var b = stack.pop(); stack.push(b-a);"
 compileInst _ _ (DSUB) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b-a);"
 
 compileInst _ _ (IDIV) = "var b = stack.pop(); var a = stack.pop(); stack.push((a/b) | 0);"
-compileInst _ _ (LDIV) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(Math.floor(a/b));"
+compileInst _ _ (LDIV) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a.divide(b));"
 compileInst _ _ (FDIV) = "var b = stack.pop(); var a = stack.pop(); stack.push(a/b);"
 compileInst _ _ (DDIV) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a/b);"
 
 compileInst _ _ (IREM) = "var b = stack.pop(); var a = stack.pop(); stack.push(a-((a/b) | 0)*b);"
-compileInst _ _ (LREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-Math.floor(a/b)*b);"
+compileInst _ _ (LREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a.remainder(b));"
 compileInst _ _ (FREM) = "var b = stack.pop(); var a = stack.pop(); stack.push(a-(Math.floor(a/b))*b);"
 compileInst _ _ (DREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-Math.floor(a/b)*b);"
 
 compileInst _ _ (INEG) = "stack.push(-stack.pop());"
-compileInst _ _ (LNEG) = "stack.push(-stack.pop());"
+compileInst _ _ (LNEG) = "stack.push(stack.pop().negate());"
 compileInst _ _ (FNEG) = "stack.push(-stack.pop());"
 compileInst _ _ (DNEG) = "stack.push(-stack.pop());"
 compileInst _ _ (IOR) = "stack.push(stack.pop() | stack.pop());"
@@ -211,14 +212,13 @@ compileInst _ _ (IAND) = "stack.push(stack.pop() & stack.pop());"
 compileInst _ _ (IXOR) = "stack.push(stack.pop() ^ stack.pop());"
 compileInst _ _ (IUSHR) = "var a = stack.pop(); var b = stack.pop(); stack.push(a >>> b);"
 compileInst _ _ (ISHR) = "var a = stack.pop(); var b = stack.pop(); stack.push(a >> b);"
-compileInst _ _ (ISHL) = "var a = stack.pop(); var b = stack.pop(); stack.push(a << b);"
-compileInst _ _ (LOR) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a|b);"
-compileInst _ _ (LAND) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a&b);"
-compileInst _ _ (LXOR) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a^b);"
-compileInst _ _ (LUSHR) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.push(null); stack.push(a >>> b);"
-compileInst _ _ (LSHR) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.push(null); stack.push(a >> b);"
-compileInst _ _ (LSHL) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.push(null); stack.push(a << b);"
-compileInst _ _ (LSHL) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.push(null); stack.push(a <<< b);"
+compileInst _ _ (ISHL) = "var a = stack.pop(); var b = stack.pop(); stack.push((a << b)|0);"
+compileInst _ _ (LOR) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a.or(b));"
+compileInst _ _ (LAND) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a.and(b));"
+compileInst _ _ (LXOR) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a.xor(b));"
+compileInst _ _ (LUSHR) = "var a = stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b.and(Java.Long.Mask).shiftRight(a));"
+compileInst _ _ (LSHR) = "var a = stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b.shiftRight(a));"
+compileInst _ _ (LSHL) = "var a = stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b.shiftLeft(a).and(Java.Long.MASK));"
 ---
 
 compileInst _ _ (I2D) = "var a = stack.pop(); stack.push(null); stack.push(a);"
@@ -226,19 +226,19 @@ compileInst _ _ (I2C) = "var a = stack.pop(); stack.push(a&0xffff);"
 compileInst _ _ (I2F) = ""
 compileInst _ _ (I2B) = "var a = stack.pop(); stack.push(a&0xffff);"
 compileInst _ _ (I2S) = "var a = stack.pop(); stack.push(a&0xff);"
-compileInst _ _ (I2L) = "var a = stack.pop(); stack.push(null); stack.push(a);"
+compileInst _ _ (I2L) = "var a = stack.pop(); stack.push(null); stack.push(Java.mkLong(a));"
 
-compileInst _ _ (L2I) = "var a = stack.pop(); stack.pop(); stack.push(a & 0xffffffff);"
-compileInst _ _ (L2F) = "var a = stack.pop(); stack.pop(); stack.push(a);"
+compileInst _ _ (L2I) = "var a = stack.pop(); stack.pop(); stack.push(a.intValue());"
+compileInst _ _ (L2F) = "var a = stack.pop(); stack.pop(); stack.push(a.floatValue());"
 compileInst _ _ (L2D) = ""
 
-compileInst _ _ (F2L) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
+compileInst _ _ (F2L) =	"var a = stack.pop(); stack.push(null); stack.push(Java.mkLong(a | 0));"
 compileInst _ _ (F2D) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
-compileInst _ _ (F2I) =	"stack[stack.size-1] |= 0;"
+compileInst _ _ (F2I) =	"stack[stack.length-1] |= 0;"
 
 compileInst _ _ (D2I) = "var a = stack.pop(); stack.pop(); stack.push(a & 0xffffffff);"
 compileInst _ _ (D2F) = "var a = stack.pop(); stack.pop(); stack.push(a);"
-compileInst _ _ (D2L) = "stack[stack.size-1] = Math.floor(stack[stack.size-1]);"
+compileInst _ _ (D2L) = "stack[stack.length-1] = stack.push(Java.mkLongFromDouble(stack[stack.length-1]));"
 
 --
 ---FIXME: 型注釈入れないと共変・反変のチェックできない
@@ -254,7 +254,7 @@ compileInst _ _ (RET x) = "pc = pc=local["++show x++"]; break;"
 
 compileInst _ _ (DCMP C_LT) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(b < a){stack.push(-1);}else if(a==b){ stack.push(0); }else{ stack.push(1); }"
 compileInst _ _ (DCMP C_GT) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(b < a){stack.push(-1);}else if(a==b){ stack.push(0); }else{ stack.push(-1); }"
-compileInst _ _ (LCMP) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(b < a){stack.push(-1);}else if(a==b){ stack.push(0); }else{ throw new Error(\"Invalid Arguments: \"+a+\" vs \"+b); }"
+compileInst _ _ (LCMP) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(-a.compareTo(b));"
 compileInst _ _ (IF cmp x) = "var a = stack.pop(); if("++showCmp cmp "a" "0"++"){pc += "++show x++"; break;}"
 compileInst _ _ (IF_ICMP cmp x) = "var a = stack.pop(); var b = stack.pop(); if("++showCmp cmp "b" "a"++"){pc += "++show x++"; break;}"
 compileInst _ _ (IF_ACMP C_EQ x) = "var a = stack.pop(); var b = stack.pop(); if(a === b){pc += "++show x++"; break;}"
@@ -408,6 +408,7 @@ methodTemplate = template "\
 \\t\tswitch(pc){\n\
 \${body}\n\
 \\t\t}}catch(e){\n\
+\\t\t\t stack.push(e);\n\
 \console.log(e);\
 \${exceptions}\
 \\t\t\t throw e;\n\
@@ -430,7 +431,7 @@ compileExceptionHandler klass code = L.toStrict $ L.concat handlers
 	where
 		handlers = fmap makeHandler (codeExceptions code)
 		pool = constantPool klass
-		makeHandler (CodeException beg end to clsIdx) = substitute "\t\t\tif(${from} <= pc && pc <= ${to} && ${cond}){ pc = ${next}; break; }\n" ctx
+		makeHandler (CodeException beg end to clsIdx) = substitute "\t\t\tif(${from} <= pc && pc <= ${to} && ${cond}){ pc = ${next}; continue; }\n" ctx
 																						where
 																							target = (M.lookup clsIdx pool) :: Maybe (Constant Direct)
 																							makeCond Nothing = T.concat ["Java.instanceOf(Java[\"java/lang/Object\"](),e)"]

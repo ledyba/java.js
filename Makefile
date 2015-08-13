@@ -19,5 +19,6 @@ gen:
 			java/util/regex/Pattern \
 			java/util/concurrent/ConcurrentHashMap \
 			java/io/StringReader \
+			java/util/HashSet \
 			java/lang/Math \
 			runtime/rt.js

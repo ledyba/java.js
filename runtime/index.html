@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
+		<script type="text/javascript" src="./bigdecimal.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./java.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./rt.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./out.js" charset="utf-8"></script>
@@ -16,7 +17,7 @@
 			var env = jsutil["makeEvaluator()LFESI/jslib/JSGlobalObject;"]();
 			console.log(env.evaluator);
 			var machine = env.evaluator;
-			console.log(machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString("arig")));
+			console.log(machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString("1+1")));
 		</script>
 	</body>
 </html>
