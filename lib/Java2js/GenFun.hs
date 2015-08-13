@@ -285,7 +285,7 @@ compileInst klass _ (PUTFIELD idx) = "var a = stack.pop();"++ pops ++ "var self 
 		fldName = unpack (ntName nt)
 		pops = if isWideField (nt) then "stack.pop();" else ""
 
-compileInst klass _ (GETFIELD idx) = pushs++"var self = stack.pop();stack.push(self[\""++fldName++"\"]);"
+compileInst klass _ (GETFIELD idx) = concat ["var self = stack.pop();",pushs,"stack.push(self[\"",fldName,"\"]);"]
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -301,7 +301,7 @@ compileInst klass _ (NEW idx) = "stack.push(new (Java[\""++klsName++"\"]())());"
 			klsName = unpack kls
 
 compileInst klass _ (INVOKEVIRTUAL idx) =
-					pops++pushRet mret++"var self = stack.pop(); "++
+					pops++"var self = stack.pop(); "++pushRet mret++
 					if returns then "stack.push(self[\""++fldName++"\"].apply(self, "++args++"));"
 										else "self[\""++fldName++"\"].apply(self, "++args++");"
 	where
@@ -313,7 +313,7 @@ compileInst klass _ (INVOKEVIRTUAL idx) =
 		CMethod _ nt = constant
 		fldName = mangleMethod nt
 compileInst klass _ (INVOKEINTERFACE idx _) =
-					pops++pushRet mret++"var self = stack.pop(); "++
+					pops++"var self = stack.pop(); "++pushRet mret++
 					if returns then "stack.push(self[\""++fldName++"\"].apply(self, "++args++"));"
 										else "self[\""++fldName++"\"].apply(self, "++args++");"
 	where
@@ -325,7 +325,7 @@ compileInst klass _ (INVOKEINTERFACE idx _) =
 		CIfaceMethod _ nt = constant
 		fldName = mangleMethod nt
 compileInst klass _ (INVOKESPECIAL idx) =
-					pops++pushRet mret++"var self = stack.pop(); "++
+					pops++"var self = stack.pop(); "++pushRet mret++
 					if returns then "stack.push(Java[\""++klsName++"\"]().prototype[\""++fldName++"\"].apply(self, "++args++"));"
 										else "Java[\""++klsName++"\"]().prototype[\""++fldName++"\"].apply(self, "++args++");"
 	where

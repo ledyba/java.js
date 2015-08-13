@@ -3880,12 +3880,10 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/ArrayList");
 
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw ("NotImplemented: java/util/ArrayList#<init>(I)V");
+		this.list = new Array(i0);
 	};
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw ("NotImplemented: java/util/ArrayList#<init>()V");
+		this.list = new Array();
 	};
 	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
 		var self = this;
@@ -13744,6 +13742,10 @@ Java["java/io/Externalizable"] = Java.mkNativeClass(function(klass){
 Java["java/lang/Class"] = Java.mkNativeClass(function(klass){
 	var proto = klass.prototype = Object.create(Java["java/lang/Object"]().prototype);
 	proto.constructor = klass;
+	proto.init = function (klass, name) {
+		this.klass = klass
+		this.name = name;
+	};
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/Class");
 	proto["classValueMap"] = null;
 	proto["toString()Ljava/lang/String;"] = function(){
@@ -13797,7 +13799,7 @@ Java["java/lang/Class"] = Java.mkNativeClass(function(klass){
 	};
 	proto["getName()Ljava/lang/String;"] = function(){
 		var self = this;
-		throw ("NotImplemented: java/lang/Class#getName()Ljava/lang/String;");
+		return self.name;
 	};
 	proto["getClassLoader()Ljava/lang/ClassLoader;"] = function(){
 		var self = this;
@@ -16273,7 +16275,6 @@ Java["java/lang/Object"] = Java.mkNativeClass(function(klass){
 
 	proto["<init>()V"] = function(){
 		var self = this;
-		throw ("NotImplemented: java/lang/Object#<init>()V");
 	};
 	proto["getClass()Ljava/lang/Class;"] = function(){
 		var self = this;
@@ -16717,9 +16718,7 @@ Java["java/lang/System"] = Java.mkNativeClass(function(klass){
 		throw ("NotImplemented: java/lang/System#getSecurityManager()Ljava/lang/SecurityManager;");
 	};
 	klass["currentTimeMillis()J"] = function(){
-		var self = null;
-		/* Native Method */
-		throw ("NotImplemented: java/lang/System#currentTimeMillis()J");
+		return new Date().getTime();
 	};
 	klass["nanoTime()J"] = function(){
 		var self = null;
@@ -16748,13 +16747,20 @@ Java["java/lang/System"] = Java.mkNativeClass(function(klass){
 		var self = null;
 		throw ("NotImplemented: java/lang/System#setProperties(Ljava/util/Properties;)V");
 	};
+	klass.prop = {};
 	klass["getProperty(Ljava/lang/String;)Ljava/lang/String;"] = function(ref0){
-		var self = null;
-		throw ("NotImplemented: java/lang/System#getProperty(Ljava/lang/String;)Ljava/lang/String;");
+		if(klass.prop.hasOwnProperty(ref0)){
+			return klass.prop[ref0];
+		}else{
+			return null;
+		}
 	};
 	klass["getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
-		var self = null;
-		throw ("NotImplemented: java/lang/System#getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
+		if(klass.prop.hasOwnProperty(ref0)){
+			return klass.prop[ref0];
+		}else{
+			return ref1;
+		}
 	};
 	klass["setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
 		var self = null;
@@ -16822,6 +16828,10 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(kla
 	proto["keySet"] = null;
 	proto["entrySet"] = null;
 	proto["values"] = null;
+	proto.init = function () {
+		this.dict = {};
+		this.size = 0;
+	};
 	klass["entryAt([Ljava/util/concurrent/ConcurrentHashMap$HashEntry;I)Ljava/util/concurrent/ConcurrentHashMap$HashEntry;"] = function(arr_ref0,i1){
 		var self = null;
 		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#entryAt([Ljava/util/concurrent/ConcurrentHashMap$HashEntry;I)Ljava/util/concurrent/ConcurrentHashMap$HashEntry;");
@@ -16839,20 +16849,16 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(kla
 		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#entryForHash(Ljava/util/concurrent/ConcurrentHashMap$Segment;I)Ljava/util/concurrent/ConcurrentHashMap$HashEntry;");
 	};
 	proto["<init>(IFI)V"] = function(i0,flt1,i2){
-		var self = this;
-		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>(IFI)V");
+		this.init();
 	};
 	proto["<init>(IF)V"] = function(i0,flt1){
-		var self = this;
-		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>(IF)V");
+		this.init();
 	};
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>(I)V");
+		this.init();
 	};
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>()V");
+		this.init();
 	};
 	proto["<init>(Ljava/util/Map;)V"] = function(ref0){
 		var self = this;
@@ -16867,8 +16873,11 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(kla
 		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#size()I");
 	};
 	proto["get(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
-		var self = this;
-		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#get(Ljava/lang/Object;)Ljava/lang/Object;");
+		if(this.dict.hasOwnProperty(ref0)){
+			return this.dict[ref0];
+		}else{
+			return null;
+		}
 	};
 	proto["containsKey(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
@@ -16883,8 +16892,7 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(kla
 		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#contains(Ljava/lang/Object;)Z");
 	};
 	proto["put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
-		var self = this;
-		throw ("NotImplemented: java/util/concurrent/ConcurrentHashMap#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+		this.dict[ref0] = ref1;
 	};
 	proto["putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
 		var self = this;
