@@ -29,7 +29,8 @@ var Java = {};
 		return array;
 	}
 	Java.instanceOf = function(kls, obj){
-		// FIXME: チェックしよう
+		// more accurate!!
+		return kls.prototype.constructor === obj.constructor;
 	};
 	Java.checkCast = function(kls, obj){
 		// FIXME: チェックしよう

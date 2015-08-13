@@ -408,7 +408,9 @@ methodTemplate = template "\
 \\t\tswitch(pc){\n\
 \${body}\n\
 \\t\t}}catch(e){\n\
-\\t\t\t console.log(e); throw e; //FIXME\n\
+\console.log(e);\
+\${exceptions}\
+\\t\t\t throw e;\n\
 \\t\t}\n\
 \\t}\n\
 \}\
@@ -423,10 +425,28 @@ compileArgumentBind (MethodSignature args _) isStatic =
 		loop (DoubleType:args) aidx idx = "local["++show aidx++"] = arguments["++show idx++"];"++(loop args (aidx+2) (idx+1))
 		loop (_:args) aidx idx = "local["++show aidx++"] = arguments["++show idx++"];"++(loop args (aidx+1) (idx+1))
 
+compileExceptionHandler :: Klass -> Code -> T.Text
+compileExceptionHandler klass code = L.toStrict $ L.concat handlers
+	where
+		handlers = fmap makeHandler (codeExceptions code)
+		pool = constantPool klass
+		makeHandler (CodeException beg end to clsIdx) = substitute "\t\t\tif(${from} <= pc && pc <= ${to} && ${cond}){ pc = ${next}; break; }\n" ctx
+																						where
+																							target = (M.lookup clsIdx pool) :: Maybe (Constant Direct)
+																							makeCond Nothing = T.concat ["Java.instanceOf(Java[\"java/lang/Object\"](),e)"]
+																							makeCond (Just (CClass name)) = T.concat ["Java.instanceOf(Java[",T.pack (show name),"](),e)"]
+																							makeCond x = error $ show $ x
+																							ctx "from" = T.pack (show beg)
+																							ctx "to" = T.pack (show end)
+																							ctx "next" = T.pack (show to)
+																							ctx "cond" = makeCond target
+
+
 compileMethod :: Klass -> (Method Direct, Maybe Code) -> String
 compileMethod _ (_, Nothing) = "null";
-compileMethod klass (meth, (Just code))  = L.unpack $ render methodTemplate ((T.pack).ctx)
+compileMethod klass (meth, (Just code))  = L.unpack $ render methodTemplate ctx
 	where
-		ctx "argbinding" = compileArgumentBind (methodSignature meth) (S.member ACC_STATIC (methodAccessFlags meth))
-		ctx "locals" = show (codeMaxLocals code)
-		ctx "body" = (intercalate "\n" (fmap (\(addr,inst) -> "\t\t\tcase "++show addr++": pc = "++show addr++"; /* "++(show inst)++" */ "++compileInst klass addr inst) (codeInstructions code)))
+		ctx "exceptions" = compileExceptionHandler klass code
+		ctx "argbinding" = T.pack $ compileArgumentBind (methodSignature meth) (S.member ACC_STATIC (methodAccessFlags meth))
+		ctx "locals" = T.pack $ show (codeMaxLocals code)
+		ctx "body" = T.pack $ (intercalate "\n" (fmap (\(addr,inst) -> "\t\t\tcase "++show addr++": pc = "++show addr++"; /* "++(show inst)++" */ "++compileInst klass addr inst) (codeInstructions code)))

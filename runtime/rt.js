@@ -14822,8 +14822,8 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#append(Ljava/lang/Object;)Ljava/lang/StringBuffer;");
 	};
 	proto["append(Ljava/lang/String;)Ljava/lang/StringBuffer;"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#append(Ljava/lang/String;)Ljava/lang/StringBuffer;");
+		this.buf += ref0.val;
+		return this;
 	};
 	proto["append(Ljava/lang/StringBuffer;)Ljava/lang/StringBuffer;"] = function(ref0){
 		var self = this;
@@ -14850,8 +14850,8 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#append(Z)Ljava/lang/StringBuffer;");
 	};
 	proto["append(C)Ljava/lang/StringBuffer;"] = function(ch0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#append(C)Ljava/lang/StringBuffer;");
+		this.buf += String.fromCodePoint(ch0);
+		return this;
 	};
 	proto["append(I)Ljava/lang/StringBuffer;"] = function(i0){
 		var self = this;
@@ -14966,7 +14966,7 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#reverse()Ljava/lang/StringBuffer;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
-		return this.buf;
+		return Java.mkString(this.buf);
 	};
 	proto["reverse()Ljava/lang/AbstractStringBuilder;"] = function(){
 		var self = this;
@@ -16339,8 +16339,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#<init>([C)V");
 	};
 	proto["<init>([CII)V"] = function(arr_ch0,i1,i2){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#<init>([CII)V");
+		this.val = String.fromCodePoint.apply(null, (arr_ch0.slice(i1,i1+i2)));
 	};
 	proto["<init>([III)V"] = function(arr_i0,i1,i2){
 		var self = this;
@@ -16402,8 +16401,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#isEmpty()Z");
 	};
 	proto["charAt(I)C"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#charAt(I)C");
+		return this.val.charCodeAt(i0);
 	};
 	proto["codePointAt(I)I"] = function(i0){
 		var self = this;
