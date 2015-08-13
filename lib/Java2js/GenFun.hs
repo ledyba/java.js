@@ -52,7 +52,7 @@ showImm I3 = "3"
 showCmp C_LT a b = a++"<"++b
 showCmp C_LE a b = a++"<="++b
 showCmp C_GT a b = a++">"++b
-showCmp C_GE a b = a++"<="++b
+showCmp C_GE a b = a++">="++b
 showCmp C_EQ a b = a++"=="++b
 showCmp C_NE a b = a++"!="++b
 
@@ -100,28 +100,45 @@ compileInst _ _ (POP) = "stack.pop();"
 compileInst _ _ (POP2) = "stack.pop();"
 compileInst _ _ (DUP) = "stack.push(stack[stack.length-1]);"
 compileInst _ _ (DUP2) = "stack.push(stack[stack.length-2]);stack.push(stack[stack.length-2]);"
-compileInst _ _ (DUP_X1) = "stack.push(stack[stack.length-2]);"
-compileInst _ _ (DUP_X2) = "stack.push(stack[stack.length-3]);"
-compileInst _ _ (DUP2_X1) = "stack.push(stack[stack.length-3]);stack.push(stack[stack.length-3]);"
-compileInst _ _ (DUP2_X2) = "stack.push(stack[stack.length-4]);stack.push(stack[stack.length-4]);"
+compileInst _ _ (DUP_X1) = concat
+						["stack.push(stack[stack.length-1]);"
+						,"stack[stack.length-2] = stack[stack.length-3];"
+						,"stack[stack.length-3] = stack[stack.length-1];"]
+compileInst _ _ (DUP_X2) = concat
+										["stack.push(stack[stack.length-1]);"
+										,"stack[stack.length-2] = stack[stack.length-3];"
+										,"stack[stack.length-3] = stack[stack.length-4];"]
+compileInst _ _ (DUP2_X1) = concat
+										["stack.push(stack[stack.length-2]);"
+										,"stack.push(stack[stack.length-2]);"
+										,"stack[stack.length-3] = stack[stack.length-5];"
+										,"stack[stack.length-5] = stack[stack.length-2];"
+										,"stack[stack.length-4] = stack[stack.length-1];"]
+compileInst _ _ (DUP2_X2) = concat
+										["stack.push(stack[stack.length-2]);"
+										,"stack.push(stack[stack.length-2]);"
+										,"stack[stack.length-3] = stack[stack.length-5];"
+										,"stack[stack.length-3] = stack[stack.length-6];"
+										,"stack[stack.length-4] = stack[stack.length-1];"
+										,"stack[stack.length-5] = stack[stack.length-2];"]
 compileInst _ _ (SWAP) = "var tmp = stack[stack.length-1]; stack[stack.length-1] = stack[stack.length-2]; stack[stack.length-2]=tmp;"
 
 --
 compileInst _ _ (ALOAD idx) = "stack.push(local["++show idx++"]);"
-compileInst _ _ (ILOAD idx) = "stack.push(local["++show idx++"]);"
-compileInst _ _ (LLOAD idx) = "stack.push(null);stack.push(local["++show idx++"]);"
-compileInst _ _ (FLOAD idx) = "stack.push(local["++show idx++"]);"
-compileInst _ _ (DLOAD idx) = "stack.push(null);stack.push(local["++show idx++"]);"
+compileInst _ _ (ILOAD idx) = "stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (LLOAD idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (FLOAD idx) = "stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (DLOAD idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
 compileInst _ _ (ALOAD_W idx) = "stack.push(local["++show idx++"]);"
-compileInst _ _ (ILOAD_W idx) = "stack.push(local["++show idx++"]);"
-compileInst _ _ (LLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"]);"
-compileInst _ _ (FLOAD_W idx) = "stack.push(local["++show idx++"]);"
-compileInst _ _ (DLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"]);"
+compileInst _ _ (ILOAD_W idx) = "stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (LLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (FLOAD_W idx) = "stack.push(local["++show idx++"] || 0);"
+compileInst _ _ (DLOAD_W idx) = "stack.push(null);stack.push(local["++show idx++"] || 0);"
 compileInst _ _ (ALOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileInst _ _ (ILOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileInst _ _ (LLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"]);"
-compileInst _ _ (FLOAD_ idx) = "stack.push(local["++showImm idx++"]);"
-compileInst _ _ (DLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"]);"
+compileInst _ _ (ILOAD_ idx) = "stack.push(local["++showImm idx++"] || 0);"
+compileInst _ _ (LLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"] || 0);"
+compileInst _ _ (FLOAD_ idx) = "stack.push(local["++showImm idx++"] || 0);"
+compileInst _ _ (DLOAD_ idx) = "stack.push(null);stack.push(local["++showImm idx++"] || 0);"
 
 compileInst _ _ (ASTORE idx) = "local["++show idx++"]=stack.pop();"
 compileInst _ _ (ISTORE idx) = "local["++show idx++"]=stack.pop();"
@@ -139,18 +156,18 @@ compileInst _ _ (LSTORE_ idx) = "local["++showImm idx++"]=stack.pop();stack.pop(
 compileInst _ _ (FSTORE_ idx) = "local["++showImm idx++"]=stack.pop();"
 compileInst _ _ (DSTORE_ idx) = "local["++showImm idx++"]=stack.pop();stack.pop();"
 
-compileInst _ _ (SALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(a[b]);"
-compileInst _ _ (SASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); a[b]=c;"
-compileInst _ _ (BALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(a[b]);"
-compileInst _ _ (BASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); a[b]=c;"
-compileInst _ _ (CALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(a[b]);"
-compileInst _ _ (CASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); a[b]=c;"
-compileInst _ _ (IALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(a[b]);"
-compileInst _ _ (IASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); a[b]=c;"
-compileInst _ _ (LALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(null); stack.push(a[b]);"
-compileInst _ _ (LASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); a[b]=c;"
-compileInst _ _ (DALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(null); stack.push(a[b]);"
-compileInst _ _ (DASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); a[b]=c;"
+compileInst _ _ (SALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
+compileInst _ _ (SASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
+compileInst _ _ (BALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
+compileInst _ _ (BASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
+compileInst _ _ (CALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
+compileInst _ _ (CASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
+compileInst _ _ (IALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
+compileInst _ _ (IASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
+compileInst _ _ (LALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(null); stack.push(b[a]);"
+compileInst _ _ (LASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); c[b]=a;"
+compileInst _ _ (DALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(null); stack.push(b[a]);"
+compileInst _ _ (DASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); c[b]=a;"
 compileInst _ _ (AALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
 compileInst _ _ (AASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
 
@@ -160,17 +177,17 @@ compileInst _ _ (ARRAYLENGTH) = "var a = stack.pop(); stack.push(a.length);"
 compileInst _ _ (IINC localNum delta) = "local["++show localNum++"]+="++show delta++";"
 compileInst _ _ (IINC_W localNum delta) = "local["++show localNum++"]+="++show delta++";"
 
-compileInst _ _ (IADD) = "stack.push(stack.pop()+stack.pop());"
+compileInst _ _ (IADD) = "stack.push((stack.pop()+stack.pop())|0);"
 compileInst _ _ (LADD) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a+b);"
 compileInst _ _ (FADD) = "stack.push(stack.pop()+stack.pop());"
 compileInst _ _ (DADD) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a+b);"
 
-compileInst _ _ (IMUL) = "stack.push(stack.pop()*stack.pop());"
+compileInst _ _ (IMUL) = "stack.push((stack.pop()*stack.pop())|0);"
 compileInst _ _ (LMUL) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a*b);"
 compileInst _ _ (FMUL) = "stack.push(stack.pop()*stack.pop());"
 compileInst _ _ (DMUL) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(a*b);"
 
-compileInst _ _ (ISUB) = "var a = stack.pop(); var b = stack.pop(); stack.push(b-a);"
+compileInst _ _ (ISUB) = "var a = stack.pop(); var b = stack.pop(); stack.push((b-a)|0);"
 compileInst _ _ (LSUB) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b-a);"
 compileInst _ _ (FSUB) = "var a = stack.pop(); var b = stack.pop(); stack.push(b-a);"
 compileInst _ _ (DSUB) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b-a);"
@@ -182,7 +199,7 @@ compileInst _ _ (DDIV) = "var b = stack.pop(); stack.pop(); var a = stack.pop();
 
 compileInst _ _ (IREM) = "var b = stack.pop(); var a = stack.pop(); stack.push(a-((a/b) | 0)*b);"
 compileInst _ _ (LREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-Math.floor(a/b)*b);"
-compileInst _ _ (FREM) = "var b = stack.pop(); var a = stack.pop(); stack.push(a-((a/b) | 0)*b);"
+compileInst _ _ (FREM) = "var b = stack.pop(); var a = stack.pop(); stack.push(a-(Math.floor(a/b))*b);"
 compileInst _ _ (DREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-Math.floor(a/b)*b);"
 
 compileInst _ _ (INEG) = "stack.push(-stack.pop());"

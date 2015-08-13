@@ -2559,12 +2559,9 @@ Java["java/lang/Error"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/Error");
 	klass["serialVersionUID"] = (4980196508277280342);
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Error#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Error#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -13717,12 +13714,9 @@ Java["java/io/IOException"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/io/IOException");
 	klass["serialVersionUID"] = (7818375828146090155);
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/IOException#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/io/IOException#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -14458,12 +14452,12 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#append(C)Ljava/lang/StringBuilder;");
 	};
 	proto["append(I)Ljava/lang/StringBuilder;"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#append(I)Ljava/lang/StringBuilder;");
+		this.buf += i0.toString();
+		return this;
 	};
 	proto["append(J)Ljava/lang/StringBuilder;"] = function(l0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#append(J)Ljava/lang/StringBuilder;");
+		this.buf += l0.toString();
+		return this;
 	};
 	proto["append(F)Ljava/lang/StringBuilder;"] = function(flt0){
 		var self = this;
@@ -14721,8 +14715,7 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#charAt(I)C");
 	};
 	proto["setLength(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#setLength(I)V");
+		this.buf = this.buf.substring(0, i0);
 	};
 	proto["trimToSize()V"] = function(){
 		var self = this;
@@ -14762,8 +14755,7 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/StringBuffer");
 	klass["serialVersionUID"] = (3388685877147921107);
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#<init>()V");
+		this.buf = "";
 	};
 	proto["<init>(I)V"] = function(i0){
 		var self = this;
@@ -14974,8 +14966,7 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#reverse()Ljava/lang/StringBuffer;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#toString()Ljava/lang/String;");
+		return this.buf;
 	};
 	proto["reverse()Ljava/lang/AbstractStringBuilder;"] = function(){
 		var self = this;
@@ -16404,8 +16395,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#<init>(II[C)V");
 	};
 	proto["length()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#length()I");
+		return this.val.length;
 	};
 	proto["isEmpty()Z"] = function(){
 		var self = this;
@@ -16655,8 +16645,8 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#valueOf(Z)Ljava/lang/String;");
 	};
 	klass["valueOf(C)Ljava/lang/String;"] = function(ch0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/String#valueOf(C)Ljava/lang/String;");
+		var str = String.fromCodePoint(ch0);
+		return Java.mkString(str);
 	};
 	klass["valueOf(I)Ljava/lang/String;"] = function(i0){
 		var self = null;
@@ -17019,8 +17009,9 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#valueOf(Ljava/lang/String;)Ljava/lang/Integer;");
 	};
 	klass["valueOf(I)Ljava/lang/Integer;"] = function(i0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Integer#valueOf(I)Ljava/lang/Integer;");
+		var obj = new klass;
+		obj.val = i0;
+		return obj;
 	};
 	proto["<init>(I)V"] = function(i0){
 		this.val = i0;
@@ -18716,8 +18707,15 @@ Java["java/io/StringReader"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/io/StringReader#read()I");
 	};
 	proto["read([CII)I"] = function(arr_ch0,i1,i2){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#read([CII)I");
+		if(this.buf.length === this.ptr){
+			return -1;
+		}
+		var len = Math.min(this.buf.length - this.ptr, i2);
+		for(var i=0;i<len;i++){
+			arr_ch0[i+i1] = this.buf.charCodeAt(i+this.ptr);
+		}
+		this.ptr += len;
+		return len;
 	};
 	proto["skip(J)J"] = function(l0){
 		var self = this;
@@ -18740,8 +18738,6 @@ Java["java/io/StringReader"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/io/StringReader#reset()V");
 	};
 	proto["close()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#close()V");
 	};
 
 });
