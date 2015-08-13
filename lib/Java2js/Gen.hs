@@ -19,7 +19,7 @@ klassTemplate = template "\
 \klass = function(){};\n\
 \var proto = klass.prototype = Object.create(Java[\"${superKlass}\"]().prototype);\n\
 \proto.constructor = klass;\n\
-\${staticFields}\n\
+\${fields}\n\
 \${methods}\n\
 \proto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
 \${invokeClinit}\
@@ -29,13 +29,25 @@ klassTemplate = template "\
 \})();\n\
 \"
 
+initValue :: FieldType -> String
+initValue SignedByte = "0"
+initValue CharByte = "0"
+initValue DoubleType = "0"
+initValue FloatType = "0"
+initValue IntType = "0"
+initValue LongInt = "0"
+initValue ShortInt = "0"
+initValue BoolType = "0"
+initValue (ObjectType _) = "null"
+initValue (Array _ _) = "null"
+
 compileKlass :: Klass -> String
 compileKlass klass = L.unpack $ render klassTemplate ctx
 			where
 				hasClinit = M.member "<clinit>()V" $ methods klass
 				ctx "klassName" = T.pack (klassName klass)
 				ctx "superKlass" = T.pack (superKlass klass)
-				ctx "staticFields" = compileStaticFields klass
+				ctx "fields" = compileFields klass
 				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()V\"].call(null);\n"
 																										else ""
 				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
@@ -43,8 +55,8 @@ compileKlass klass = L.unpack $ render klassTemplate ctx
 													stored meth = if S.member ACC_STATIC maccs then "klass" else "proto"
 																				where maccs = methodAccessFlags meth
 
-compileStaticFields klass = T.pack $ intercalate "\n" (fmap (\(name, (_,constant)) -> "klass[\""++name++"\"] = "++compileConstant' constant++";") staticFields)
+compileFields klass = T.pack $ intercalate "\n" (fmap (\(name, (fld,constant)) -> stored fld++"[\""++name++"\"] = "++compileConstant' fld constant++";") (fields klass))
 												where
-													staticFields = filter (\(_,(fld,_)) -> S.member ACC_STATIC (fieldAccessFlags fld)) (fields klass)
-													compileConstant' Nothing = "null"
-													compileConstant' (Just s) = compileConstant s
+													compileConstant' fld Nothing = (initValue (fieldSignature fld))
+													compileConstant' _ (Just s) = compileConstant s
+													stored fld = if S.member ACC_STATIC (fieldAccessFlags fld) then "klass" else "proto"

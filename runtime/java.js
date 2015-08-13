@@ -2,7 +2,10 @@ var Java = {};
 (function(){
 	var log = Function.prototype.bind.call(console.log, console);
 	Java.mkString = function(str){
-		return str;
+		var kls = Java["java/lang/String"]();
+		var obj = new kls();
+		obj.val = str;
+		return obj;
 	};
 	Java.mkClassObj = function(klass, name){
 		var classClass =Java["java/lang/Class"]();
@@ -19,6 +22,11 @@ var Java = {};
 			}
 			return kls;
 		};
+	};
+	Java.makeAAray = function(len){
+		var array = new Array(len);
+		var i=len; while (i) array[--i] = null;
+		return array;
 	}
 	Java.instanceOf = function(kls, obj){
 		// FIXME: チェックしよう

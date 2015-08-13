@@ -21,7 +21,7 @@ returnsValue (MethodSignature _ _) = True
 encodeJavaScriptString x = foldl (\ m f -> f m) x $ fmap (uncurry replace) [("\\", "\\\\"), ("\"","\\\""), ("\n", "\\n"), ("\r", "\\r")]
 
 compileConstant :: Constant Direct -> String
-compileConstant (CString str) = "(\"" ++ encodeJavaScriptString (unpack str) ++"\")"
+compileConstant (CString str) = "(Java.mkString(\"" ++ encodeJavaScriptString (unpack str) ++"\"))"
 compileConstant (CDouble v) = "(" ++ show v ++")"
 compileConstant (CInteger v) =  "(" ++ show v ++")"
 compileConstant (CFloat v) =  "(" ++ show v ++")"
@@ -151,8 +151,8 @@ compileInst _ _ (LALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push
 compileInst _ _ (LASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); a[b]=c;"
 compileInst _ _ (DALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(null); stack.push(a[b]);"
 compileInst _ _ (DASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); stack.pop(); a[b]=c;"
-compileInst _ _ (AALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(a[b]);"
-compileInst _ _ (AASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); a[b]=c;"
+compileInst _ _ (AALOAD) = "var a = stack.pop(); var b = stack.pop(); stack.push(b[a]);"
+compileInst _ _ (AASTORE) = "var a = stack.pop(); var b = stack.pop(); var c = stack.pop(); c[b]=a;"
 
 compileInst _ _ (ARRAYLENGTH) = "var a = stack.pop(); stack.push(a.length);"
 
@@ -176,14 +176,14 @@ compileInst _ _ (FSUB) = "var a = stack.pop(); var b = stack.pop(); stack.push(b
 compileInst _ _ (DSUB) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); stack.push(null); stack.push(b-a);"
 
 compileInst _ _ (IDIV) = "var b = stack.pop(); var a = stack.pop(); stack.push((a/b) | 0);"
-compileInst _ _ (LDIV) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push((a/b)|0);"
+compileInst _ _ (LDIV) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(Math.floor(a/b));"
 compileInst _ _ (FDIV) = "var b = stack.pop(); var a = stack.pop(); stack.push(a/b);"
 compileInst _ _ (DDIV) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a/b);"
 
 compileInst _ _ (IREM) = "var b = stack.pop(); var a = stack.pop(); stack.push(a-((a/b) | 0)*b);"
-compileInst _ _ (LREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-((a/b) | 0)*b);"
+compileInst _ _ (LREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-Math.floor(a/b)*b);"
 compileInst _ _ (FREM) = "var b = stack.pop(); var a = stack.pop(); stack.push(a-((a/b) | 0)*b);"
-compileInst _ _ (DREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-((a/b) | 0)*b);"
+compileInst _ _ (DREM) = "var b = stack.pop(); stack.pop(); var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a-Math.floor(a/b)*b);"
 
 compileInst _ _ (INEG) = "stack.push(-stack.pop());"
 compileInst _ _ (LNEG) = "stack.push(-stack.pop());"
@@ -217,15 +217,15 @@ compileInst _ _ (L2D) = ""
 
 compileInst _ _ (F2L) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
 compileInst _ _ (F2D) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
-compileInst _ _ (F2I) =	""
+compileInst _ _ (F2I) =	"stack[stack.size-1] |= 0;"
 
 compileInst _ _ (D2I) = "var a = stack.pop(); stack.pop(); stack.push(a & 0xffffffff);"
 compileInst _ _ (D2F) = "var a = stack.pop(); stack.pop(); stack.push(a);"
-compileInst _ _ (D2L) = ""
+compileInst _ _ (D2L) = "stack[stack.size-1] = Math.floor(stack[stack.size-1]);"
 
 --
 ---FIXME: 型注釈入れないと共変・反変のチェックできない
-compileInst _ _ (ANEWARRAY _) = "stack.push(new Array(stack.pop()));"
+compileInst _ _ (ANEWARRAY _) = "stack.push(Java.makeAAray(stack.pop()));"
 compileInst _ _ (NEWARRAY _) = "stack.push(new Array(stack.pop()));"
 
 compileInst _ _ (ATHROW) = "throw (stack.pop());"
@@ -235,11 +235,11 @@ compileInst _ _ (JSR x) = "stack.push(pc+3); pc += "++show x++"; break;"
 compileInst _ _ (JSR_W x) = "stack.push(pc+5); pc += "++show x++"; break;"
 compileInst _ _ (RET x) = "pc = pc=local["++show x++"]; break;"
 
-compileInst _ _ (DCMP C_LT) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(a < b){stack.push(-1);}else if(a==b){ stack.push(0); }else{ stack.push(1); }"
-compileInst _ _ (DCMP C_GT) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(a < b){stack.push(-1);}else if(a==b){ stack.push(0); }else{ stack.push(-1); }"
-compileInst _ _ (LCMP) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(a < b){stack.push(-1);}else if(a==b){ stack.push(0); }else{ throw new \"Invalid Arguments\"; }"
+compileInst _ _ (DCMP C_LT) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(b < a){stack.push(-1);}else if(a==b){ stack.push(0); }else{ stack.push(1); }"
+compileInst _ _ (DCMP C_GT) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(b < a){stack.push(-1);}else if(a==b){ stack.push(0); }else{ stack.push(-1); }"
+compileInst _ _ (LCMP) = "var a = stack.pop(); stack.pop(); var b = stack.pop(); stack.pop(); if(b > a){stack.push(1);}else if(b < a){stack.push(-1);}else if(a==b){ stack.push(0); }else{ throw new Error(\"Invalid Arguments: \"+a+\" vs \"+b); }"
 compileInst _ _ (IF cmp x) = "var a = stack.pop(); if("++showCmp cmp "a" "0"++"){pc += "++show x++"; break;}"
-compileInst _ _ (IF_ICMP cmp x) = "var a = stack.pop(); var b = stack.pop(); if("++showCmp cmp "a" "b"++"){pc += "++show x++"; break;}"
+compileInst _ _ (IF_ICMP cmp x) = "var a = stack.pop(); var b = stack.pop(); if("++showCmp cmp "b" "a"++"){pc += "++show x++"; break;}"
 compileInst _ _ (IF_ACMP C_EQ x) = "var a = stack.pop(); var b = stack.pop(); if(a === b){pc += "++show x++"; break;}"
 compileInst _ _ (IF_ACMP C_NE x) = "var a = stack.pop(); var b = stack.pop(); if(a !== b){pc += "++show x++"; break;}"
 compileInst _ _ (IFNONNULL off) = "if(stack.pop() !== null){pc += "++show off++"; break;}"

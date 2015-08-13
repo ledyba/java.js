@@ -27,6 +27,9 @@ import Data.BinaryState
 import Java2js.JVM.ClassFile
 
 -- import Debug.Trace
+instance BinaryState Integer Int8 where
+  get = getZ
+
 instance BinaryState Integer Int16 where
   get = getZ
 
@@ -217,8 +220,8 @@ data Instruction =
   | LOR            -- ^ 129
   | IXOR           -- ^ 130
   | LXOR           -- ^ 131
-  | IINC Word8 Word8       -- ^ 132
-  | IINC_W Word16 Word16       -- ^ 196 132
+  | IINC Word8 Int8       -- ^ 132
+  | IINC_W Word16 Int16       -- ^ 196 132
   | I2L                    -- ^ 133
   | I2F                    -- ^ 134
   | I2D                    -- ^ 135

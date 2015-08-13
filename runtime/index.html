@@ -13,8 +13,10 @@
 		<script>
 			var jsutil = Java["FESI/jslib/JSUtil"]();
 			console.log(jsutil);
-			var eval = jsutil["makeEvaluator()LFESI/jslib/JSGlobalObject;"]();
-			console.log(eval);
+			var env = jsutil["makeEvaluator()LFESI/jslib/JSGlobalObject;"]();
+			console.log(env.evaluator);
+			var machine = env.evaluator;
+			machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString("1+1;"));
 		</script>
 	</body>
 </html>

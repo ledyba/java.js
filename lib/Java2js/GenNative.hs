@@ -29,10 +29,10 @@ klassTemplate = template "\
 
 methodTemplate = template "function(${args}){\n\t\t${self}\n${impl}\t}"
 
-isVisibleMethod meth = not $ or [ S.member ACC_PRIVATE (methodAccessFlags meth), methodName meth == "<clinit>"]
+isVisibleMethod meth = and [ S.member ACC_PUBLIC (methodAccessFlags meth), methodName meth /= "<clinit>"]
 isStaticMethod meth = S.member ACC_STATIC (methodAccessFlags meth)
 
-isVisibleField meth = not $ S.member ACC_PRIVATE (fieldAccessFlags meth)
+isVisibleField meth = S.member ACC_PUBLIC (fieldAccessFlags meth)
 isStaticField fld = S.member ACC_STATIC (fieldAccessFlags fld)
 
 mangleArgs (MethodSignature args _) = map (uncurry mangle) (zip (map show [0..]) args)

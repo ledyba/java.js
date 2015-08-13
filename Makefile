@@ -12,5 +12,12 @@ gen:
 			java/lang/String \
 			java/lang/System \
 			java/lang/Integer \
+			java/lang/Double \
+			java/util/Collections \
+			java/text/Collator \
+			java/util/GregorianCalendar \
+			java/util/regex/Pattern \
 			java/util/concurrent/ConcurrentHashMap \
+			java/io/StringReader \
+			java/lang/Math \
 			runtime/rt.js
