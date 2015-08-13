@@ -22,8 +22,7 @@ klassTemplate = template "\
 \${staticFields}\n\
 \${methods}\n\
 \proto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
-\var clinit = klass[\"<clinit>()V\"];\
-\if(clinit){clinit.call(null)};\n\
+\${invokeClinit}\
 \}\n\
 \return klass;\n\
 \}\n\
@@ -33,9 +32,12 @@ klassTemplate = template "\
 compileKlass :: Klass -> String
 compileKlass klass = L.unpack $ render klassTemplate ctx
 			where
+				hasClinit = M.member "<clinit>()V" $ methods klass
 				ctx "klassName" = T.pack (klassName klass)
 				ctx "superKlass" = T.pack (superKlass klass)
 				ctx "staticFields" = compileStaticFields klass
+				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()V\"].call(null);\n"
+																										else ""
 				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
 												where
 													stored meth = if S.member ACC_STATIC maccs then "klass" else "proto"

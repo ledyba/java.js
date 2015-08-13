@@ -61,10 +61,10 @@ mangleClassMethod cls meth = T.concat [decodeUtf8 $ BL.toStrict $ thisClass cls,
 generateNativeMethod :: Class Direct -> (Method Direct, Maybe a) -> String
 generateNativeMethod cls (meth, Nothing) =
 						if S.member ACC_NATIVE (methodAccessFlags meth) then
-							renderMethod meth $ T.concat [T.pack "\t\t/* Native Method */\n\t\tthrow (\"NotImplemented: ",mangleClassMethod cls meth, T.pack "\");\n"]
+							renderMethod meth $ T.concat [T.pack "\t\t/* Native Method */\n\t\tthrow new Error(\"NotImplemented: ",mangleClassMethod cls meth, T.pack "\");\n"]
 						else
 							"null"
-generateNativeMethod cls (meth, _) = renderMethod meth $ T.concat ["\t\tthrow (\"NotImplemented: ",mangleClassMethod cls meth, "\");\n"]
+generateNativeMethod cls (meth, _) = renderMethod meth $ T.concat ["\t\tthrow new Error(\"NotImplemented: ",mangleClassMethod cls meth, "\");\n"]
 
 extractDepsFromType :: FieldType -> [String]
 extractDepsFromType (ObjectType cls) = [cls]
