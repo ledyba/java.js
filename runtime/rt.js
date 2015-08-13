@@ -17008,8 +17008,7 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#valueOf(I)Ljava/lang/Integer;");
 	};
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Integer#<init>(I)V");
+		this.val = i0;
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
 		var self = this;
@@ -17024,8 +17023,7 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#shortValue()S");
 	};
 	proto["intValue()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Integer#intValue()I");
+		return this.val;
 	};
 	proto["longValue()J"] = function(){
 		var self = this;
@@ -17056,8 +17054,13 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#getInteger(Ljava/lang/String;)Ljava/lang/Integer;");
 	};
 	klass["getInteger(Ljava/lang/String;I)Ljava/lang/Integer;"] = function(ref0,i1){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Integer#getInteger(Ljava/lang/String;I)Ljava/lang/Integer;");
+		var sys = Java["java/lang/System"]();
+		if(sys.prop.hasOwnProperty(ref0)){
+			i1 = parseInt(sys.prop[ref0]);
+		}
+		var obj = new klass();
+		obj.val = i1;
+		return obj;
 	};
 	klass["getInteger(Ljava/lang/String;Ljava/lang/Integer;)Ljava/lang/Integer;"] = function(ref0,ref1){
 		var self = null;
