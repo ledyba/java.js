@@ -13,24 +13,23 @@ import qualified Data.Set as S
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeUtf8)
 import qualified Data.Text.Lazy as L
+import qualified Data.ByteString.Char8 as B8
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
 
 klassTemplate = template "\
-\Java[\"${klassName}\"] = Java.mkNativeClass(function(){\n\
-\\tvar klass = function(){};\n\
-\\tvar proto = klass.prototype = Object.create(Java[\"${superKlass}\"]().prototype);\n\
+\Java[\"${klassName}\"] = Java.mkNativeClass(function(klass){\n\
+\\tvar proto = klass.prototype = ${proto};\n\
 \\tproto.constructor = klass;\n\
-\\tklass.classObj = Java.mkClassObj(klass, \"${klassName}\");\n\
+\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
 \${fields}\n\
 \${methods}\n\
-\\treturn klass;\n\
 \});\n\
 \"
 
-methodTemplate = template "function(${args}){\n\t\t\t${self}\n${impl}\t\t}"
+methodTemplate = template "function(${args}){\n\t\t${self}\n${impl}\t}"
 
-isVisibleMethod meth = not $ S.member ACC_PRIVATE (methodAccessFlags meth)
+isVisibleMethod meth = not $ or [ S.member ACC_PRIVATE (methodAccessFlags meth), methodName meth == "<clinit>"]
 isStaticMethod meth = S.member ACC_STATIC (methodAccessFlags meth)
 
 isVisibleField meth = not $ S.member ACC_PRIVATE (fieldAccessFlags meth)
@@ -55,14 +54,17 @@ renderMethod meth impl = L.unpack $ render methodTemplate ctx
 										ctx "self" = T.pack $ if isStaticMethod meth then "var self = null;"
 																						 else "var self = this;"
 										ctx "args" = T.pack $ intercalate "," (mangleArgs (methodSignature meth))
-										ctx "impl" = T.pack impl
-generateNativeMethod :: (Method Direct, Maybe a) -> String
-generateNativeMethod (meth, Nothing) =
+										ctx "impl" = impl
+
+mangleClassMethod cls meth = T.concat [decodeUtf8 $ BL.toStrict $ thisClass cls,T.pack "#",T.pack $ mangleMethod meth]
+
+generateNativeMethod :: Class Direct -> (Method Direct, Maybe a) -> String
+generateNativeMethod cls (meth, Nothing) =
 						if S.member ACC_NATIVE (methodAccessFlags meth) then
-							renderMethod meth "\t\t\t/* Native Method */\n\t\t\tthrow 'NotImplemented.';\n"
+							renderMethod meth $ T.concat [T.pack "\t\t/* Native Method */\n\t\tthrow (\"NotImplemented: ",mangleClassMethod cls meth, T.pack "\");\n"]
 						else
 							"null"
-generateNativeMethod (meth, _) = renderMethod meth "\t\t\tthrow 'NotImplemented.';\n"
+generateNativeMethod cls (meth, _) = renderMethod meth $ T.concat ["\t\tthrow (\"NotImplemented: ",mangleClassMethod cls meth, "\");\n"]
 
 extractDepsFromType :: FieldType -> [String]
 extractDepsFromType (ObjectType cls) = [cls]
@@ -86,13 +88,13 @@ generateNativeKlass klass = (L.unpack $ render klassTemplate ctx, deps)
 												Returns t -> extractDepsFromType t
 				superClassName = decodeUtf8 $ BL.toStrict $ superClass klass
 				ctx "klassName" = decodeUtf8 (BL.toStrict $ thisClass klass)
-				ctx "superKlass" = superClassName
+				ctx "proto" = T.pack $ if (0 == T.length superClassName) then "{}" else "Object.create(Java["++(show superClassName)++"]().prototype)"
 				ctx "fields" = compileFields klass visibleFields
-				ctx "methods" = T.pack (foldl (\l meth -> l++"\t\t"++stored meth++"[\""++mangleMethod meth++"\"] = "++generateNativeMethod (meth,methodCode klass (methodName meth))++";\n") "" visibleMethods)
+				ctx "methods" = T.pack (foldl (\l meth -> l++"\t"++stored meth++"[\""++mangleMethod meth++"\"] = "++generateNativeMethod klass (meth,methodCode klass (methodName meth))++";\n") "" visibleMethods)
 												where
 													stored meth = if isStaticMethod meth then "klass" else "proto"
 
-compileFields klass visibleFields = T.pack $ intercalate "\n" (fmap (\fld -> "\t\t"++stored fld++"["++(show (fieldName fld))++"] = "++compileConstant' (fieldConstant klass (fieldName fld))++";") visibleFields)
+compileFields klass visibleFields = T.pack $ intercalate "\n" (fmap (\fld -> "\t"++stored fld++"["++(show (fieldName fld))++"] = "++compileConstant' (fieldConstant klass (fieldName fld))++";") visibleFields)
 												where
 													compileConstant' Nothing = "null"
 													compileConstant' (Just s) = compileConstant s

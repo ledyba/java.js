@@ -27,7 +27,7 @@ compileConstant (CInteger v) =  "(" ++ show v ++")"
 compileConstant (CFloat v) =  "(" ++ show v ++")"
 compileConstant (CLong v) =  "(" ++ show v ++")"
 compileConstant (CDouble v) =  "(" ++ show v ++")"
-compileConstant (CClass kls) =  "(Java[" ++ show kls ++"]().classObj)"
+compileConstant (CClass kls) =  "(Java[" ++ show kls ++"]().prototype['__class__'])"
 compileConstant v =  error $ "(" ++ show v ++")"
 
 popStacks :: [FieldType] -> (String, String)
@@ -277,7 +277,7 @@ compileInst klass _ (GETSTATIC idx) = pushs++"stack.push(Java[\""++klsName++"\"]
 		fldName = unpack (ntName nt)
 		pushs = if isWideField (nt) then "stack.push(null);" else ""
 --
-compileInst klass _ (PUTFIELD idx) = "self[\""++fldName++"\"] = stack.pop();" ++ pops
+compileInst klass _ (PUTFIELD idx) = "var a = stack.pop();"++ pops ++ "var self = stack.pop(); self[\""++fldName++"\"] = a;"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -285,7 +285,7 @@ compileInst klass _ (PUTFIELD idx) = "self[\""++fldName++"\"] = stack.pop();" ++
 		fldName = unpack (ntName nt)
 		pops = if isWideField (nt) then "stack.pop();" else ""
 
-compileInst klass _ (GETFIELD idx) = pushs++"stack.push(self[\""++fldName++"\"]);"
+compileInst klass _ (GETFIELD idx) = pushs++"var self = stack.pop();stack.push(self[\""++fldName++"\"]);"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool

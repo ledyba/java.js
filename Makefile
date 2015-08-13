@@ -10,5 +10,6 @@ gen:
 			sample/rt.jar \
 			java/lang/Object \
 			java/lang/String \
+			java/lang/System \
 			java/util/concurrent/ConcurrentHashMap \
 			runtime/rt.js

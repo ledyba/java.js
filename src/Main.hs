@@ -14,6 +14,7 @@ import Data.String.Utils (endswith,startswith)
 import System.IO
 import System.Environment (getArgs)
 import System.FilePath (takeExtension, dropExtension)
+import Data.List.Split (chunksOf)
 import qualified Data.Set as S
 import qualified Data.ByteString.Lazy as BL
 import qualified Control.Exception as E
@@ -49,11 +50,11 @@ build files = do
 	withFile targetJS WriteMode (\f -> mapM (hPutStrLn f) src)
 	putStrLn "All done, have fun."
 
-genWithDep [] entries loaded converted = return $ ("//"++(show $ S.toList loaded)):converted
+genWithDep [] entries loaded converted = return $ converted
 genWithDep (kls:left) entries loaded converted | (S.member kls loaded) = genWithDep left entries loaded converted
 genWithDep (kls:left) entries loaded converted | otherwise =
 																			do
-																				putStrLn $ "Target: " ++ (show kls)
+																				putStrLn $ "Target: " ++ kls
 																				let loaded' = S.insert kls loaded
 																				cpent <- getEntry entries kls
 																				case cpent of
@@ -63,7 +64,7 @@ genWithDep (kls:left) entries loaded converted | otherwise =
 																						cls <- entry2Direct ent
 																						let (compiled, deps) = generateNativeKlass cls
 																						let sdeps = S.toList $ S.difference (S.fromList deps) loaded'
-																						let converted' = compiled:converted
+																						let converted' = ("//"++show kls):compiled:converted
 																						if (length sdeps > 0) then
 																							do
 																								putStrLn "  <<Dependencies>>"
@@ -73,10 +74,18 @@ genWithDep (kls:left) entries loaded converted | otherwise =
 																						genWithDep (left++sdeps) entries loaded' converted'
 
 readAlreadyLoaded fname = do
-	withFile fname ReadMode (\hand -> do
-		line <- hGetLine hand
-		return $ if "//" `startswith` line then (S.fromList $ read (drop 2 line)) else S.empty)
-
+	withFile fname ReadMode (readAll S.empty)
+	 where
+		 readAll set hand = do
+			 eof <- hIsEOF hand
+			 if eof
+				 then return set
+				 else do
+				 line <- hGetLine hand
+				 if "//" `startswith` line
+					 	then readAll (S.union set (S.singleton $ read (drop 2 line))) hand
+				 		else readAll set hand
+---
 gen files = do
 	let (classPath,classFiles,targetClass,targetJS) = parseArguments files "rt.js"
 	loaded <- readAlreadyLoaded targetJS `E.catch` ((\_ -> return $ S.empty) :: E.IOException -> IO (S.Set String))
@@ -85,7 +94,7 @@ gen files = do
 	mapM (\fp -> putStrLn $ "Target: "++fp) targetClass
 	putStrLn $ "Compile to: "++targetJS
 	src <- genWithDep targetClass entries loaded []
-	withFile targetJS ReadWriteMode (\f -> mapM (hPutStrLn f) src)
+	withFile targetJS ReadWriteMode (\f -> hSeek f SeekFromEnd 0 >> mapM (hPutStrLn f) src)
 	putStrLn "All done, have fun."
 
 usage = do

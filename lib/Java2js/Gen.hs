@@ -21,7 +21,7 @@ klassTemplate = template "\
 \proto.constructor = klass;\n\
 \${staticFields}\n\
 \${methods}\n\
-\klass.classObj = Java.mkClassObj(klass, \"${klassName}\");\n\
+\proto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
 \var clinit = klass[\"<clinit>()V\"];\
 \if(clinit){clinit.call(null)};\n\
 \}\n\
