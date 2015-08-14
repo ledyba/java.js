@@ -5637,8 +5637,7 @@ Java["java/lang/Character"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Character#isTitleCase(I)Z");
 	};
 	klass["isDigit(C)Z"] = function(ch0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Character#isDigit(C)Z");
+		return this["isDigit(I)Z"](ch0);
 	};
 	klass["isDigit(I)Z"] = function(i0){
 		var self = null;
@@ -14399,8 +14398,7 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		this.buf = "";
 	};
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#<init>(I)V");
+		this.buf = "";
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
 		var self = this;
@@ -14443,8 +14441,7 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#append(Z)Ljava/lang/StringBuilder;");
 	};
 	proto["append(C)Ljava/lang/StringBuilder;"] = function(ch0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#append(C)Ljava/lang/StringBuilder;");
+		this.buf += String.fromCodePoint(ch0);
 	};
 	proto["append(I)Ljava/lang/StringBuilder;"] = function(i0){
 		this.buf += i0.toString();
@@ -16321,6 +16318,9 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 	proto.constructor = klass;
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/String");
 	klass["CASE_INSENSITIVE_ORDER"] = null;
+	proto["toString"] = function(){
+		return this.val;
+	};
 	proto["<init>()V"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/String#<init>()V");
@@ -16534,8 +16534,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#substring(I)Ljava/lang/String;");
 	};
 	proto["substring(II)Ljava/lang/String;"] = function(i0,i1){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#substring(II)Ljava/lang/String;");
+		return Java.mkString(this.val.substring(i0, i1));
 	};
 	proto["subSequence(II)Ljava/lang/CharSequence;"] = function(i0,i1){
 		var self = this;

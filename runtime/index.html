@@ -17,7 +17,10 @@
 			var env = jsutil["makeEvaluator()LFESI/jslib/JSGlobalObject;"]();
 			console.log(env.evaluator);
 			var machine = env.evaluator;
-			console.log(machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString("1+1")));
+			var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString("if(0){ 0 }else{1}"));
+			console.log(obj);
+			obj = obj["toString()Ljava/lang/String;"]();
+			console.log(obj.toString());
 		</script>
 	</body>
 </html>
