@@ -23,6 +23,7 @@ gen:
 			java/util/HashMap \
 			java/lang/Math \
 			java/io/Serializable \
+			java/util/Formatter \
 			runtime/rt.js
 
 pi:

@@ -12870,10 +12870,11 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 	};
 	proto["append(C)Ljava/lang/StringBuilder;"] = function(ch0){
 		this.buf += String.fromCodePoint(ch0);
+		return this;
 	};
 	proto["append(I)Ljava/lang/StringBuilder;"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#append(I)Ljava/lang/StringBuilder;");
+		this.buf += i0;
+		return this;
 	};
 	proto["append(J)Ljava/lang/StringBuilder;"] = function(l0){
 		var self = this;
@@ -13804,6 +13805,9 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/io/Serializable"](), Java["java/lang/Comparable"](), Java["java/lang/CharSequence"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/String");
 	klass["CASE_INSENSITIVE_ORDER"] = null;
+	proto.asString = function(){
+		return this.val;
+	};
 	proto["<init>()V"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/String#<init>()V");
@@ -13993,8 +13997,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#lastIndexOf(Ljava/lang/String;I)I");
 	};
 	proto["substring(I)Ljava/lang/String;"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#substring(I)Ljava/lang/String;");
+		return Java.mkString(this.val.substring(i0));
 	};
 	proto["substring(II)Ljava/lang/String;"] = function(i0,i1){
 		return Java.mkString(this.val.substring(i0, i1));
@@ -15604,6 +15607,118 @@ Java["java/util/HashMap"] = Java.mkNativeClass(function(klass){
 	proto["entrySet()Ljava/util/Set;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/util/HashMap#entrySet()Ljava/util/Set;");
+	};
+
+});
+
+//"java/util/Formatter$FormatString"
+Java["java/util/Formatter$FormatString"] = Java.mkNativeClass(function(klass){
+	var proto = klass.prototype = {};
+	proto.constructor = klass;
+	klass["__interfaces__"] = [];
+});
+
+//"java/util/Formatter"
+Java["java/util/Formatter"] = Java.mkNativeClass(function(klass){
+	var proto = klass.prototype = Object.create(Java["java/lang/Object"]().prototype);
+	proto.constructor = klass;
+	klass["__interfaces__"] = [Java["java/io/Closeable"](), Java["java/io/Flushable"]()];
+	proto["__class__"] = Java.mkClassObj(klass, "java/util/Formatter");
+
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>()V");
+	};
+	proto["<init>(Ljava/lang/Appendable;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/lang/Appendable;)V");
+	};
+	proto["<init>(Ljava/util/Locale;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/util/Locale;)V");
+	};
+	proto["<init>(Ljava/lang/Appendable;Ljava/util/Locale;)V"] = function(ref0,ref1){
+		this.appendable = ref0;
+		this.locale = ref1;
+	};
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/lang/String;)V");
+	};
+	proto["<init>(Ljava/lang/String;Ljava/lang/String;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/lang/String;Ljava/lang/String;)V");
+	};
+	proto["<init>(Ljava/lang/String;Ljava/lang/String;Ljava/util/Locale;)V"] = function(ref0,ref1,ref2){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/lang/String;Ljava/lang/String;Ljava/util/Locale;)V");
+	};
+	proto["<init>(Ljava/io/File;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/io/File;)V");
+	};
+	proto["<init>(Ljava/io/File;Ljava/lang/String;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/io/File;Ljava/lang/String;)V");
+	};
+	proto["<init>(Ljava/io/File;Ljava/lang/String;Ljava/util/Locale;)V"] = function(ref0,ref1,ref2){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/io/File;Ljava/lang/String;Ljava/util/Locale;)V");
+	};
+	proto["<init>(Ljava/io/PrintStream;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/io/PrintStream;)V");
+	};
+	proto["<init>(Ljava/io/OutputStream;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/io/OutputStream;)V");
+	};
+	proto["<init>(Ljava/io/OutputStream;Ljava/lang/String;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/io/OutputStream;Ljava/lang/String;)V");
+	};
+	proto["<init>(Ljava/io/OutputStream;Ljava/lang/String;Ljava/util/Locale;)V"] = function(ref0,ref1,ref2){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/io/OutputStream;Ljava/lang/String;Ljava/util/Locale;)V");
+	};
+	proto["locale()Ljava/util/Locale;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#locale()Ljava/util/Locale;");
+	};
+	proto["out()Ljava/lang/Appendable;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#out()Ljava/lang/Appendable;");
+	};
+	proto["toString()Ljava/lang/String;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#toString()Ljava/lang/String;");
+	};
+	proto["flush()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#flush()V");
+	};
+	proto["close()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#close()V");
+	};
+	proto["ioException()Ljava/io/IOException;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#ioException()Ljava/io/IOException;");
+	};
+	proto["format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;"] = function(ref0,arr_ref1){
+		var arr = Array.prototype.slice.call(arr_ref1);
+		arr.unshift(ref0);
+		// Ugly Hack
+		for(var i = 0; i<arr.length;i++){
+			arr[i] = arr[i].val;
+		}
+		var str = sprintf.apply(null, arr);
+		this.appendable.buf += str;
+		return this;
+	};
+	proto["format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;"] = function(ref0,ref1,arr_ref2){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Formatter#format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;");
 	};
 
 });

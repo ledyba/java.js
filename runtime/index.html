@@ -8,6 +8,7 @@
 	</head>
 	<body>
 		<script type="text/javascript" src="./bigdecimal.js" charset="utf-8"></script>
+		<script type="text/javascript" src="./sprintf.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./java.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./rt.js" charset="utf-8"></script>
 		<script type="text/javascript" src="./out.js" charset="utf-8"></script>
@@ -20,7 +21,7 @@
 			var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString("var f = function(){ return 3.141; }; f();"));
 			console.log(obj);
 			obj = obj["toDetailString()Ljava/lang/String;"]();
-			console.log(obj.toString());
+			console.log(obj.asString());
 		</script>
 	</body>
 </html>
