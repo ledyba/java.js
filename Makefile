@@ -21,6 +21,7 @@ gen:
 			java/io/StringReader \
 			java/util/HashSet \
 			java/lang/Math \
+			java/io/Serializable \
 			runtime/rt.js
 
 pi:

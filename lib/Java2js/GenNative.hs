@@ -84,7 +84,7 @@ generateNativeClass cls = (L.unpack $ render templ ctx, deps)
 			where
 				isInterface =S.member (ACC_INTERFACE) (accessFlags cls)
 				templ = if isInterface then interfaceTemplate else classTemplate
-				deps = concat [superClassDep, visibleFields >>= extractDepsFromField, classMethods cls >>= extractMethodDeps]
+				deps = concat [superClassDep, visibleFields >>= extractDepsFromField, classMethods cls >>= extractMethodDeps, fmap (B8.unpack . BL.toStrict) (interfaces cls) ]
 				superClassDep = if name == [] then [] else [name]
 					where name = T.unpack superClassName
 				visibleFields = filter isVisibleField (classFields cls)

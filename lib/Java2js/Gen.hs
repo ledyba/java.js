@@ -55,7 +55,7 @@ compileKlass klass = L.unpack $ render (if isInterface then interfaceTemplate el
 				isInterface = S.member ACC_INTERFACE (accessFlags $ klassClass $ klass)
 				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "Java[\"",(decodeUtf8 f),T.pack "\"]()"]) (fmap BL.toStrict $ interfaces (klassClass klass)))
 				ctx "klassName" = T.pack (klassName klass)
-				ctx "proto" = T.pack $ if (isInterface || "" == (superKlass klass)) then "{}" else concat ["Object.create(Java[",(superKlass klass),"]().prototype)"]
+				ctx "proto" = T.pack $ if (isInterface || "" == (superKlass klass)) then "{}" else concat ["Object.create(Java[\"",(superKlass klass),"\"]().prototype)"]
 				ctx "fields" = compileFields klass
 				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()V\"].call(null);\n"
 																										else ""
