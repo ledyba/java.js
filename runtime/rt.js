@@ -18506,8 +18506,7 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		return Math.log(db0);
 	};
 	klass["log10(D)D"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#log10(D)D");
+		return Math.log10(db0);
 	};
 	klass["sqrt(D)D"] = function(db0){
 		return Math.sqrt(db0);
@@ -18525,8 +18524,7 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Math#ceil(D)D");
 	};
 	klass["floor(D)D"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#floor(D)D");
+		return Math.floor(db0);
 	};
 	klass["rint(D)D"] = function(db0){
 		var self = null;
@@ -18537,6 +18535,7 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Math#atan2(DD)D");
 	};
 	klass["pow(DD)D"] = function(db0,db1){
+		return Math.pow(db0, db1);
 		var self = null;
 		throw new Error("NotImplemented: java/lang/Math#pow(DD)D");
 	};
