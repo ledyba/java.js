@@ -7788,8 +7788,7 @@ Java["java/util/Vector"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/Vector#insertElementAt(Ljava/lang/Object;I)V");
 	};
 	proto["addElement(Ljava/lang/Object;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#addElement(Ljava/lang/Object;)V");
+		this.list.push(ref0);
 	};
 	proto["removeElement(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
