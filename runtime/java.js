@@ -66,7 +66,7 @@ var Java = {};
 	Java.instanceOf = function(klsName, obj){
 		// more accurate!!
 		var kls = Java[klsName]();
-		return (kls.prototype.constructor === obj.constructor) ? 1 : 0;
+		return (obj instanceof kls) ? 1 : 0;
 	};
 	Java.checkCast = function(klsName, obj){
 		// FIXME: チェックしよう
