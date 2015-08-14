@@ -20,6 +20,7 @@ gen:
 			java/util/concurrent/ConcurrentHashMap \
 			java/io/StringReader \
 			java/util/HashSet \
+			java/util/HashMap \
 			java/lang/Math \
 			java/io/Serializable \
 			runtime/rt.js

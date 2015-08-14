@@ -19,19 +19,8 @@ klassTemplate = template "\
 \proto.constructor = klass;\n\
 \\tklass[\"__interfaces__\"] = [${interfaces}];\n\
 \\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
-\\n\
 \${fields}\n\
 \${methods}\n\
-\${invokeClinit}\
-\});\n\
-\"
-
-interfaceTemplate = template "\
-\Java[\"${klassName}\"]=Java.mkClass(function(klass){\n\
-\var proto = klass.prototype = ${proto};\n\
-\proto.constructor = klass;\n\
-\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
-\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
 \${invokeClinit}\
 \});\n\
 \"
@@ -49,7 +38,7 @@ initValue (ObjectType _) = "null"
 initValue (Array _ _) = "null"
 
 compileKlass :: Klass -> String
-compileKlass klass = L.unpack $ render (if isInterface then interfaceTemplate else klassTemplate) ctx
+compileKlass klass = L.unpack $ render klassTemplate ctx
 			where
 				hasClinit = M.member "<clinit>()V" $ methods klass
 				isInterface = S.member ACC_INTERFACE (accessFlags $ klassClass $ klass)

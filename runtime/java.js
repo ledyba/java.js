@@ -34,22 +34,24 @@ var Java = {};
 		obj.init(klass, name);
 		return obj;
 	};
-	Java.mkNativeClass = function(genF){
+	Java.mkNativeClass = function(clinit){
 		var kls = null;
 		return function(){
 			if(kls === null){
 				kls = function(){};
-				genF(kls);
+				clinit(kls);
+				kls.prototype.__is_java__ = true;
 			}
 			return kls;
 		};
 	};
-	Java.mkClass = function(genF){
+	Java.mkClass = function(clinit){
 		var kls = null;
 		return function(){
 			if(kls === null){
 				kls = function(){};
-				genF(kls);
+				clinit(kls);
+				kls.prototype.__is_java__ = true;
 			}
 			return kls;
 		};
@@ -74,6 +76,9 @@ var Java = {};
 		return it;
 	};
 	Java.instanceOf = function(klsName, obj){
+		if(!obj || !obj.__is_java__){
+			return 0;
+		}
 		// more accurate!!
 		var kls = Java[klsName]();
 		return (obj instanceof kls) ? 1 : 0;

@@ -119,13 +119,26 @@ Java["java/nio/channels/spi/AbstractInterruptibleChannel"] = Java.mkNativeClass(
 	klass["__interfaces__"] = [Java["java/nio/channels/Channel"](), Java["java/nio/channels/InterruptibleChannel"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/channels/spi/AbstractInterruptibleChannel");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/channels/spi/AbstractInterruptibleChannel#<init>()V");
+	};
 	proto["close()V"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/channels/spi/AbstractInterruptibleChannel#close()V");
 	};
+	proto["implCloseChannel()V"] = null;
 	proto["isOpen()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/channels/spi/AbstractInterruptibleChannel#isOpen()Z");
+	};
+	proto["begin()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/channels/spi/AbstractInterruptibleChannel#begin()V");
+	};
+	proto["end(Z)V"] = function(b0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/channels/spi/AbstractInterruptibleChannel#end(Z)V");
 	};
 
 });
@@ -210,6 +223,14 @@ Java["java/nio/channels/FileLock"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/lang/AutoCloseable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/channels/FileLock");
 
+	proto["<init>(Ljava/nio/channels/FileChannel;JJZ)V"] = function(ref0,l1,l2,b3){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/channels/FileLock#<init>(Ljava/nio/channels/FileChannel;JJZ)V");
+	};
+	proto["<init>(Ljava/nio/channels/AsynchronousFileChannel;JJZ)V"] = function(ref0,l1,l2,b3){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/channels/FileLock#<init>(Ljava/nio/channels/AsynchronousFileChannel;JJZ)V");
+	};
 	proto["channel()Ljava/nio/channels/FileChannel;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/channels/FileLock#channel()Ljava/nio/channels/FileChannel;");
@@ -296,6 +317,10 @@ Java["java/nio/file/FileStore"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/file/FileStore");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/file/FileStore#<init>()V");
+	};
 	proto["name()Ljava/lang/String;"] = null;
 	proto["type()Ljava/lang/String;"] = null;
 	proto["isReadOnly()Z"] = null;
@@ -357,6 +382,10 @@ Java["java/nio/channels/FileChannel"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/nio/channels/SeekableByteChannel"](), Java["java/nio/channels/GatheringByteChannel"](), Java["java/nio/channels/ScatteringByteChannel"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/channels/FileChannel");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/channels/FileChannel#<init>()V");
+	};
 	klass["open(Ljava/nio/file/Path;Ljava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/FileChannel;"] = function(ref0,ref1,arr_ref2){
 		var self = null;
 		throw new Error("NotImplemented: java/nio/channels/FileChannel#open(Ljava/nio/file/Path;Ljava/util/Set;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/FileChannel;");
@@ -397,6 +426,10 @@ Java["java/nio/channels/AsynchronousFileChannel"] = Java.mkNativeClass(function(
 	klass["__interfaces__"] = [Java["java/nio/channels/AsynchronousChannel"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/channels/AsynchronousFileChannel");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/channels/AsynchronousFileChannel#<init>()V");
+	};
 	klass["open(Ljava/nio/file/Path;Ljava/util/Set;Ljava/util/concurrent/ExecutorService;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/AsynchronousFileChannel;"] = function(ref0,ref1,ref2,arr_ref3){
 		var self = null;
 		throw new Error("NotImplemented: java/nio/channels/AsynchronousFileChannel#open(Ljava/nio/file/Path;Ljava/util/Set;Ljava/util/concurrent/ExecutorService;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/channels/AsynchronousFileChannel;");
@@ -722,6 +755,10 @@ Java["java/io/FilterInputStream"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/io/FilterInputStream");
 
+	proto["<init>(Ljava/io/InputStream;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/FilterInputStream#<init>(Ljava/io/InputStream;)V");
+	};
 	proto["read()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/io/FilterInputStream#read()I");
@@ -768,6 +805,7 @@ Java["java/nio/charset/CoderResult$Cache"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/charset/CoderResult$Cache");
 
+	proto["create(I)Ljava/nio/charset/CoderResult;"] = null;
 
 });
 
@@ -1008,6 +1046,10 @@ Java["java/nio/file/spi/FileSystemProvider"] = Java.mkNativeClass(function(klass
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/file/spi/FileSystemProvider");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/file/spi/FileSystemProvider#<init>()V");
+	};
 	klass["installedProviders()Ljava/util/List;"] = function(){
 		var self = null;
 		throw new Error("NotImplemented: java/nio/file/spi/FileSystemProvider#installedProviders()Ljava/util/List;");
@@ -1073,6 +1115,10 @@ Java["java/nio/file/attribute/UserPrincipalLookupService"] = Java.mkNativeClass(
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/file/attribute/UserPrincipalLookupService");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/file/attribute/UserPrincipalLookupService#<init>()V");
+	};
 	proto["lookupPrincipalByName(Ljava/lang/String;)Ljava/nio/file/attribute/UserPrincipal;"] = null;
 	proto["lookupPrincipalByGroupName(Ljava/lang/String;)Ljava/nio/file/attribute/GroupPrincipal;"] = null;
 
@@ -1367,6 +1413,14 @@ Java["sun/util/calendar/Gregorian$Date"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/util/calendar/Gregorian$Date");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/Gregorian$Date#<init>()V");
+	};
+	proto["<init>(Ljava/util/TimeZone;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/Gregorian$Date#<init>(Ljava/util/TimeZone;)V");
+	};
 	proto["getNormalizedYear()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/Gregorian$Date#getNormalizedYear()I");
@@ -1392,6 +1446,10 @@ Java["java/security/cert/CertPath"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/io/Serializable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/security/cert/CertPath");
 
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/security/cert/CertPath#<init>(Ljava/lang/String;)V");
+	};
 	proto["getType()Ljava/lang/String;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/security/cert/CertPath#getType()Ljava/lang/String;");
@@ -1412,6 +1470,10 @@ Java["java/security/cert/CertPath"] = Java.mkNativeClass(function(klass){
 	proto["getEncoded()[B"] = null;
 	proto["getEncoded(Ljava/lang/String;)[B"] = null;
 	proto["getCertificates()Ljava/util/List;"] = null;
+	proto["writeReplace()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/security/cert/CertPath#writeReplace()Ljava/lang/Object;");
+	};
 
 });
 
@@ -1457,12 +1519,9 @@ Java["java/lang/Error"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/Error");
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Error#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Error#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -1471,6 +1530,10 @@ Java["java/lang/Error"] = Java.mkNativeClass(function(klass){
 	proto["<init>(Ljava/lang/Throwable;)V"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Error#<init>(Ljava/lang/Throwable;)V");
+	};
+	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V"] = function(ref0,ref1,b2,b3){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Error#<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V");
 	};
 
 });
@@ -1482,6 +1545,14 @@ Java["java/io/ObjectStreamException"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/io/ObjectStreamException");
 
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectStreamException#<init>(Ljava/lang/String;)V");
+	};
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectStreamException#<init>()V");
+	};
 
 });
 
@@ -1633,6 +1704,10 @@ Java["java/nio/file/FileSystem"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/io/Closeable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/file/FileSystem");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/file/FileSystem#<init>()V");
+	};
 	proto["provider()Ljava/nio/file/spi/FileSystemProvider;"] = null;
 	proto["close()V"] = null;
 	proto["isOpen()Z"] = null;
@@ -1802,6 +1877,19 @@ Java["sun/reflect/generics/repository/AbstractRepository"] = Java.mkNativeClass(
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/reflect/generics/repository/AbstractRepository");
 
+	proto["getTree()Lsun/reflect/generics/tree/Tree;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/AbstractRepository#getTree()Lsun/reflect/generics/tree/Tree;");
+	};
+	proto["getReifier()Lsun/reflect/generics/visitor/Reifier;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/AbstractRepository#getReifier()Lsun/reflect/generics/visitor/Reifier;");
+	};
+	proto["<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/AbstractRepository#<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V");
+	};
+	proto["parse(Ljava/lang/String;)Lsun/reflect/generics/tree/Tree;"] = null;
 
 });
 
@@ -2023,6 +2111,10 @@ Java["java/util/ResourceBundle$Control"] = Java.mkNativeClass(function(klass){
 	klass["FORMAT_PROPERTIES"] = null;
 	klass["TTL_DONT_CACHE"] = Java.mkLong("-1");
 	klass["TTL_NO_EXPIRATION_CONTROL"] = Java.mkLong("-2");
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/ResourceBundle$Control#<init>()V");
+	};
 	klass["getControl(Ljava/util/List;)Ljava/util/ResourceBundle$Control;"] = function(ref0){
 		var self = null;
 		throw new Error("NotImplemented: java/util/ResourceBundle$Control#getControl(Ljava/util/List;)Ljava/util/ResourceBundle$Control;");
@@ -2106,6 +2198,10 @@ Java["java/text/Format$Field"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/text/Format$Field");
 
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/text/Format$Field#<init>(Ljava/lang/String;)V");
+	};
 
 });
 
@@ -2118,6 +2214,10 @@ Java["java/text/AttributedCharacterIterator$Attribute"] = Java.mkNativeClass(fun
 	klass["LANGUAGE"] = null;
 	klass["READING"] = null;
 	klass["INPUT_METHOD_SEGMENT"] = null;
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/text/AttributedCharacterIterator$Attribute#<init>(Ljava/lang/String;)V");
+	};
 	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/text/AttributedCharacterIterator$Attribute#equals(Ljava/lang/Object;)Z");
@@ -2129,6 +2229,14 @@ Java["java/text/AttributedCharacterIterator$Attribute"] = Java.mkNativeClass(fun
 	proto["toString()Ljava/lang/String;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/text/AttributedCharacterIterator$Attribute#toString()Ljava/lang/String;");
+	};
+	proto["getName()Ljava/lang/String;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/text/AttributedCharacterIterator$Attribute#getName()Ljava/lang/String;");
+	};
+	proto["readResolve()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/text/AttributedCharacterIterator$Attribute#readResolve()Ljava/lang/Object;");
 	};
 
 });
@@ -2826,6 +2934,14 @@ Java["java/util/Hashtable$Entry"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/util/Map$Entry"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/Hashtable$Entry");
 
+	proto["<init>(ILjava/lang/Object;Ljava/lang/Object;Ljava/util/Hashtable$Entry;)V"] = function(i0,ref1,ref2,ref3){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Hashtable$Entry#<init>(ILjava/lang/Object;Ljava/lang/Object;Ljava/util/Hashtable$Entry;)V");
+	};
+	proto["clone()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Hashtable$Entry#clone()Ljava/lang/Object;");
+	};
 	proto["getKey()Ljava/lang/Object;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Hashtable$Entry#getKey()Ljava/lang/Object;");
@@ -3188,6 +3304,10 @@ Java["sun/reflect/generics/repository/GenericDeclRepository"] = Java.mkNativeCla
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/reflect/generics/repository/GenericDeclRepository");
 
+	proto["<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/GenericDeclRepository#<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V");
+	};
 	proto["getTypeParameters()[Ljava/lang/reflect/TypeVariable;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/reflect/generics/repository/GenericDeclRepository#getTypeParameters()[Ljava/lang/reflect/TypeVariable;");
@@ -3297,6 +3417,48 @@ Java["java/net/URLStreamHandler"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/net/URLStreamHandler#<init>()V");
 	};
+	proto["openConnection(Ljava/net/URL;)Ljava/net/URLConnection;"] = null;
+	proto["openConnection(Ljava/net/URL;Ljava/net/Proxy;)Ljava/net/URLConnection;"] = null;
+	proto["parseURL(Ljava/net/URL;Ljava/lang/String;II)V"] = function(ref0,ref1,i2,i3){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#parseURL(Ljava/net/URL;Ljava/lang/String;II)V");
+	};
+	proto["getDefaultPort()I"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#getDefaultPort()I");
+	};
+	proto["equals(Ljava/net/URL;Ljava/net/URL;)Z"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#equals(Ljava/net/URL;Ljava/net/URL;)Z");
+	};
+	proto["hashCode(Ljava/net/URL;)I"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#hashCode(Ljava/net/URL;)I");
+	};
+	proto["sameFile(Ljava/net/URL;Ljava/net/URL;)Z"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#sameFile(Ljava/net/URL;Ljava/net/URL;)Z");
+	};
+	proto["getHostAddress(Ljava/net/URL;)Ljava/net/InetAddress;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#getHostAddress(Ljava/net/URL;)Ljava/net/InetAddress;");
+	};
+	proto["hostsEqual(Ljava/net/URL;Ljava/net/URL;)Z"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#hostsEqual(Ljava/net/URL;Ljava/net/URL;)Z");
+	};
+	proto["toExternalForm(Ljava/net/URL;)Ljava/lang/String;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#toExternalForm(Ljava/net/URL;)Ljava/lang/String;");
+	};
+	proto["setURL(Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"] = function(ref0,ref1,ref2,i3,ref4,ref5,ref6,ref7,ref8){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#setURL(Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+	};
+	proto["setURL(Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V"] = function(ref0,ref1,ref2,i3,ref4,ref5){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLStreamHandler#setURL(Ljava/net/URL;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V");
+	};
 
 });
 
@@ -3331,6 +3493,10 @@ Java["java/net/URLConnection"] = Java.mkNativeClass(function(klass){
 	proto["getReadTimeout()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/net/URLConnection#getReadTimeout()I");
+	};
+	proto["<init>(Ljava/net/URL;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URLConnection#<init>(Ljava/net/URL;)V");
 	};
 	proto["getURL()Ljava/net/URL;"] = function(){
 		var self = this;
@@ -3727,6 +3893,14 @@ Java["sun/reflect/generics/repository/FieldRepository"] = Java.mkNativeClass(fun
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/reflect/generics/repository/FieldRepository");
 
+	proto["<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/FieldRepository#<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V");
+	};
+	proto["parse(Ljava/lang/String;)Lsun/reflect/generics/tree/TypeSignature;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/FieldRepository#parse(Ljava/lang/String;)Lsun/reflect/generics/tree/TypeSignature;");
+	};
 	klass["make(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)Lsun/reflect/generics/repository/FieldRepository;"] = function(ref0,ref1){
 		var self = null;
 		throw new Error("NotImplemented: sun/reflect/generics/repository/FieldRepository#make(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)Lsun/reflect/generics/repository/FieldRepository;");
@@ -3734,6 +3908,10 @@ Java["sun/reflect/generics/repository/FieldRepository"] = Java.mkNativeClass(fun
 	proto["getGenericType()Ljava/lang/reflect/Type;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/reflect/generics/repository/FieldRepository#getGenericType()Ljava/lang/reflect/Type;");
+	};
+	proto["parse(Ljava/lang/String;)Lsun/reflect/generics/tree/Tree;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/FieldRepository#parse(Ljava/lang/String;)Lsun/reflect/generics/tree/Tree;");
 	};
 
 });
@@ -3752,6 +3930,14 @@ Java["sun/reflect/generics/repository/ConstructorRepository"] = Java.mkNativeCla
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/reflect/generics/repository/ConstructorRepository");
 
+	proto["<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/ConstructorRepository#<init>(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)V");
+	};
+	proto["parse(Ljava/lang/String;)Lsun/reflect/generics/tree/MethodTypeSignature;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/ConstructorRepository#parse(Ljava/lang/String;)Lsun/reflect/generics/tree/MethodTypeSignature;");
+	};
 	klass["make(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)Lsun/reflect/generics/repository/ConstructorRepository;"] = function(ref0,ref1){
 		var self = null;
 		throw new Error("NotImplemented: sun/reflect/generics/repository/ConstructorRepository#make(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)Lsun/reflect/generics/repository/ConstructorRepository;");
@@ -3763,6 +3949,10 @@ Java["sun/reflect/generics/repository/ConstructorRepository"] = Java.mkNativeCla
 	proto["getExceptionTypes()[Ljava/lang/reflect/Type;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/reflect/generics/repository/ConstructorRepository#getExceptionTypes()[Ljava/lang/reflect/Type;");
+	};
+	proto["parse(Ljava/lang/String;)Lsun/reflect/generics/tree/Tree;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/ConstructorRepository#parse(Ljava/lang/String;)Lsun/reflect/generics/tree/Tree;");
 	};
 
 });
@@ -3799,6 +3989,10 @@ Java["java/lang/reflect/AccessibleObject"] = Java.mkNativeClass(function(klass){
 	proto["isAccessible()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/reflect/AccessibleObject#isAccessible()Z");
+	};
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/reflect/AccessibleObject#<init>()V");
 	};
 	proto["getAnnotation(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;"] = function(ref0){
 		var self = this;
@@ -4061,6 +4255,10 @@ Java["java/util/ResourceBundle"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/ResourceBundle#getLocale()Ljava/util/Locale;");
 	};
+	proto["setParent(Ljava/util/ResourceBundle;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/ResourceBundle#setParent(Ljava/util/ResourceBundle;)V");
+	};
 	klass["getBundle(Ljava/lang/String;)Ljava/util/ResourceBundle;"] = function(ref0){
 		var self = null;
 		throw new Error("NotImplemented: java/util/ResourceBundle#getBundle(Ljava/lang/String;)Ljava/util/ResourceBundle;");
@@ -4093,6 +4291,7 @@ Java["java/util/ResourceBundle"] = Java.mkNativeClass(function(klass){
 		var self = null;
 		throw new Error("NotImplemented: java/util/ResourceBundle#clearCache(Ljava/lang/ClassLoader;)V");
 	};
+	proto["handleGetObject(Ljava/lang/String;)Ljava/lang/Object;"] = null;
 	proto["getKeys()Ljava/util/Enumeration;"] = null;
 	proto["containsKey(Ljava/lang/String;)Z"] = function(ref0){
 		var self = this;
@@ -4101,6 +4300,10 @@ Java["java/util/ResourceBundle"] = Java.mkNativeClass(function(klass){
 	proto["keySet()Ljava/util/Set;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/util/ResourceBundle#keySet()Ljava/util/Set;");
+	};
+	proto["handleKeySet()Ljava/util/Set;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/ResourceBundle#handleKeySet()Ljava/util/Set;");
 	};
 
 });
@@ -4112,6 +4315,14 @@ Java["sun/util/locale/Extension"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/util/locale/Extension");
 
+	proto["<init>(C)V"] = function(ch0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/locale/Extension#<init>(C)V");
+	};
+	proto["setValue(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/locale/Extension#setValue(Ljava/lang/String;)V");
+	};
 	proto["getKey()C"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/locale/Extension#getKey()C");
@@ -4612,6 +4823,10 @@ Java["java/text/Format"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/io/Serializable"](), Java["java/lang/Cloneable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/text/Format");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/text/Format#<init>()V");
+	};
 	proto["format(Ljava/lang/Object;)Ljava/lang/String;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/text/Format#format(Ljava/lang/Object;)Ljava/lang/String;");
@@ -4727,6 +4942,10 @@ Java["java/lang/RuntimeException"] = Java.mkNativeClass(function(klass){
 	proto["<init>(Ljava/lang/Throwable;)V"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/RuntimeException#<init>(Ljava/lang/Throwable;)V");
+	};
+	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V"] = function(ref0,ref1,b2,b3){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/RuntimeException#<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V");
 	};
 
 });
@@ -4971,46 +5190,45 @@ Java["java/util/Vector"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/util/List"](), Java["java/util/RandomAccess"](), Java["java/lang/Cloneable"](), Java["java/io/Serializable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/Vector");
 
-	proto["<init>(II)V"] = function(i0,i1){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#<init>(II)V");
-	};
-	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#<init>(I)V");
-	};
-	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#<init>()V");
-	};
-	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#<init>(Ljava/util/Collection;)V");
-	};
-	proto["copyInto([Ljava/lang/Object;)V"] = function(arr_ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#copyInto([Ljava/lang/Object;)V");
-	};
-	proto["trimToSize()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#trimToSize()V");
-	};
-	proto["ensureCapacity(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#ensureCapacity(I)V");
-	};
-	proto["setSize(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#setSize(I)V");
-	};
-	proto["capacity()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#capacity()I");
-	};
-	proto["size()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#size()I");
-	};
+    proto["<init>(II)V"] = function(i0,i1){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#<init>(II)V");
+    };
+    proto["<init>(I)V"] = function(i0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#<init>(I)V");
+    };
+    proto["<init>()V"] = function(){
+        this.list = [];
+    };
+    proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#<init>(Ljava/util/Collection;)V");
+    };
+    proto["copyInto([Ljava/lang/Object;)V"] = function(arr_ref0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#copyInto([Ljava/lang/Object;)V");
+    };
+    proto["trimToSize()V"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#trimToSize()V");
+    };
+    proto["ensureCapacity(I)V"] = function(i0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#ensureCapacity(I)V");
+    };
+    proto["setSize(I)V"] = function(i0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#setSize(I)V");
+    };
+    proto["capacity()I"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#capacity()I");
+    };
+    proto["size()I"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/util/Vector#size()I");
+    };
 	proto["isEmpty()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Vector#isEmpty()Z");
@@ -5063,10 +5281,9 @@ Java["java/util/Vector"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Vector#insertElementAt(Ljava/lang/Object;I)V");
 	};
-	proto["addElement(Ljava/lang/Object;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#addElement(Ljava/lang/Object;)V");
-	};
+    proto["addElement(Ljava/lang/Object;)V"] = function(ref0){
+        this.list.push(ref0);
+    };
 	proto["removeElement(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Vector#removeElement(Ljava/lang/Object;)Z");
@@ -5151,6 +5368,10 @@ Java["java/util/Vector"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Vector#subList(II)Ljava/util/List;");
 	};
+	proto["removeRange(II)V"] = function(i0,i1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Vector#removeRange(II)V");
+	};
 	proto["listIterator(I)Ljava/util/ListIterator;"] = function(i0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Vector#listIterator(I)Ljava/util/ListIterator;");
@@ -5159,10 +5380,10 @@ Java["java/util/Vector"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Vector#listIterator()Ljava/util/ListIterator;");
 	};
-	proto["iterator()Ljava/util/Iterator;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#iterator()Ljava/util/Iterator;");
-	};
+    proto["iterator()Ljava/util/Iterator;"] = function(){
+        return Java.mkIterator(this.list);
+    };
+
 
 });
 
@@ -5207,6 +5428,10 @@ Java["java/security/cert/Certificate"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/io/Serializable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/security/cert/Certificate");
 
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/security/cert/Certificate#<init>(Ljava/lang/String;)V");
+	};
 	proto["getType()Ljava/lang/String;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/security/cert/Certificate#getType()Ljava/lang/String;");
@@ -5224,6 +5449,10 @@ Java["java/security/cert/Certificate"] = Java.mkNativeClass(function(klass){
 	proto["verify(Ljava/security/PublicKey;Ljava/lang/String;)V"] = null;
 	proto["toString()Ljava/lang/String;"] = null;
 	proto["getPublicKey()Ljava/security/PublicKey;"] = null;
+	proto["writeReplace()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/security/cert/Certificate#writeReplace()Ljava/lang/Object;");
+	};
 
 });
 
@@ -5529,6 +5758,10 @@ Java["java/io/ObjectStreamField"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectStreamField#getOffset()I");
 	};
+	proto["setOffset(I)V"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectStreamField#setOffset(I)V");
+	};
 	proto["isPrimitive()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectStreamField#isPrimitive()Z");
@@ -5645,6 +5878,10 @@ Java["java/lang/Throwable"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Throwable#<init>(Ljava/lang/Throwable;)V");
 	};
+	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V"] = function(ref0,ref1,b2,b3){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Throwable#<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V");
+	};
 	proto["getMessage()Ljava/lang/String;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Throwable#getMessage()Ljava/lang/String;");
@@ -5723,6 +5960,10 @@ Java["java/lang/Exception"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Exception#<init>(Ljava/lang/Throwable;)V");
 	};
+	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V"] = function(ref0,ref1,b2,b3){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Exception#<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V");
+	};
 
 });
 
@@ -5733,6 +5974,10 @@ Java["java/nio/charset/spi/CharsetProvider"] = Java.mkNativeClass(function(klass
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/charset/spi/CharsetProvider");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/spi/CharsetProvider#<init>()V");
+	};
 	proto["charsets()Ljava/util/Iterator;"] = null;
 	proto["charsetForName(Ljava/lang/String;)Ljava/nio/charset/Charset;"] = null;
 
@@ -5745,6 +5990,14 @@ Java["java/nio/charset/CharsetEncoder"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/charset/CharsetEncoder");
 
+	proto["<init>(Ljava/nio/charset/Charset;FF[B)V"] = function(ref0,flt1,flt2,arr_sb3){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#<init>(Ljava/nio/charset/Charset;FF[B)V");
+	};
+	proto["<init>(Ljava/nio/charset/Charset;FF)V"] = function(ref0,flt1,flt2){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#<init>(Ljava/nio/charset/Charset;FF)V");
+	};
 	proto["charset()Ljava/nio/charset/Charset;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#charset()Ljava/nio/charset/Charset;");
@@ -5756,6 +6009,10 @@ Java["java/nio/charset/CharsetEncoder"] = Java.mkNativeClass(function(klass){
 	proto["replaceWith([B)Ljava/nio/charset/CharsetEncoder;"] = function(arr_sb0){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#replaceWith([B)Ljava/nio/charset/CharsetEncoder;");
+	};
+	proto["implReplaceWith([B)V"] = function(arr_sb0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#implReplaceWith([B)V");
 	};
 	proto["isLegalReplacement([B)Z"] = function(arr_sb0){
 		var self = this;
@@ -5769,6 +6026,10 @@ Java["java/nio/charset/CharsetEncoder"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#onMalformedInput(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetEncoder;");
 	};
+	proto["implOnMalformedInput(Ljava/nio/charset/CodingErrorAction;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#implOnMalformedInput(Ljava/nio/charset/CodingErrorAction;)V");
+	};
 	proto["unmappableCharacterAction()Ljava/nio/charset/CodingErrorAction;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#unmappableCharacterAction()Ljava/nio/charset/CodingErrorAction;");
@@ -5776,6 +6037,10 @@ Java["java/nio/charset/CharsetEncoder"] = Java.mkNativeClass(function(klass){
 	proto["onUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetEncoder;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#onUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetEncoder;");
+	};
+	proto["implOnUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#implOnUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)V");
 	};
 	proto["averageBytesPerChar()F"] = function(){
 		var self = this;
@@ -5793,10 +6058,19 @@ Java["java/nio/charset/CharsetEncoder"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#flush(Ljava/nio/ByteBuffer;)Ljava/nio/charset/CoderResult;");
 	};
+	proto["implFlush(Ljava/nio/ByteBuffer;)Ljava/nio/charset/CoderResult;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#implFlush(Ljava/nio/ByteBuffer;)Ljava/nio/charset/CoderResult;");
+	};
 	proto["reset()Ljava/nio/charset/CharsetEncoder;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#reset()Ljava/nio/charset/CharsetEncoder;");
 	};
+	proto["implReset()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#implReset()V");
+	};
+	proto["encodeLoop(Ljava/nio/CharBuffer;Ljava/nio/ByteBuffer;)Ljava/nio/charset/CoderResult;"] = null;
 	proto["encode(Ljava/nio/CharBuffer;)Ljava/nio/ByteBuffer;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetEncoder#encode(Ljava/nio/CharBuffer;)Ljava/nio/ByteBuffer;");
@@ -5819,6 +6093,10 @@ Java["java/nio/charset/CharsetDecoder"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/nio/charset/CharsetDecoder");
 
+	proto["<init>(Ljava/nio/charset/Charset;FF)V"] = function(ref0,flt1,flt2){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#<init>(Ljava/nio/charset/Charset;FF)V");
+	};
 	proto["charset()Ljava/nio/charset/Charset;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#charset()Ljava/nio/charset/Charset;");
@@ -5831,6 +6109,10 @@ Java["java/nio/charset/CharsetDecoder"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#replaceWith(Ljava/lang/String;)Ljava/nio/charset/CharsetDecoder;");
 	};
+	proto["implReplaceWith(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#implReplaceWith(Ljava/lang/String;)V");
+	};
 	proto["malformedInputAction()Ljava/nio/charset/CodingErrorAction;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#malformedInputAction()Ljava/nio/charset/CodingErrorAction;");
@@ -5839,6 +6121,10 @@ Java["java/nio/charset/CharsetDecoder"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#onMalformedInput(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetDecoder;");
 	};
+	proto["implOnMalformedInput(Ljava/nio/charset/CodingErrorAction;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#implOnMalformedInput(Ljava/nio/charset/CodingErrorAction;)V");
+	};
 	proto["unmappableCharacterAction()Ljava/nio/charset/CodingErrorAction;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#unmappableCharacterAction()Ljava/nio/charset/CodingErrorAction;");
@@ -5846,6 +6132,10 @@ Java["java/nio/charset/CharsetDecoder"] = Java.mkNativeClass(function(klass){
 	proto["onUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetDecoder;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#onUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)Ljava/nio/charset/CharsetDecoder;");
+	};
+	proto["implOnUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#implOnUnmappableCharacter(Ljava/nio/charset/CodingErrorAction;)V");
 	};
 	proto["averageCharsPerByte()F"] = function(){
 		var self = this;
@@ -5863,10 +6153,19 @@ Java["java/nio/charset/CharsetDecoder"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#flush(Ljava/nio/CharBuffer;)Ljava/nio/charset/CoderResult;");
 	};
+	proto["implFlush(Ljava/nio/CharBuffer;)Ljava/nio/charset/CoderResult;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#implFlush(Ljava/nio/CharBuffer;)Ljava/nio/charset/CoderResult;");
+	};
 	proto["reset()Ljava/nio/charset/CharsetDecoder;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#reset()Ljava/nio/charset/CharsetDecoder;");
 	};
+	proto["implReset()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#implReset()V");
+	};
+	proto["decodeLoop(Ljava/nio/ByteBuffer;Ljava/nio/CharBuffer;)Ljava/nio/charset/CoderResult;"] = null;
 	proto["decode(Ljava/nio/ByteBuffer;)Ljava/nio/CharBuffer;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/nio/charset/CharsetDecoder#decode(Ljava/nio/ByteBuffer;)Ljava/nio/CharBuffer;");
@@ -6026,16 +6325,13 @@ Java["java/util/Hashtable"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/Hashtable");
 
 	proto["<init>(IF)V"] = function(i0,flt1){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Hashtable#<init>(IF)V");
+		this.map = {};
 	};
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Hashtable#<init>(I)V");
+		this.map = {};
 	};
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Hashtable#<init>()V");
+		this.map = {};
 	};
 	proto["<init>(Ljava/util/Map;)V"] = function(ref0){
 		var self = this;
@@ -6072,6 +6368,10 @@ Java["java/util/Hashtable"] = Java.mkNativeClass(function(klass){
 	proto["get(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Hashtable#get(Ljava/lang/Object;)Ljava/lang/Object;");
+	};
+	proto["rehash()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Hashtable#rehash()V");
 	};
 	proto["put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
 		var self = this;
@@ -6127,6 +6427,14 @@ Java["java/io/Writer"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/lang/Appendable"](), Java["java/io/Closeable"](), Java["java/io/Flushable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/io/Writer");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/Writer#<init>()V");
+	};
+	proto["<init>(Ljava/lang/Object;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/Writer#<init>(Ljava/lang/Object;)V");
+	};
 	proto["write(I)V"] = function(i0){
 		var self = this;
 		throw new Error("NotImplemented: java/io/Writer#write(I)V");
@@ -6501,6 +6809,10 @@ Java["java/lang/Thread"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Thread#sleep(J)V");
 	};
 	klass["sleep(JI)V"] = null;
+	proto["clone()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Thread#clone()Ljava/lang/Object;");
+	};
 	proto["<init>()V"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Thread#<init>()V");
@@ -7034,6 +7346,14 @@ Java["java/io/PrintWriter"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/io/PrintWriter#checkError()Z");
 	};
+	proto["setError()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/PrintWriter#setError()V");
+	};
+	proto["clearError()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/PrintWriter#clearError()V");
+	};
 	proto["write(I)V"] = function(i0){
 		var self = this;
 		throw new Error("NotImplemented: java/io/PrintWriter#write(I)V");
@@ -7220,6 +7540,10 @@ Java["java/util/AbstractList"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/util/List"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/AbstractList");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractList#<init>()V");
+	};
 	proto["add(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/AbstractList#add(Ljava/lang/Object;)Z");
@@ -7277,6 +7601,10 @@ Java["java/util/AbstractList"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/AbstractList#hashCode()I");
 	};
+	proto["removeRange(II)V"] = function(i0,i1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractList#removeRange(II)V");
+	};
 
 });
 
@@ -7287,6 +7615,10 @@ Java["sun/reflect/generics/repository/ClassRepository"] = Java.mkNativeClass(fun
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/reflect/generics/repository/ClassRepository");
 
+	proto["parse(Ljava/lang/String;)Lsun/reflect/generics/tree/ClassSignature;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/ClassRepository#parse(Ljava/lang/String;)Lsun/reflect/generics/tree/ClassSignature;");
+	};
 	klass["make(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)Lsun/reflect/generics/repository/ClassRepository;"] = function(ref0,ref1){
 		var self = null;
 		throw new Error("NotImplemented: sun/reflect/generics/repository/ClassRepository#make(Ljava/lang/String;Lsun/reflect/generics/factory/GenericsFactory;)Lsun/reflect/generics/repository/ClassRepository;");
@@ -7298,6 +7630,10 @@ Java["sun/reflect/generics/repository/ClassRepository"] = Java.mkNativeClass(fun
 	proto["getSuperInterfaces()[Ljava/lang/reflect/Type;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/reflect/generics/repository/ClassRepository#getSuperInterfaces()[Ljava/lang/reflect/Type;");
+	};
+	proto["parse(Ljava/lang/String;)Lsun/reflect/generics/tree/Tree;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/reflect/generics/repository/ClassRepository#parse(Ljava/lang/String;)Lsun/reflect/generics/tree/Tree;");
 	};
 
 });
@@ -7567,6 +7903,14 @@ Java["java/net/URL"] = Java.mkNativeClass(function(klass){
 	proto["<init>(Ljava/net/URL;Ljava/lang/String;Ljava/net/URLStreamHandler;)V"] = function(ref0,ref1,ref2){
 		var self = this;
 		throw new Error("NotImplemented: java/net/URL#<init>(Ljava/net/URL;Ljava/lang/String;Ljava/net/URLStreamHandler;)V");
+	};
+	proto["set(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V"] = function(ref0,ref1,i2,ref3,ref4){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URL#set(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V");
+	};
+	proto["set(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V"] = function(ref0,ref1,i2,ref3,ref4,ref5,ref6,ref7){
+		var self = this;
+		throw new Error("NotImplemented: java/net/URL#set(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	};
 	proto["getQuery()Ljava/lang/String;"] = function(){
 		var self = this;
@@ -8166,6 +8510,14 @@ Java["sun/util/calendar/CalendarDate"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "sun/util/calendar/CalendarDate");
 	klass["FIELD_UNDEFINED"] = (-2147483648);
 	klass["TIME_UNDEFINED"] = Java.mkLong("-9223372036854775808");
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#<init>()V");
+	};
+	proto["<init>(Ljava/util/TimeZone;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#<init>(Ljava/util/TimeZone;)V");
+	};
 	proto["getEra()Lsun/util/calendar/Era;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#getEra()Lsun/util/calendar/Era;");
@@ -8286,6 +8638,10 @@ Java["sun/util/calendar/CalendarDate"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#addTimeOfDay(IIII)Lsun/util/calendar/CalendarDate;");
 	};
+	proto["setTimeOfDay(J)V"] = function(l0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#setTimeOfDay(J)V");
+	};
 	proto["isNormalized()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#isNormalized()Z");
@@ -8301,6 +8657,10 @@ Java["sun/util/calendar/CalendarDate"] = Java.mkNativeClass(function(klass){
 	proto["isDaylightTime()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#isDaylightTime()Z");
+	};
+	proto["setLocale(Ljava/util/Locale;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#setLocale(Ljava/util/Locale;)V");
 	};
 	proto["getZone()Ljava/util/TimeZone;"] = function(){
 		var self = this;
@@ -8330,13 +8690,29 @@ Java["sun/util/calendar/CalendarDate"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#toString()Ljava/lang/String;");
 	};
+	proto["setDayOfWeek(I)V"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#setDayOfWeek(I)V");
+	};
+	proto["setNormalized(Z)V"] = function(b0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#setNormalized(Z)V");
+	};
 	proto["getZoneOffset()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#getZoneOffset()I");
 	};
+	proto["setZoneOffset(I)V"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#setZoneOffset(I)V");
+	};
 	proto["getDaylightSaving()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#getDaylightSaving()I");
+	};
+	proto["setDaylightSaving(I)V"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/CalendarDate#setDaylightSaving(I)V");
 	};
 
 });
@@ -8348,6 +8724,10 @@ Java["sun/util/calendar/AbstractCalendar"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/util/calendar/AbstractCalendar");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#<init>()V");
+	};
 	proto["getEra(Ljava/lang/String;)Lsun/util/calendar/Era;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#getEra(Ljava/lang/String;)Lsun/util/calendar/Era;");
@@ -8359,6 +8739,10 @@ Java["sun/util/calendar/AbstractCalendar"] = Java.mkNativeClass(function(klass){
 	proto["setEra(Lsun/util/calendar/CalendarDate;Ljava/lang/String;)V"] = function(ref0,ref1){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#setEra(Lsun/util/calendar/CalendarDate;Ljava/lang/String;)V");
+	};
+	proto["setEras([Lsun/util/calendar/Era;)V"] = function(arr_ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#setEras([Lsun/util/calendar/Era;)V");
 	};
 	proto["getCalendarDate()Lsun/util/calendar/CalendarDate;"] = function(){
 		var self = this;
@@ -8380,6 +8764,10 @@ Java["sun/util/calendar/AbstractCalendar"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#getTime(Lsun/util/calendar/CalendarDate;)J");
 	};
+	proto["getTimeOfDay(Lsun/util/calendar/CalendarDate;)J"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#getTimeOfDay(Lsun/util/calendar/CalendarDate;)J");
+	};
 	proto["getTimeOfDayValue(Lsun/util/calendar/CalendarDate;)J"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#getTimeOfDayValue(Lsun/util/calendar/CalendarDate;)J");
@@ -8392,6 +8780,7 @@ Java["sun/util/calendar/AbstractCalendar"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#getWeekLength()I");
 	};
+	proto["isLeapYear(Lsun/util/calendar/CalendarDate;)Z"] = null;
 	proto["getNthDayOfWeek(IILsun/util/calendar/CalendarDate;)Lsun/util/calendar/CalendarDate;"] = function(i0,i1,ref2){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#getNthDayOfWeek(IILsun/util/calendar/CalendarDate;)Lsun/util/calendar/CalendarDate;");
@@ -8400,6 +8789,8 @@ Java["sun/util/calendar/AbstractCalendar"] = Java.mkNativeClass(function(klass){
 		var self = null;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#getDayOfWeekDateOnOrBefore(JI)J");
 	};
+	proto["getFixedDate(Lsun/util/calendar/CalendarDate;)J"] = null;
+	proto["getCalendarDateFromFixedDate(Lsun/util/calendar/CalendarDate;J)V"] = null;
 	proto["validateTime(Lsun/util/calendar/CalendarDate;)Z"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/AbstractCalendar#validateTime(Lsun/util/calendar/CalendarDate;)Z");
@@ -8414,6 +8805,10 @@ Java["sun/util/resources/OpenListResourceBundle"] = Java.mkNativeClass(function(
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/util/resources/OpenListResourceBundle");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/resources/OpenListResourceBundle#<init>()V");
+	};
 	proto["handleGetObject(Ljava/lang/String;)Ljava/lang/Object;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/resources/OpenListResourceBundle#handleGetObject(Ljava/lang/String;)Ljava/lang/Object;");
@@ -8429,6 +8824,11 @@ Java["sun/util/resources/OpenListResourceBundle"] = Java.mkNativeClass(function(
 	proto["getParent()Lsun/util/resources/OpenListResourceBundle;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/resources/OpenListResourceBundle#getParent()Lsun/util/resources/OpenListResourceBundle;");
+	};
+	proto["getContents()[[Ljava/lang/Object;"] = null;
+	proto["createMap(I)Ljava/util/Map;"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/resources/OpenListResourceBundle#createMap(I)Ljava/util/Map;");
 	};
 
 });
@@ -9119,6 +9519,10 @@ Java["java/util/concurrent/locks/ReentrantLock"] = Java.mkNativeClass(function(k
 		var self = this;
 		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#isFair()Z");
 	};
+	proto["getOwner()Ljava/lang/Thread;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#getOwner()Ljava/lang/Thread;");
+	};
 	proto["hasQueuedThreads()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#hasQueuedThreads()Z");
@@ -9131,6 +9535,10 @@ Java["java/util/concurrent/locks/ReentrantLock"] = Java.mkNativeClass(function(k
 		var self = this;
 		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#getQueueLength()I");
 	};
+	proto["getQueuedThreads()Ljava/util/Collection;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#getQueuedThreads()Ljava/util/Collection;");
+	};
 	proto["hasWaiters(Ljava/util/concurrent/locks/Condition;)Z"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#hasWaiters(Ljava/util/concurrent/locks/Condition;)Z");
@@ -9138,6 +9546,10 @@ Java["java/util/concurrent/locks/ReentrantLock"] = Java.mkNativeClass(function(k
 	proto["getWaitQueueLength(Ljava/util/concurrent/locks/Condition;)I"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#getWaitQueueLength(Ljava/util/concurrent/locks/Condition;)I");
+	};
+	proto["getWaitingThreads(Ljava/util/concurrent/locks/Condition;)Ljava/util/Collection;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/concurrent/locks/ReentrantLock#getWaitingThreads(Ljava/util/concurrent/locks/Condition;)Ljava/util/Collection;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
 		var self = this;
@@ -9295,6 +9707,10 @@ Java["java/util/AbstractCollection"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/util/Collection"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/AbstractCollection");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractCollection#<init>()V");
+	};
 	proto["iterator()Ljava/util/Iterator;"] = null;
 	proto["size()I"] = null;
 	proto["isEmpty()Z"] = function(){
@@ -9500,12 +9916,14 @@ Java["java/lang/Enum"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/Enum");
 
 	proto["name()Ljava/lang/String;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Enum#name()Ljava/lang/String;");
+		return this.name;
 	};
 	proto["ordinal()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Enum#ordinal()I");
+		return this.ord;
+	};
+	proto["<init>(Ljava/lang/String;I)V"] = function(ref0,i1){
+		this.name = ref0;
+		this.ord = i1;
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
 		var self = this;
@@ -9519,6 +9937,10 @@ Java["java/lang/Enum"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Enum#hashCode()I");
 	};
+	proto["clone()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Enum#clone()Ljava/lang/Object;");
+	};
 	proto["compareTo(Ljava/lang/Enum;)I"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Enum#compareTo(Ljava/lang/Enum;)I");
@@ -9530,6 +9952,10 @@ Java["java/lang/Enum"] = Java.mkNativeClass(function(klass){
 	klass["valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;"] = function(ref0,ref1){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/Enum#valueOf(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;");
+	};
+	proto["finalize()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Enum#finalize()V");
 	};
 	proto["compareTo(Ljava/lang/Object;)I"] = function(ref0){
 		var self = this;
@@ -9545,9 +9971,61 @@ Java["java/lang/ClassLoader"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/ClassLoader");
 
+	proto["<init>(Ljava/lang/ClassLoader;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#<init>(Ljava/lang/ClassLoader;)V");
+	};
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#<init>()V");
+	};
 	proto["loadClass(Ljava/lang/String;)Ljava/lang/Class;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/ClassLoader#loadClass(Ljava/lang/String;)Ljava/lang/Class;");
+	};
+	proto["loadClass(Ljava/lang/String;Z)Ljava/lang/Class;"] = function(ref0,b1){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#loadClass(Ljava/lang/String;Z)Ljava/lang/Class;");
+	};
+	proto["getClassLoadingLock(Ljava/lang/String;)Ljava/lang/Object;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#getClassLoadingLock(Ljava/lang/String;)Ljava/lang/Object;");
+	};
+	proto["findClass(Ljava/lang/String;)Ljava/lang/Class;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#findClass(Ljava/lang/String;)Ljava/lang/Class;");
+	};
+	proto["defineClass([BII)Ljava/lang/Class;"] = function(arr_sb0,i1,i2){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#defineClass([BII)Ljava/lang/Class;");
+	};
+	proto["defineClass(Ljava/lang/String;[BII)Ljava/lang/Class;"] = function(ref0,arr_sb1,i2,i3){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#defineClass(Ljava/lang/String;[BII)Ljava/lang/Class;");
+	};
+	proto["defineClass(Ljava/lang/String;[BIILjava/security/ProtectionDomain;)Ljava/lang/Class;"] = function(ref0,arr_sb1,i2,i3,ref4){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#defineClass(Ljava/lang/String;[BIILjava/security/ProtectionDomain;)Ljava/lang/Class;");
+	};
+	proto["defineClass(Ljava/lang/String;Ljava/nio/ByteBuffer;Ljava/security/ProtectionDomain;)Ljava/lang/Class;"] = function(ref0,ref1,ref2){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#defineClass(Ljava/lang/String;Ljava/nio/ByteBuffer;Ljava/security/ProtectionDomain;)Ljava/lang/Class;");
+	};
+	proto["resolveClass(Ljava/lang/Class;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#resolveClass(Ljava/lang/Class;)V");
+	};
+	proto["findSystemClass(Ljava/lang/String;)Ljava/lang/Class;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#findSystemClass(Ljava/lang/String;)Ljava/lang/Class;");
+	};
+	proto["findLoadedClass(Ljava/lang/String;)Ljava/lang/Class;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#findLoadedClass(Ljava/lang/String;)Ljava/lang/Class;");
+	};
+	proto["setSigners(Ljava/lang/Class;[Ljava/lang/Object;)V"] = function(ref0,arr_ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#setSigners(Ljava/lang/Class;[Ljava/lang/Object;)V");
 	};
 	proto["getResource(Ljava/lang/String;)Ljava/net/URL;"] = function(ref0){
 		var self = this;
@@ -9556,6 +10034,18 @@ Java["java/lang/ClassLoader"] = Java.mkNativeClass(function(klass){
 	proto["getResources(Ljava/lang/String;)Ljava/util/Enumeration;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/ClassLoader#getResources(Ljava/lang/String;)Ljava/util/Enumeration;");
+	};
+	proto["findResource(Ljava/lang/String;)Ljava/net/URL;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#findResource(Ljava/lang/String;)Ljava/net/URL;");
+	};
+	proto["findResources(Ljava/lang/String;)Ljava/util/Enumeration;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#findResources(Ljava/lang/String;)Ljava/util/Enumeration;");
+	};
+	klass["registerAsParallelCapable()Z"] = function(){
+		var self = null;
+		throw new Error("NotImplemented: java/lang/ClassLoader#registerAsParallelCapable()Z");
 	};
 	klass["getSystemResource(Ljava/lang/String;)Ljava/net/URL;"] = function(ref0){
 		var self = null;
@@ -9580,6 +10070,22 @@ Java["java/lang/ClassLoader"] = Java.mkNativeClass(function(klass){
 	klass["getSystemClassLoader()Ljava/lang/ClassLoader;"] = function(){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/ClassLoader#getSystemClassLoader()Ljava/lang/ClassLoader;");
+	};
+	proto["definePackage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;)Ljava/lang/Package;"] = function(ref0,ref1,ref2,ref3,ref4,ref5,ref6,ref7){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#definePackage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;)Ljava/lang/Package;");
+	};
+	proto["getPackage(Ljava/lang/String;)Ljava/lang/Package;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#getPackage(Ljava/lang/String;)Ljava/lang/Package;");
+	};
+	proto["getPackages()[Ljava/lang/Package;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#getPackages()[Ljava/lang/Package;");
+	};
+	proto["findLibrary(Ljava/lang/String;)Ljava/lang/String;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/ClassLoader#findLibrary(Ljava/lang/String;)Ljava/lang/String;");
 	};
 	proto["setDefaultAssertionStatus(Z)V"] = function(b0){
 		var self = this;
@@ -9800,12 +10306,9 @@ Java["java/io/IOException"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/io/IOException");
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/IOException#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/io/IOException#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -9847,6 +10350,10 @@ Java["java/nio/charset/Charset"] = Java.mkNativeClass(function(klass){
 	klass["defaultCharset()Ljava/nio/charset/Charset;"] = function(){
 		var self = null;
 		throw new Error("NotImplemented: java/nio/charset/Charset#defaultCharset()Ljava/nio/charset/Charset;");
+	};
+	proto["<init>(Ljava/lang/String;[Ljava/lang/String;)V"] = function(ref0,arr_ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/nio/charset/Charset#<init>(Ljava/lang/String;[Ljava/lang/String;)V");
 	};
 	proto["name()Ljava/lang/String;"] = function(){
 		var self = this;
@@ -9926,8 +10433,7 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#<init>(I)V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#<init>(Ljava/lang/String;)V");
+		this.buf = ref0.val;
 	};
 	proto["<init>(Ljava/lang/CharSequence;)V"] = function(ref0){
 		var self = this;
@@ -9950,8 +10456,7 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#trimToSize()V");
 	};
 	proto["setLength(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#setLength(I)V");
+		this.buf = this.buf.substring(0, i0);
 	};
 	proto["charAt(I)C"] = function(i0){
 		var self = this;
@@ -9986,8 +10491,8 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#append(Ljava/lang/Object;)Ljava/lang/StringBuffer;");
 	};
 	proto["append(Ljava/lang/String;)Ljava/lang/StringBuffer;"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#append(Ljava/lang/String;)Ljava/lang/StringBuffer;");
+		this.buf += ref0.val;
+		return this;
 	};
 	proto["append(Ljava/lang/StringBuffer;)Ljava/lang/StringBuffer;"] = function(ref0){
 		var self = this;
@@ -10130,8 +10635,7 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#reverse()Ljava/lang/StringBuffer;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#toString()Ljava/lang/String;");
+		return Java.mkString(this.buf);
 	};
 	proto["reverse()Ljava/lang/AbstractStringBuilder;"] = function(){
 		var self = this;
@@ -10368,6 +10872,36 @@ Java["java/lang/SecurityManager"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/SecurityManager#<init>()V");
 	};
+	proto["getClassContext()[Ljava/lang/Class;"] = function(){
+		var self = this;
+		/* Native Method */
+		throw new Error("NotImplemented: java/lang/SecurityManager#getClassContext()[Ljava/lang/Class;");
+	};
+	proto["currentClassLoader()Ljava/lang/ClassLoader;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/SecurityManager#currentClassLoader()Ljava/lang/ClassLoader;");
+	};
+	proto["currentLoadedClass()Ljava/lang/Class;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/SecurityManager#currentLoadedClass()Ljava/lang/Class;");
+	};
+	proto["classDepth(Ljava/lang/String;)I"] = function(ref0){
+		var self = this;
+		/* Native Method */
+		throw new Error("NotImplemented: java/lang/SecurityManager#classDepth(Ljava/lang/String;)I");
+	};
+	proto["classLoaderDepth()I"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/SecurityManager#classLoaderDepth()I");
+	};
+	proto["inClass(Ljava/lang/String;)Z"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/SecurityManager#inClass(Ljava/lang/String;)Z");
+	};
+	proto["inClassLoader()Z"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/SecurityManager#inClassLoader()Z");
+	};
 	proto["getSecurityContext()Ljava/lang/Object;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/SecurityManager#getSecurityContext()Ljava/lang/Object;");
@@ -10549,6 +11083,14 @@ Java["java/io/PrintStream"] = Java.mkNativeClass(function(klass){
 	proto["checkError()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/io/PrintStream#checkError()Z");
+	};
+	proto["setError()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/PrintStream#setError()V");
+	};
+	proto["clearError()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/PrintStream#clearError()V");
 	};
 	proto["write(I)V"] = function(i0){
 		var self = this;
@@ -10847,16 +11389,13 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/ArrayList");
 
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#<init>(I)V");
+		this.list = [];
 	};
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#<init>()V");
+		this.list = [];
 	};
 	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#<init>(Ljava/util/Collection;)V");
+		this.list = [];
 	};
 	proto["trimToSize()V"] = function(){
 		var self = this;
@@ -10867,8 +11406,7 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/ArrayList#ensureCapacity(I)V");
 	};
 	proto["size()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#size()I");
+		return this.list.length;
 	};
 	proto["isEmpty()Z"] = function(){
 		var self = this;
@@ -10907,16 +11445,17 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/ArrayList#set(ILjava/lang/Object;)Ljava/lang/Object;");
 	};
 	proto["add(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#add(Ljava/lang/Object;)Z");
+		this.list.push(ref0);
+		return 1;
 	};
 	proto["add(ILjava/lang/Object;)V"] = function(i0,ref1){
 		var self = this;
 		throw new Error("NotImplemented: java/util/ArrayList#add(ILjava/lang/Object;)V");
 	};
 	proto["remove(I)Ljava/lang/Object;"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#remove(I)Ljava/lang/Object;");
+        var obj = this.list[i0];
+        this.list.splice(i0,1);
+        return obj;
 	};
 	proto["remove(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
@@ -10933,6 +11472,10 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 	proto["addAll(ILjava/util/Collection;)Z"] = function(i0,ref1){
 		var self = this;
 		throw new Error("NotImplemented: java/util/ArrayList#addAll(ILjava/util/Collection;)Z");
+	};
+	proto["removeRange(II)V"] = function(i0,i1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/ArrayList#removeRange(II)V");
 	};
 	proto["removeAll(Ljava/util/Collection;)Z"] = function(ref0){
 		var self = this;
@@ -10965,6 +11508,10 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 Java["java/lang/Class"] = Java.mkNativeClass(function(klass){
 	var proto = klass.prototype = Object.create(Java["java/lang/Object"]().prototype);
 	proto.constructor = klass;
+	proto.init = function(klass, name){
+		this.klass = klass;
+		this.name = name;
+	};
 	klass["__interfaces__"] = [Java["java/io/Serializable"](), Java["java/lang/reflect/GenericDeclaration"](), Java["java/lang/reflect/Type"](), Java["java/lang/reflect/AnnotatedElement"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/Class");
 
@@ -11018,8 +11565,7 @@ Java["java/lang/Class"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Class#isSynthetic()Z");
 	};
 	proto["getName()Ljava/lang/String;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Class#getName()Ljava/lang/String;");
+		return Java.mkString(this.name);
 	};
 	proto["getClassLoader()Ljava/lang/ClassLoader;"] = function(){
 		var self = this;
@@ -11240,6 +11786,10 @@ Java["sun/misc/SoftCache"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: sun/misc/SoftCache#containsKey(Ljava/lang/Object;)Z");
 	};
+	proto["fill(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/misc/SoftCache#fill(Ljava/lang/Object;)Ljava/lang/Object;");
+	};
 	proto["get(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: sun/misc/SoftCache#get(Ljava/lang/Object;)Ljava/lang/Object;");
@@ -11283,6 +11833,10 @@ Java["java/text/CollationKey"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/text/CollationKey#getSourceString()Ljava/lang/String;");
 	};
 	proto["toByteArray()[B"] = null;
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/text/CollationKey#<init>(Ljava/lang/String;)V");
+	};
 	proto["compareTo(Ljava/lang/Object;)I"] = null;
 
 });
@@ -11294,12 +11848,40 @@ Java["sun/util/calendar/BaseCalendar$Date"] = Java.mkNativeClass(function(klass)
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "sun/util/calendar/BaseCalendar$Date");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#<init>()V");
+	};
+	proto["<init>(Ljava/util/TimeZone;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#<init>(Ljava/util/TimeZone;)V");
+	};
 	proto["setNormalizedDate(III)Lsun/util/calendar/BaseCalendar$Date;"] = function(i0,i1,i2){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#setNormalizedDate(III)Lsun/util/calendar/BaseCalendar$Date;");
 	};
 	proto["getNormalizedYear()I"] = null;
 	proto["setNormalizedYear(I)V"] = null;
+	proto["hit(I)Z"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#hit(I)Z");
+	};
+	proto["hit(J)Z"] = function(l0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#hit(J)Z");
+	};
+	proto["getCachedYear()I"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#getCachedYear()I");
+	};
+	proto["getCachedJan1()J"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#getCachedJan1()J");
+	};
+	proto["setCache(IJI)V"] = function(i0,l1,i2){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar$Date#setCache(IJI)V");
+	};
 
 });
 
@@ -11380,6 +11962,10 @@ Java["sun/util/calendar/BaseCalendar"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar#getYearFromFixedDate(J)I");
 	};
+	proto["isLeapYear(Lsun/util/calendar/CalendarDate;)Z"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: sun/util/calendar/BaseCalendar#isLeapYear(Lsun/util/calendar/CalendarDate;)Z");
+	};
 
 });
 
@@ -11433,9 +12019,9 @@ Java["java/util/TimeZone"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/TimeZone#observesDaylightTime()Z");
 	};
 	proto["inDaylightTime(Ljava/util/Date;)Z"] = null;
+	var defaultTimezone = new klass();
 	klass["getTimeZone(Ljava/lang/String;)Ljava/util/TimeZone;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/TimeZone#getTimeZone(Ljava/lang/String;)Ljava/util/TimeZone;");
+		return defaultTimezone;
 	};
 	klass["getAvailableIDs(I)[Ljava/lang/String;"] = function(i0){
 		var self = null;
@@ -11506,9 +12092,9 @@ Java["java/util/Locale"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Locale#<init>(Ljava/lang/String;)V");
 	};
+	var defaultLocale = new klass();
 	klass["getDefault()Ljava/util/Locale;"] = function(){
-		var self = null;
-		throw new Error("NotImplemented: java/util/Locale#getDefault()Ljava/util/Locale;");
+		return defaultLocale;
 	};
 	klass["getDefault(Ljava/util/Locale$Category;)Ljava/util/Locale;"] = function(ref0){
 		var self = null;
@@ -11653,8 +12239,7 @@ Java["java/util/Date"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/Date");
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Date#<init>()V");
+		this.date = new Date();
 	};
 	proto["<init>(J)V"] = function(l0){
 		var self = this;
@@ -11841,6 +12426,14 @@ Java["java/util/Calendar"] = Java.mkNativeClass(function(klass){
 	klass["ALL_STYLES"] = (0);
 	klass["SHORT"] = (1);
 	klass["LONG"] = (2);
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Calendar#<init>()V");
+	};
+	proto["<init>(Ljava/util/TimeZone;Ljava/util/Locale;)V"] = function(ref0,ref1){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Calendar#<init>(Ljava/util/TimeZone;Ljava/util/Locale;)V");
+	};
 	klass["getInstance()Ljava/util/Calendar;"] = function(){
 		var self = null;
 		throw new Error("NotImplemented: java/util/Calendar#getInstance()Ljava/util/Calendar;");
@@ -11861,9 +12454,12 @@ Java["java/util/Calendar"] = Java.mkNativeClass(function(klass){
 		var self = null;
 		throw new Error("NotImplemented: java/util/Calendar#getAvailableLocales()[Ljava/util/Locale;");
 	};
+	proto["computeTime()V"] = null;
+	proto["computeFields()V"] = null;
 	proto["getTime()Ljava/util/Date;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Calendar#getTime()Ljava/util/Date;");
+		var obj = new (Java["java/util/Date"]())();
+		obj.date = this.date;
+		return obj;
 	};
 	proto["setTime(Ljava/util/Date;)V"] = function(ref0){
 		var self = this;
@@ -11881,9 +12477,12 @@ Java["java/util/Calendar"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Calendar#get(I)I");
 	};
-	proto["set(II)V"] = function(i0,i1){
+	proto["internalGet(I)I"] = function(i0){
 		var self = this;
-		throw new Error("NotImplemented: java/util/Calendar#set(II)V");
+		throw new Error("NotImplemented: java/util/Calendar#internalGet(I)I");
+	};
+	proto["set(II)V"] = function(i0,i1){
+		// FIXME
 	};
 	proto["set(III)V"] = function(i0,i1,i2){
 		var self = this;
@@ -11916,6 +12515,10 @@ Java["java/util/Calendar"] = Java.mkNativeClass(function(klass){
 	proto["getDisplayNames(IILjava/util/Locale;)Ljava/util/Map;"] = function(i0,i1,ref2){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Calendar#getDisplayNames(IILjava/util/Locale;)Ljava/util/Map;");
+	};
+	proto["complete()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Calendar#complete()V");
 	};
 	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
@@ -12221,16 +12824,13 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/StringBuilder");
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#<init>()V");
+		this.buf = "";
 	};
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#<init>(I)V");
+		this.buf = "";
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#<init>(Ljava/lang/String;)V");
+		this.buf = ref0.val;
 	};
 	proto["<init>(Ljava/lang/CharSequence;)V"] = function(ref0){
 		var self = this;
@@ -12241,8 +12841,8 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#append(Ljava/lang/Object;)Ljava/lang/StringBuilder;");
 	};
 	proto["append(Ljava/lang/String;)Ljava/lang/StringBuilder;"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;");
+		this.buf += ref0.val;
+		return this;
 	};
 	proto["append(Ljava/lang/StringBuffer;)Ljava/lang/StringBuilder;"] = function(ref0){
 		var self = this;
@@ -12269,8 +12869,7 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#append(Z)Ljava/lang/StringBuilder;");
 	};
 	proto["append(C)Ljava/lang/StringBuilder;"] = function(ch0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#append(C)Ljava/lang/StringBuilder;");
+		this.buf += String.fromCodePoint(ch0);
 	};
 	proto["append(I)Ljava/lang/StringBuilder;"] = function(i0){
 		var self = this;
@@ -12373,8 +12972,7 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#reverse()Ljava/lang/StringBuilder;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#toString()Ljava/lang/String;");
+		return Java.mkString(this.buf);
 	};
 	proto["reverse()Ljava/lang/AbstractStringBuilder;"] = function(){
 		var self = this;
@@ -12537,8 +13135,7 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#charAt(I)C");
 	};
 	proto["setLength(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#setLength(I)V");
+		this.buf = this.buf.substring(0, i0);
 	};
 	proto["trimToSize()V"] = function(){
 		var self = this;
@@ -12626,6 +13223,10 @@ Java["java/util/AbstractMap"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/util/Map"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/AbstractMap");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractMap#<init>()V");
+	};
 	proto["size()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/util/AbstractMap#size()I");
@@ -12683,6 +13284,10 @@ Java["java/util/AbstractMap"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/AbstractMap#toString()Ljava/lang/String;");
 	};
+	proto["clone()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractMap#clone()Ljava/lang/Object;");
+	};
 
 });
 
@@ -12693,6 +13298,14 @@ Java["java/io/Reader"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/lang/Readable"](), Java["java/io/Closeable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/io/Reader");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/Reader#<init>()V");
+	};
+	proto["<init>(Ljava/lang/Object;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/Reader#<init>(Ljava/lang/Object;)V");
+	};
 	proto["read(Ljava/nio/CharBuffer;)I"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/io/Reader#read(Ljava/nio/CharBuffer;)I");
@@ -12761,6 +13374,10 @@ Java["java/util/AbstractSet"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/util/Set"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/AbstractSet");
 
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/AbstractSet#<init>()V");
+	};
 	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/AbstractSet#equals(Ljava/lang/Object;)Z");
@@ -12783,13 +13400,6 @@ Java["java/lang/Cloneable"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 });
 
-//"java/io/Serializable"
-Java["java/io/Serializable"] = Java.mkNativeClass(function(klass){
-	var proto = klass.prototype = {};
-	proto.constructor = klass;
-	klass["__interfaces__"] = [];
-});
-
 //"java/io/ObjectOutputStream"
 Java["java/io/ObjectOutputStream"] = Java.mkNativeClass(function(klass){
 	var proto = klass.prototype = Object.create(Java["java/io/OutputStream"]().prototype);
@@ -12801,6 +13411,10 @@ Java["java/io/ObjectOutputStream"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectOutputStream#<init>(Ljava/io/OutputStream;)V");
 	};
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#<init>()V");
+	};
 	proto["useProtocolVersion(I)V"] = function(i0){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectOutputStream#useProtocolVersion(I)V");
@@ -12808,6 +13422,10 @@ Java["java/io/ObjectOutputStream"] = Java.mkNativeClass(function(klass){
 	proto["writeObject(Ljava/lang/Object;)V"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectOutputStream#writeObject(Ljava/lang/Object;)V");
+	};
+	proto["writeObjectOverride(Ljava/lang/Object;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#writeObjectOverride(Ljava/lang/Object;)V");
 	};
 	proto["writeUnshared(Ljava/lang/Object;)V"] = function(ref0){
 		var self = this;
@@ -12829,6 +13447,30 @@ Java["java/io/ObjectOutputStream"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectOutputStream#reset()V");
 	};
+	proto["annotateClass(Ljava/lang/Class;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#annotateClass(Ljava/lang/Class;)V");
+	};
+	proto["annotateProxyClass(Ljava/lang/Class;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#annotateProxyClass(Ljava/lang/Class;)V");
+	};
+	proto["replaceObject(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#replaceObject(Ljava/lang/Object;)Ljava/lang/Object;");
+	};
+	proto["enableReplaceObject(Z)Z"] = function(b0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#enableReplaceObject(Z)Z");
+	};
+	proto["writeStreamHeader()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#writeStreamHeader()V");
+	};
+	proto["writeClassDescriptor(Ljava/io/ObjectStreamClass;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#writeClassDescriptor(Ljava/io/ObjectStreamClass;)V");
+	};
 	proto["write(I)V"] = function(i0){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectOutputStream#write(I)V");
@@ -12844,6 +13486,10 @@ Java["java/io/ObjectOutputStream"] = Java.mkNativeClass(function(klass){
 	proto["flush()V"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectOutputStream#flush()V");
+	};
+	proto["drain()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectOutputStream#drain()V");
 	};
 	proto["close()V"] = function(){
 		var self = this;
@@ -12907,9 +13553,17 @@ Java["java/io/ObjectInputStream"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectInputStream#<init>(Ljava/io/InputStream;)V");
 	};
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#<init>()V");
+	};
 	proto["readObject()Ljava/lang/Object;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectInputStream#readObject()Ljava/lang/Object;");
+	};
+	proto["readObjectOverride()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#readObjectOverride()Ljava/lang/Object;");
 	};
 	proto["readUnshared()Ljava/lang/Object;"] = function(){
 		var self = this;
@@ -12926,6 +13580,30 @@ Java["java/io/ObjectInputStream"] = Java.mkNativeClass(function(klass){
 	proto["registerValidation(Ljava/io/ObjectInputValidation;I)V"] = function(ref0,i1){
 		var self = this;
 		throw new Error("NotImplemented: java/io/ObjectInputStream#registerValidation(Ljava/io/ObjectInputValidation;I)V");
+	};
+	proto["resolveClass(Ljava/io/ObjectStreamClass;)Ljava/lang/Class;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#resolveClass(Ljava/io/ObjectStreamClass;)Ljava/lang/Class;");
+	};
+	proto["resolveProxyClass([Ljava/lang/String;)Ljava/lang/Class;"] = function(arr_ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#resolveProxyClass([Ljava/lang/String;)Ljava/lang/Class;");
+	};
+	proto["resolveObject(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#resolveObject(Ljava/lang/Object;)Ljava/lang/Object;");
+	};
+	proto["enableResolveObject(Z)Z"] = function(b0){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#enableResolveObject(Z)Z");
+	};
+	proto["readStreamHeader()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#readStreamHeader()V");
+	};
+	proto["readClassDescriptor()Ljava/io/ObjectStreamClass;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/io/ObjectInputStream#readClassDescriptor()Ljava/io/ObjectStreamClass;");
 	};
 	proto["read()I"] = function(){
 		var self = this;
@@ -13025,6 +13703,10 @@ Java["java/util/Random"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Random#setSeed(J)V");
 	};
+	proto["next(I)I"] = function(i0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/Random#next(I)I");
+	};
 	proto["nextBytes([B)V"] = function(arr_sb0){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Random#nextBytes([B)V");
@@ -13067,9 +13749,9 @@ Java["java/lang/Object"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/lang/Object");
 
+	var id = 0;
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Object#<init>()V");
+		this.__id__ = id++;
 	};
 	proto["getClass()Ljava/lang/Class;"] = function(){
 		var self = this;
@@ -13077,13 +13759,15 @@ Java["java/lang/Object"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Object#getClass()Ljava/lang/Class;");
 	};
 	proto["hashCode()I"] = function(){
-		var self = this;
-		/* Native Method */
-		throw new Error("NotImplemented: java/lang/Object#hashCode()I");
+		return this.__id__;
 	};
 	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
+		return (this.__id__ === ref0.__id__) ? 1 : 0;
+	};
+	proto["clone()Ljava/lang/Object;"] = function(){
 		var self = this;
-		throw new Error("NotImplemented: java/lang/Object#equals(Ljava/lang/Object;)Z");
+		/* Native Method */
+		throw new Error("NotImplemented: java/lang/Object#clone()Ljava/lang/Object;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
 		var self = this;
@@ -13106,6 +13790,10 @@ Java["java/lang/Object"] = Java.mkNativeClass(function(klass){
 	};
 	proto["wait(JI)V"] = null;
 	proto["wait()V"] = null;
+	proto["finalize()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Object#finalize()V");
+	};
 
 });
 
@@ -13129,8 +13817,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#<init>([C)V");
 	};
 	proto["<init>([CII)V"] = function(arr_ch0,i1,i2){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#<init>([CII)V");
+		this.val = String.fromCodePoint.apply(null, (arr_ch0.slice(i1,i1+i2)));
 	};
 	proto["<init>([III)V"] = function(arr_i0,i1,i2){
 		var self = this;
@@ -13177,16 +13864,14 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#<init>(Ljava/lang/StringBuilder;)V");
 	};
 	proto["length()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#length()I");
+		return this.val.length;
 	};
 	proto["isEmpty()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/String#isEmpty()Z");
 	};
 	proto["charAt(I)C"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#charAt(I)C");
+		return this.val.charCodeAt(i0);
 	};
 	proto["codePointAt(I)I"] = function(i0){
 		var self = this;
@@ -13225,8 +13910,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#getBytes()[B");
 	};
 	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#equals(Ljava/lang/Object;)Z");
+		return (ref0.val === this.val) ? 1 : 0;
 	};
 	proto["contentEquals(Ljava/lang/StringBuffer;)Z"] = function(ref0){
 		var self = this;
@@ -13260,18 +13944,22 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/String#startsWith(Ljava/lang/String;I)Z");
 	};
-	proto["startsWith(Ljava/lang/String;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#startsWith(Ljava/lang/String;)Z");
-	};
-	proto["endsWith(Ljava/lang/String;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#endsWith(Ljava/lang/String;)Z");
-	};
-	proto["hashCode()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#hashCode()I");
-	};
+    proto["startsWith(Ljava/lang/String;)Z"] = function(ref0){
+        return this.val.startsWith(ref0.val) ? 1 : 0;
+    };
+    proto["endsWith(Ljava/lang/String;)Z"] = function(ref0){
+        return this.val.endsWith(ref0.val) ? 1 : 0;
+    };
+    proto["hashCode()I"] = function(){
+        var hash = 0, i, chr, len;
+        if (this.val.length == 0) return 0;
+        for (i = 0, len = this.val.length; i < len; i++) {
+            chr   = this.val.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash |= 0;
+        }
+        return hash;
+    };
 	proto["indexOf(I)I"] = function(i0){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/String#indexOf(I)I");
@@ -13309,8 +13997,7 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/String#substring(I)Ljava/lang/String;");
 	};
 	proto["substring(II)Ljava/lang/String;"] = function(i0,i1){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#substring(II)Ljava/lang/String;");
+		return Java.mkString(this.val.substring(i0, i1));
 	};
 	proto["subSequence(II)Ljava/lang/CharSequence;"] = function(i0,i1){
 		var self = this;
@@ -13376,10 +14063,13 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/String#toString()Ljava/lang/String;");
 	};
-	proto["toCharArray()[C"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/String#toCharArray()[C");
-	};
+    proto["toCharArray()[C"] = function(){
+        var r = [];
+        for (var i=0;i<this.val.length; i++){
+            r.push(this.val.charCodeAt(i));
+        }
+        return r;
+    };
 	klass["format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"] = function(ref0,arr_ref1){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;");
@@ -13412,10 +14102,10 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/String#valueOf(Z)Ljava/lang/String;");
 	};
-	klass["valueOf(C)Ljava/lang/String;"] = function(ch0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/String#valueOf(C)Ljava/lang/String;");
-	};
+    klass["valueOf(C)Ljava/lang/String;"] = function(ch0){
+        var str = String.fromCodePoint(ch0);
+        return Java.mkString(str);
+    };
 	klass["valueOf(I)Ljava/lang/String;"] = function(i0){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/String#valueOf(I)Ljava/lang/String;");
@@ -13432,11 +14122,17 @@ Java["java/lang/String"] = Java.mkNativeClass(function(klass){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/String#valueOf(D)Ljava/lang/String;");
 	};
-	proto["intern()Ljava/lang/String;"] = function(){
-		var self = this;
-		/* Native Method */
-		throw new Error("NotImplemented: java/lang/String#intern()Ljava/lang/String;");
-	};
+    var strPool = {};
+    var hasOwn = Object.prototype.hasOwnProperty;
+    proto["intern()Ljava/lang/String;"] = function(){
+        var str = this.val;
+        if(hasOwn.call(strPool,str)){
+            return strPool[str];
+        }else{
+            strPool[str] = this;
+            return this;
+        }
+    };
 	proto["compareTo(Ljava/lang/Object;)I"] = function(ref0){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/String#compareTo(Ljava/lang/Object;)I");
@@ -13482,9 +14178,7 @@ Java["java/lang/System"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/System#getSecurityManager()Ljava/lang/SecurityManager;");
 	};
 	klass["currentTimeMillis()J"] = function(){
-		var self = null;
-		/* Native Method */
-		throw new Error("NotImplemented: java/lang/System#currentTimeMillis()J");
+		return Java.mkLongFromDouble(new Date().getTime());
 	};
 	klass["nanoTime()J"] = function(){
 		var self = null;
@@ -13501,6 +14195,8 @@ Java["java/lang/System"] = Java.mkNativeClass(function(klass){
 		/* Native Method */
 		throw new Error("NotImplemented: java/lang/System#identityHashCode(Ljava/lang/Object;)I");
 	};
+	klass.prop = {};
+	var hasOwn = klass.prop.hasOwnProperty;
 	klass["getProperties()Ljava/util/Properties;"] = function(){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/System#getProperties()Ljava/util/Properties;");
@@ -13518,8 +14214,11 @@ Java["java/lang/System"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/System#getProperty(Ljava/lang/String;)Ljava/lang/String;");
 	};
 	klass["getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/System#getProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;");
+		if(hasOwn.call(klass.prop, ref0.val)) {
+			return klass.prop[ref0.val];
+		}else{
+			return ref1;
+		}
 	};
 	klass["setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"] = function(ref0,ref1){
 		var self = null;
@@ -13616,12 +14315,12 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#valueOf(Ljava/lang/String;)Ljava/lang/Integer;");
 	};
 	klass["valueOf(I)Ljava/lang/Integer;"] = function(i0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Integer#valueOf(I)Ljava/lang/Integer;");
+		var obj = new klass;
+		obj.val = i0;
+		return obj;
 	};
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Integer#<init>(I)V");
+		this.val = i0;
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
 		var self = this;
@@ -13636,8 +14335,7 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#shortValue()S");
 	};
 	proto["intValue()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Integer#intValue()I");
+		return this.val;
 	};
 	proto["longValue()J"] = function(){
 		var self = this;
@@ -13667,10 +14365,15 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/Integer#getInteger(Ljava/lang/String;)Ljava/lang/Integer;");
 	};
-	klass["getInteger(Ljava/lang/String;I)Ljava/lang/Integer;"] = function(ref0,i1){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Integer#getInteger(Ljava/lang/String;I)Ljava/lang/Integer;");
-	};
+    klass["getInteger(Ljava/lang/String;I)Ljava/lang/Integer;"] = function(ref0,i1){
+        var sys = Java["java/lang/System"]();
+        if(sys.prop.hasOwnProperty(ref0)){
+            i1 = parseInt(sys.prop[ref0]);
+        }
+        var obj = new klass();
+        obj.val = i1;
+        return obj;
+    };
 	klass["getInteger(Ljava/lang/String;Ljava/lang/Integer;)Ljava/lang/Integer;"] = function(ref0,ref1){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/Integer#getInteger(Ljava/lang/String;Ljava/lang/Integer;)Ljava/lang/Integer;");
@@ -13763,29 +14466,26 @@ Java["java/lang/Double"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Double#valueOf(Ljava/lang/String;)Ljava/lang/Double;");
 	};
 	klass["valueOf(D)Ljava/lang/Double;"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Double#valueOf(D)Ljava/lang/Double;");
+		var obj = new klass();
+		obj.val = db0;
+		return obj;
 	};
 	klass["parseDouble(Ljava/lang/String;)D"] = function(ref0){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/Double#parseDouble(Ljava/lang/String;)D");
 	};
-	klass["isNaN(D)Z"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Double#isNaN(D)Z");
-	};
-	klass["isInfinite(D)Z"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Double#isInfinite(D)Z");
-	};
+    klass["isNaN(D)Z"] = function(db0){
+        return (db0 === db0) ? 0 : 1;
+    };
+    klass["isInfinite(D)Z"] = function(db0){
+        return (db0 === db0/0)?1:0;
+    };
 	proto["<init>(D)V"] = function(db0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#<init>(D)V");
+		this.val = db0;
 	};
-	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#<init>(Ljava/lang/String;)V");
-	};
+    proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+        this.val = parseFloat(ref0.val);
+    };
 	proto["isNaN()Z"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Double#isNaN()Z");
@@ -13811,28 +14511,28 @@ Java["java/lang/Double"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Double#intValue()I");
 	};
 	proto["longValue()J"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#longValue()J");
+		return Java.mkLongFromDouble(this.val);
 	};
 	proto["floatValue()F"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Double#floatValue()F");
 	};
 	proto["doubleValue()D"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#doubleValue()D");
+		return this.val;
 	};
 	proto["hashCode()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/lang/Double#hashCode()I");
 	};
 	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#equals(Ljava/lang/Object;)Z");
+        if(ref0.constructor === this.constructor){
+            return (ref0.val === this.val) ? 1 : 0;
+        }else{
+            return 0;
+        }
 	};
 	klass["doubleToLongBits(D)J"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Double#doubleToLongBits(D)J");
+		return Java.Long.ZERO; //FIXME
 	};
 	klass["doubleToRawLongBits(D)J"] = function(db0){
 		var self = null;
@@ -13965,28 +14665,22 @@ Java["java/util/Collections"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/Collections#unmodifiableSortedMap(Ljava/util/SortedMap;)Ljava/util/SortedMap;");
 	};
 	klass["synchronizedCollection(Ljava/util/Collection;)Ljava/util/Collection;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/Collections#synchronizedCollection(Ljava/util/Collection;)Ljava/util/Collection;");
+		return ref0;
 	};
 	klass["synchronizedSet(Ljava/util/Set;)Ljava/util/Set;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/Collections#synchronizedSet(Ljava/util/Set;)Ljava/util/Set;");
+		return ref0;
 	};
 	klass["synchronizedSortedSet(Ljava/util/SortedSet;)Ljava/util/SortedSet;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/Collections#synchronizedSortedSet(Ljava/util/SortedSet;)Ljava/util/SortedSet;");
+		return ref0;
 	};
 	klass["synchronizedList(Ljava/util/List;)Ljava/util/List;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/Collections#synchronizedList(Ljava/util/List;)Ljava/util/List;");
+		return ref0;
 	};
 	klass["synchronizedMap(Ljava/util/Map;)Ljava/util/Map;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/Collections#synchronizedMap(Ljava/util/Map;)Ljava/util/Map;");
+		return ref0;
 	};
 	klass["synchronizedSortedMap(Ljava/util/SortedMap;)Ljava/util/SortedMap;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/Collections#synchronizedSortedMap(Ljava/util/SortedMap;)Ljava/util/SortedMap;");
+		return ref0;
 	};
 	klass["checkedCollection(Ljava/util/Collection;Ljava/lang/Class;)Ljava/util/Collection;"] = function(ref0,ref1){
 		var self = null;
@@ -14105,12 +14799,11 @@ Java["java/text/Collator"] = Java.mkNativeClass(function(klass){
 	klass["CANONICAL_DECOMPOSITION"] = (1);
 	klass["FULL_DECOMPOSITION"] = (2);
 	klass["getInstance()Ljava/text/Collator;"] = function(){
-		var self = null;
-		throw new Error("NotImplemented: java/text/Collator#getInstance()Ljava/text/Collator;");
+		return singleton;
 	};
+	var singleton = new klass();
 	klass["getInstance(Ljava/util/Locale;)Ljava/text/Collator;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/text/Collator#getInstance(Ljava/util/Locale;)Ljava/text/Collator;");
+		return singleton;
 	};
 	proto["compare(Ljava/lang/String;Ljava/lang/String;)I"] = null;
 	proto["compare(Ljava/lang/Object;Ljava/lang/Object;)I"] = null;
@@ -14148,6 +14841,10 @@ Java["java/text/Collator"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/text/Collator#equals(Ljava/lang/Object;)Z");
 	};
 	proto["hashCode()I"] = null;
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/text/Collator#<init>()V");
+	};
 
 });
 
@@ -14164,8 +14861,7 @@ Java["java/util/GregorianCalendar"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/GregorianCalendar#<init>()V");
 	};
 	proto["<init>(Ljava/util/TimeZone;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/GregorianCalendar#<init>(Ljava/util/TimeZone;)V");
+		this.date = new Date();
 	};
 	proto["<init>(Ljava/util/Locale;)V"] = function(ref0){
 		var self = this;
@@ -14271,6 +14967,14 @@ Java["java/util/GregorianCalendar"] = Java.mkNativeClass(function(klass){
 		var self = this;
 		throw new Error("NotImplemented: java/util/GregorianCalendar#getWeeksInWeekYear()I");
 	};
+	proto["computeFields()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/GregorianCalendar#computeFields()V");
+	};
+	proto["computeTime()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/GregorianCalendar#computeTime()V");
+	};
 
 });
 
@@ -14290,8 +14994,9 @@ Java["java/util/regex/Pattern"] = Java.mkNativeClass(function(klass){
 	klass["CANON_EQ"] = (128);
 	klass["UNICODE_CHARACTER_CLASS"] = (256);
 	klass["compile(Ljava/lang/String;)Ljava/util/regex/Pattern;"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/util/regex/Pattern#compile(Ljava/lang/String;)Ljava/util/regex/Pattern;");
+		var obj = new (Java["java/util/regex/Pattern"]())();
+		obj.pat = new RegExp(ref0.val);
+		return obj;
 	};
 	klass["compile(Ljava/lang/String;I)Ljava/util/regex/Pattern;"] = function(ref0,i1){
 		var self = null;
@@ -14338,22 +15043,19 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(kla
 	proto.constructor = klass;
 	klass["__interfaces__"] = [Java["java/util/concurrent/ConcurrentMap"](), Java["java/io/Serializable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/concurrent/ConcurrentHashMap");
+	var hasOwn = {}.hasOwnProperty;
 
 	proto["<init>(IFI)V"] = function(i0,flt1,i2){
-		var self = this;
-		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>(IFI)V");
+		this.map = {};
 	};
 	proto["<init>(IF)V"] = function(i0,flt1){
-		var self = this;
-		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>(IF)V");
+		this.map = {};
 	};
 	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>(I)V");
+		this.map = {};
 	};
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#<init>()V");
+		this.map = {};
 	};
 	proto["<init>(Ljava/util/Map;)V"] = function(ref0){
 		var self = this;
@@ -14368,8 +15070,10 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(kla
 		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#size()I");
 	};
 	proto["get(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#get(Ljava/lang/Object;)Ljava/lang/Object;");
+		if(hasOwn.call(this.map, ref0)){
+			return ref0;
+		}
+		return null;
 	};
 	proto["containsKey(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
@@ -14384,8 +15088,12 @@ Java["java/util/concurrent/ConcurrentHashMap"] = Java.mkNativeClass(function(kla
 		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#contains(Ljava/lang/Object;)Z");
 	};
 	proto["put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
-		var self = this;
-		throw new Error("NotImplemented: java/util/concurrent/ConcurrentHashMap#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+		var old = null;
+		if(this.map.hasOwnProperty(ref0)){
+			old = this.map[ref0];
+		}
+		this.map[ref0] = ref1;
+		return old;
 	};
 	proto["putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
 		var self = this;
@@ -14445,42 +15153,47 @@ Java["java/io/StringReader"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [];
 	proto["__class__"] = Java.mkClassObj(klass, "java/io/StringReader");
 
-	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#<init>(Ljava/lang/String;)V");
-	};
-	proto["read()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#read()I");
-	};
-	proto["read([CII)I"] = function(arr_ch0,i1,i2){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#read([CII)I");
-	};
-	proto["skip(J)J"] = function(l0){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#skip(J)J");
-	};
-	proto["ready()Z"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#ready()Z");
-	};
-	proto["markSupported()Z"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#markSupported()Z");
-	};
-	proto["mark(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#mark(I)V");
-	};
-	proto["reset()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#reset()V");
-	};
-	proto["close()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#close()V");
-	};
+    proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+        this.buf = ref0.val;
+        this.ptr = 0;
+    };
+    proto["read()I"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/io/StringReader#read()I");
+    };
+    proto["read([CII)I"] = function(arr_ch0,i1,i2){
+        if(this.buf.length === this.ptr){
+            return -1;
+        }
+        var len = Math.min(this.buf.length - this.ptr, i2);
+        for(var i=0;i<len;i++){
+            arr_ch0[i+i1] = this.buf.charCodeAt(i+this.ptr);
+        }
+        this.ptr += len;
+        return len;
+    };
+    proto["skip(J)J"] = function(l0){
+        var self = this;
+        throw new Error("NotImplemented: java/io/StringReader#skip(J)J");
+    };
+    proto["ready()Z"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/io/StringReader#ready()Z");
+    };
+    proto["markSupported()Z"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/io/StringReader#markSupported()Z");
+    };
+    proto["mark(I)V"] = function(i0){
+        var self = this;
+        throw new Error("NotImplemented: java/io/StringReader#mark(I)V");
+    };
+    proto["reset()V"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/io/StringReader#reset()V");
+    };
+    proto["close()V"] = function(){
+    };
 
 });
 
@@ -14491,50 +15204,52 @@ Java["java/util/HashSet"] = Java.mkNativeClass(function(klass){
 	klass["__interfaces__"] = [Java["java/util/Set"](), Java["java/lang/Cloneable"](), Java["java/io/Serializable"]()];
 	proto["__class__"] = Java.mkClassObj(klass, "java/util/HashSet");
 
-	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#<init>()V");
-	};
-	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#<init>(Ljava/util/Collection;)V");
-	};
-	proto["<init>(IF)V"] = function(i0,flt1){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#<init>(IF)V");
-	};
-	proto["<init>(I)V"] = function(i0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#<init>(I)V");
-	};
-	proto["iterator()Ljava/util/Iterator;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#iterator()Ljava/util/Iterator;");
-	};
-	proto["size()I"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#size()I");
-	};
-	proto["isEmpty()Z"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#isEmpty()Z");
-	};
-	proto["contains(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#contains(Ljava/lang/Object;)Z");
-	};
-	proto["add(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#add(Ljava/lang/Object;)Z");
-	};
-	proto["remove(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#remove(Ljava/lang/Object;)Z");
-	};
-	proto["clear()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#clear()V");
-	};
+    proto["<init>()V"] = function(){
+        this.set = {};
+        this.size = 0;
+    };
+    proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#<init>(Ljava/util/Collection;)V");
+    };
+    proto["<init>(IF)V"] = function(i0,flt1){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#<init>(IF)V");
+    };
+    proto["<init>(I)V"] = function(i0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#<init>(I)V");
+    };
+    proto["iterator()Ljava/util/Iterator;"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#iterator()Ljava/util/Iterator;");
+    };
+    proto["size()I"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#size()I");
+    };
+    proto["isEmpty()Z"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#isEmpty()Z");
+    };
+    proto["contains(Ljava/lang/Object;)Z"] = function(ref0){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#contains(Ljava/lang/Object;)Z");
+    };
+    proto["add(Ljava/lang/Object;)Z"] = function(ref0){
+        var has = Object.prototype.hasOwnProperty(this.set, ref0);
+        this.set[ref0] = true;
+        return has;
+    };
+    proto["remove(Ljava/lang/Object;)Z"] = function(ref0){
+        var has = Object.prototype.hasOwnProperty(this.set, ref0);
+        delete this.set[ref0];
+        return has;
+    };
+    proto["clear()V"] = function(){
+        var self = this;
+        throw new Error("NotImplemented: java/util/HashSet#clear()V");
+    };
 	proto["clone()Ljava/lang/Object;"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/util/HashSet#clone()Ljava/lang/Object;");
@@ -14587,16 +15302,13 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Math#exp(D)D");
 	};
 	klass["log(D)D"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#log(D)D");
+		return Math.log(db0);
 	};
 	klass["log10(D)D"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#log10(D)D");
+		return Math.log10(db0);
 	};
 	klass["sqrt(D)D"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#sqrt(D)D");
+		return Math.sqrt(db0);
 	};
 	klass["cbrt(D)D"] = function(db0){
 		var self = null;
@@ -14611,8 +15323,7 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Math#ceil(D)D");
 	};
 	klass["floor(D)D"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#floor(D)D");
+		return Math.floor(db0);
 	};
 	klass["rint(D)D"] = function(db0){
 		var self = null;
@@ -14623,8 +15334,7 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Math#atan2(DD)D");
 	};
 	klass["pow(DD)D"] = function(db0,db1){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#pow(DD)D");
+		return Math.pow(db0, db1);
 	};
 	klass["round(F)I"] = function(flt0){
 		var self = null;
@@ -14655,8 +15365,7 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Math#abs(D)D");
 	};
 	klass["max(II)I"] = function(i0,i1){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#max(II)I");
+		return Math.max(i0, i1);
 	};
 	klass["max(JJ)J"] = function(l0,l1){
 		var self = null;
@@ -14765,6 +15474,136 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 	klass["scalb(FI)F"] = function(flt0,i1){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/Math#scalb(FI)F");
+	};
+
+});
+
+//"java/io/Serializable"
+Java["java/io/Serializable"] = Java.mkNativeClass(function(klass){
+	var proto = klass.prototype = {};
+	proto.constructor = klass;
+	klass["__interfaces__"] = [];
+});
+
+//"java/util/HashMap$Entry"
+Java["java/util/HashMap$Entry"] = Java.mkNativeClass(function(klass){
+	var proto = klass.prototype = Object.create(Java["java/lang/Object"]().prototype);
+	proto.constructor = klass;
+	klass["__interfaces__"] = [Java["java/util/Map$Entry"]()];
+	proto["__class__"] = Java.mkClassObj(klass, "java/util/HashMap$Entry");
+
+	proto["getKey()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap$Entry#getKey()Ljava/lang/Object;");
+	};
+	proto["getValue()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap$Entry#getValue()Ljava/lang/Object;");
+	};
+	proto["setValue(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap$Entry#setValue(Ljava/lang/Object;)Ljava/lang/Object;");
+	};
+	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap$Entry#equals(Ljava/lang/Object;)Z");
+	};
+	proto["hashCode()I"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap$Entry#hashCode()I");
+	};
+	proto["toString()Ljava/lang/String;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap$Entry#toString()Ljava/lang/String;");
+	};
+
+});
+
+//"java/util/HashMap"
+Java["java/util/HashMap"] = Java.mkNativeClass(function(klass){
+	var proto = klass.prototype = Object.create(Java["java/util/AbstractMap"]().prototype);
+	proto.constructor = klass;
+	klass["__interfaces__"] = [Java["java/util/Map"](), Java["java/lang/Cloneable"](), Java["java/io/Serializable"]()];
+	proto["__class__"] = Java.mkClassObj(klass, "java/util/HashMap");
+	var hasOwn = {}.hasOwnProperty;
+
+	proto["<init>(IF)V"] = function(i0,flt1){
+		this.map = {};
+	};
+	proto["<init>(I)V"] = function(i0){
+		this.map = {};
+	};
+	proto["<init>()V"] = function(){
+		this.map = {};
+	};
+	proto["<init>(Ljava/util/Map;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#<init>(Ljava/util/Map;)V");
+	};
+	proto["size()I"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#size()I");
+	};
+	proto["isEmpty()Z"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#isEmpty()Z");
+	};
+	proto["get(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
+		var key = JSON.stringify(ref0);
+		if(hasOwn.call(this.map, key)){
+			return this.map[key];
+		}else{
+			return null;
+		}
+	};
+	proto["containsKey(Ljava/lang/Object;)Z"] = function(ref0){
+		var key = JSON.stringify(ref0);
+		if(hasOwn.call(this.map, key)){
+			return 1;
+		}else{
+			return 0;
+		}
+	};
+	proto["put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0,ref1){
+		var key = JSON.stringify(ref0);
+		var old = null;
+		if(hasOwn.call(this.map, key)){
+			old = this.map[key];
+		}
+		this.map[key] = ref1;
+		return old;
+	};
+	proto["putAll(Ljava/util/Map;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#putAll(Ljava/util/Map;)V");
+	};
+	proto["remove(Ljava/lang/Object;)Ljava/lang/Object;"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#remove(Ljava/lang/Object;)Ljava/lang/Object;");
+	};
+	proto["clear()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#clear()V");
+	};
+	proto["containsValue(Ljava/lang/Object;)Z"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#containsValue(Ljava/lang/Object;)Z");
+	};
+	proto["clone()Ljava/lang/Object;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#clone()Ljava/lang/Object;");
+	};
+	proto["keySet()Ljava/util/Set;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#keySet()Ljava/util/Set;");
+	};
+	proto["values()Ljava/util/Collection;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#values()Ljava/util/Collection;");
+	};
+	proto["entrySet()Ljava/util/Set;"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/util/HashMap#entrySet()Ljava/util/Set;");
 	};
 
 });

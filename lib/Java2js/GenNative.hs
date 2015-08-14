@@ -37,7 +37,7 @@ interfaceTemplate = template "\
 
 methodTemplate = template "function(${args}){\n\t\t${self}\n${impl}\t}"
 
-isVisibleMethod meth = and [ S.member ACC_PUBLIC (methodAccessFlags meth), methodName meth /= "<clinit>"]
+isVisibleMethod meth = and [ or [S.member ACC_PUBLIC (methodAccessFlags meth), S.member ACC_PROTECTED (methodAccessFlags meth)], methodName meth /= "<clinit>"]
 isStaticMethod meth = S.member ACC_STATIC (methodAccessFlags meth)
 
 isVisibleField meth = S.member ACC_PUBLIC (fieldAccessFlags meth)
