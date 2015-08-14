@@ -14753,8 +14753,7 @@ Java["java/lang/StringBuffer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuffer#<init>(I)V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#<init>(Ljava/lang/String;)V");
+		this.buf = ref0.val;
 	};
 	proto["<init>(Ljava/lang/CharSequence;)V"] = function(ref0){
 		var self = this;
@@ -18568,16 +18567,14 @@ Java["java/lang/Math"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Math#abs(D)D");
 	};
 	klass["max(II)I"] = function(i0,i1){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#max(II)I");
+		return Math.max(i0, i1);
 	};
 	klass["max(JJ)J"] = function(l0,l1){
 		var self = null;
 		throw new Error("NotImplemented: java/lang/Math#max(JJ)J");
 	};
 	klass["max(FF)F"] = function(flt0,flt1){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#max(FF)F");
+		return Math.max(flt0, flt1);
 	};
 	klass["max(DD)D"] = function(db0,db1){
 		var self = null;
