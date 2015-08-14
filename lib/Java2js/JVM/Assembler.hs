@@ -274,10 +274,10 @@ data Instruction =
   | MONITOREXIT            -- ^ 195
   -- | WIDE Word8 Instruction -- ^ 196
   | MULTINANEWARRAY Word16 Word8 -- ^ 197
-  | IFNULL Word16          -- ^ 198
-  | IFNONNULL Word16       -- ^ 199
-  | GOTO_W Word32          -- ^ 200
-  | JSR_W Word32           -- ^ 201
+  | IFNULL Int16          -- ^ 198
+  | IFNONNULL Int16       -- ^ 199
+  | GOTO_W Int32          -- ^ 200
+  | JSR_W Int32           -- ^ 201
   deriving (Eq, Show)
 
 -- | JVM array type (primitive types)

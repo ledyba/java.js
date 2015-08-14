@@ -14408,8 +14408,8 @@ Java["java/lang/StringBuilder"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/StringBuilder#<init>(Ljava/lang/CharSequence;)V");
 	};
 	proto["append(Ljava/lang/Object;)Ljava/lang/StringBuilder;"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuilder#append(Ljava/lang/Object;)Ljava/lang/StringBuilder;");
+		this.buf += (ref0["toString()Ljava/lang/String;"]()).val;
+		return this;
 	};
 	proto["append(Ljava/lang/String;)Ljava/lang/StringBuilder;"] = function(ref0){
 		this.buf += ref0.val;
