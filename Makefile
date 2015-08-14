@@ -22,3 +22,12 @@ gen:
 			java/util/HashSet \
 			java/lang/Math \
 			runtime/rt.js
+
+pi:
+	cabal run build \
+			sample/pi/Pi.class \
+			sample/pi/pi.js
+	cabal run gen \
+			sample/rt.jar \
+			java/lang/Object \
+			sample/pi/runtime.js

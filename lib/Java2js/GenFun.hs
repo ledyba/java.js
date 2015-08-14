@@ -409,7 +409,6 @@ methodTemplate = template "\
 \${body}\n\
 \\t\t}}catch(e){\n\
 \\t\t\t stack.push(e);\n\
-\console.log(e);\
 \${exceptions}\
 \\t\t\t throw e;\n\
 \\t\t}\n\

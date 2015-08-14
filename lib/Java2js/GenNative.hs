@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Java2js.GenNative(generateNativeKlass) where
+module Java2js.GenNative(generateNativeClass) where
 
 import Data.List (intercalate)
 import qualified Data.Map.Strict as M
@@ -17,13 +17,21 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
 
-klassTemplate = template "\
-\Java[\"${klassName}\"] = Java.mkNativeClass(function(klass){\n\
+classTemplate = template "\
+\Java[\"${className}\"] = Java.mkNativeClass(function(klass){\n\
 \\tvar proto = klass.prototype = ${proto};\n\
 \\tproto.constructor = klass;\n\
-\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
+\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
+\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${className}\");\n\
 \${fields}\n\
 \${methods}\n\
+\});\n\
+\"
+interfaceTemplate = template "\
+\Java[\"${className}\"] = Java.mkNativeClass(function(klass){\n\
+\\tvar proto = klass.prototype = {};\n\
+\\tproto.constructor = klass;\n\
+\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
 \});\n\
 \"
 
@@ -71,14 +79,16 @@ extractDepsFromType (ObjectType cls) = [cls]
 extractDepsFromType (Array _ ft) = extractDepsFromType ft
 extractDepsFromType _ = []
 
-generateNativeKlass :: Class Direct -> (String, [String])
-generateNativeKlass klass = (L.unpack $ render klassTemplate ctx, deps)
+generateNativeClass :: Class Direct -> (String, [String])
+generateNativeClass cls = (L.unpack $ render templ ctx, deps)
 			where
-				deps = concat [superClassDep, visibleFields >>= extractDepsFromField, classMethods klass >>= extractMethodDeps]
+				isInterface =S.member (ACC_INTERFACE) (accessFlags cls)
+				templ = if isInterface then interfaceTemplate else classTemplate
+				deps = concat [superClassDep, visibleFields >>= extractDepsFromField, classMethods cls >>= extractMethodDeps]
 				superClassDep = if name == [] then [] else [name]
 					where name = T.unpack superClassName
-				visibleFields = filter isVisibleField (classFields klass)
-				visibleMethods = filter isVisibleMethod (classMethods klass)
+				visibleFields = filter isVisibleField (classFields cls)
+				visibleMethods = filter isVisibleMethod (classMethods cls)
 				extractDepsFromField fld = extractDepsFromType $ fieldSignature fld
 				extractMethodDeps meth = retDeps ++ (argts >>= extractDepsFromType)
 					where
@@ -86,15 +96,17 @@ generateNativeKlass klass = (L.unpack $ render klassTemplate ctx, deps)
 						retDeps = case rts of
 												ReturnsVoid -> []
 												Returns t -> extractDepsFromType t
-				superClassName = decodeUtf8 $ BL.toStrict $ superClass klass
-				ctx "klassName" = decodeUtf8 (BL.toStrict $ thisClass klass)
-				ctx "proto" = T.pack $ if (0 == T.length superClassName) then "{}" else "Object.create(Java["++(show superClassName)++"]().prototype)"
-				ctx "fields" = compileFields klass visibleFields
-				ctx "methods" = T.pack (foldl (\l meth -> l++"\t"++stored meth++"[\""++mangleMethod meth++"\"] = "++generateNativeMethod klass (meth,methodCode klass (methodName meth))++";\n") "" visibleMethods)
+				superClassName = decodeUtf8 $ BL.toStrict $ superClass cls
+				ctx "className" = decodeUtf8 (BL.toStrict $ thisClass cls)
+				ctx "proto" = T.pack $ if (0 == T.length superClassName || isInterface) then "{}" else "Object.create(Java["++(show superClassName)++"]().prototype)"
+				ctx "fields" = compileFields cls visibleFields
+				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "Java[\"",(decodeUtf8 f),T.pack "\"]()"]) (fmap BL.toStrict $ interfaces cls))
+				ctx "methods" = T.pack (foldl (\l meth -> l++"\t"++stored meth++"[\""++mangleMethod meth++"\"] = "++generateNativeMethod cls (meth,methodCode cls (methodName meth))++";\n") "" visibleMethods)
 												where
 													stored meth = if isStaticMethod meth then "klass" else "proto"
+				ctx k = error (show k)
 
-compileFields klass visibleFields = T.pack $ intercalate "\n" (fmap (\fld -> "\t"++stored fld++"["++(show (fieldName fld))++"] = "++compileConstant' (fieldConstant klass (fieldName fld))++";") visibleFields)
+compileFields cls visibleFields = T.pack $ intercalate "\n" (fmap (\fld -> "\t"++stored fld++"["++(show (fieldName fld))++"] = "++compileConstant' (fieldConstant cls (fieldName fld))++";") visibleFields)
 												where
 													compileConstant' Nothing = "null"
 													compileConstant' (Just s) = compileConstant s

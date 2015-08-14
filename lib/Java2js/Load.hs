@@ -33,7 +33,8 @@ entry2Direct (LoadedJAR _ cls) = return cls
 entry2Direct x = fail (show x)
 
 loadKlass :: Class Direct -> Klass
-loadKlass cls = Klass {
+loadKlass cls = Klass{
+	klassClass = cls,
 	klassName = unpack (thisClass cls),
 	superKlass = unpack (superClass cls),
 	fields = map extField (classFields cls),

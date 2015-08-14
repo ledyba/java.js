@@ -10,23 +10,30 @@ import Java2js.JVM.ClassFile
 import qualified Data.Set as S
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as L
+import qualified Data.ByteString.Lazy as BL
+import Data.Text.Encoding (decodeUtf8)
 
 klassTemplate = template "\
-\(function(){\n\
-\var klass = null;\n\
-\Java[\"${klassName}\"] = function(){\n\
-\if(klass === null){\n\
-\klass = function(){};\n\
-\var proto = klass.prototype = Object.create(Java[\"${superKlass}\"]().prototype);\n\
+\Java[\"${klassName}\"]=Java.mkClass(function(klass){\n\
+\var proto = klass.prototype = ${proto};\n\
 \proto.constructor = klass;\n\
+\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
+\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
+\\n\
 \${fields}\n\
 \${methods}\n\
-\proto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
 \${invokeClinit}\
-\}\n\
-\return klass;\n\
-\}\n\
-\})();\n\
+\});\n\
+\"
+
+interfaceTemplate = template "\
+\Java[\"${klassName}\"]=Java.mkClass(function(klass){\n\
+\var proto = klass.prototype = ${proto};\n\
+\proto.constructor = klass;\n\
+\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
+\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
+\${invokeClinit}\
+\});\n\
 \"
 
 initValue :: FieldType -> String
@@ -42,11 +49,13 @@ initValue (ObjectType _) = "null"
 initValue (Array _ _) = "null"
 
 compileKlass :: Klass -> String
-compileKlass klass = L.unpack $ render klassTemplate ctx
+compileKlass klass = L.unpack $ render (if isInterface then interfaceTemplate else klassTemplate) ctx
 			where
 				hasClinit = M.member "<clinit>()V" $ methods klass
+				isInterface = S.member ACC_INTERFACE (accessFlags $ klassClass $ klass)
+				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "Java[\"",(decodeUtf8 f),T.pack "\"]()"]) (fmap BL.toStrict $ interfaces (klassClass klass)))
 				ctx "klassName" = T.pack (klassName klass)
-				ctx "superKlass" = T.pack (superKlass klass)
+				ctx "proto" = T.pack $ if (isInterface || "" == (superKlass klass)) then "{}" else concat ["Object.create(Java[",(superKlass klass),"]().prototype)"]
 				ctx "fields" = compileFields klass
 				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()V\"].call(null);\n"
 																										else ""
@@ -54,6 +63,7 @@ compileKlass klass = L.unpack $ render klassTemplate ctx
 												where
 													stored meth = if S.member ACC_STATIC maccs then "klass" else "proto"
 																				where maccs = methodAccessFlags meth
+				ctx s = error (show s)
 
 compileFields klass = T.pack $ intercalate "\n" (fmap (\(name, (fld,constant)) -> stored fld++"[\""++name++"\"] = "++compileConstant' fld constant++";") (fields klass))
 												where

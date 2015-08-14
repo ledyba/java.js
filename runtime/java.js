@@ -44,6 +44,16 @@ var Java = {};
 			return kls;
 		};
 	};
+	Java.mkClass = function(genF){
+		var kls = null;
+		return function(){
+			if(kls === null){
+				kls = function(){};
+				genF(kls);
+			}
+			return kls;
+		};
+	};
 	Java.makeAAray = function(len){
 		var array = new Array(len);
 		var i=len; while (i) array[--i] = null;

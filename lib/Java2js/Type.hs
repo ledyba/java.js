@@ -6,6 +6,7 @@ import Java2js.JVM.Assembler
 import Java2js.JVM.ClassFile
 
 data Klass = Klass {
+		klassClass :: Class Direct,
 		klassName::String,
 		superKlass::String,
 		fields :: [(String, (Field Direct, Maybe (Constant Direct)))],

@@ -30,7 +30,7 @@ _main = do
 parseArguments args defTargetJS = parseArguments' args (return ()) [] [] defTargetJS
 	where
 		parseArguments' [] classPath  classFiles targetClass targetJS = (classPath, classFiles, targetClass, targetJS)
-		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isClass p) = parseArguments' left (classPath `mergeClassPath` addClassFile (dropExtension p)) (p:classFiles) targetClass targetJS
+		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isClass p) = parseArguments' left (classPath `mergeClassPath` addClassFile p) (p:classFiles) targetClass targetJS
 		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isJAR p) = parseArguments' left (classPath `mergeClassPath` addAllJAR p) (p:classFiles) targetClass targetJS
 		parseArguments' (p:left) classPath classFiles targetClass targetJS | (isJS p)= parseArguments' left classPath classFiles targetClass p
 		parseArguments' (p:left) classPath classFiles targetClass targetJS | otherwise = parseArguments' left classPath classFiles (p:targetClass) targetJS
@@ -50,7 +50,7 @@ build files = do
 	withFile targetJS WriteMode (\f -> mapM (hPutStrLn f) src)
 	putStrLn "All done, have fun."
 
-genWithDep [] entries loaded converted = return $ converted
+genWithDep [] entries loaded converted = return $ (converted, loaded)
 genWithDep (kls:left) entries loaded converted | (S.member kls loaded) = genWithDep left entries loaded converted
 genWithDep (kls:left) entries loaded converted | otherwise =
 																			do
@@ -62,7 +62,7 @@ genWithDep (kls:left) entries loaded converted | otherwise =
 																						fail $ "Class Not Found: "++ kls
 																					Just ent -> do
 																						cls <- entry2Direct ent
-																						let (compiled, deps) = generateNativeKlass cls
+																						let (compiled, deps) = generateNativeClass cls
 																						let sdeps = S.toList $ S.difference (S.fromList deps) loaded'
 																						let converted' = ("//"++show kls):compiled:converted
 																						if (length sdeps > 0) then
@@ -93,7 +93,8 @@ gen files = do
 	mapM (\fp -> putStrLn $ "Reading: "++fp) classFiles
 	mapM (\fp -> putStrLn $ "Target: "++fp) targetClass
 	putStrLn $ "Compile to: "++targetJS
-	src <- genWithDep targetClass entries loaded []
+	(src, loaded) <- genWithDep targetClass entries loaded []
+	putStrLn $ concat ["Total: ",show (S.size loaded)," classed loaded"]
 	withFile targetJS ReadWriteMode (\f -> hSeek f SeekFromEnd 0 >> mapM (hPutStrLn f) src)
 	putStrLn "All done, have fun."
 

@@ -17169,8 +17169,7 @@ Java["java/lang/Double"] = Java.mkNativeClass(function(klass){
 		this.val = db0;
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#<init>(Ljava/lang/String;)V");
+		this.val = parseFloat(ref0.val);
 	};
 	proto["isNaN()Z"] = function(){
 		var self = this;
