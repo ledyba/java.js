@@ -73,7 +73,7 @@ compileInst klass _ (LDC1 idx) = "stack.push("++compileConstant constant++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup (fromIntegral idx) pool
-compileInst klass _ (LDC2 idx) = "stack.push(null); stack.push("++compileConstant constant++");"
+compileInst klass _ (LDC2 idx) = "stack.push("++compileConstant constant++");"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup (fromIntegral idx) pool
@@ -230,7 +230,7 @@ compileInst _ _ (I2L) = "var a = stack.pop(); stack.push(null); stack.push(Java.
 
 compileInst _ _ (L2I) = "var a = stack.pop(); stack.pop(); stack.push(a.intValue());"
 compileInst _ _ (L2F) = "var a = stack.pop(); stack.pop(); stack.push(a.floatValue());"
-compileInst _ _ (L2D) = ""
+compileInst _ _ (L2D) = "var a = stack.pop(); stack.pop(); stack.push(null); stack.push(a.doubleValue());"
 
 compileInst _ _ (F2L) =	"var a = stack.pop(); stack.push(null); stack.push(Java.mkLong(a | 0));"
 compileInst _ _ (F2D) =	"var a = stack.pop(); stack.push(null); stack.push(a);"
@@ -370,13 +370,13 @@ compileInst klass _ (INVOKESTATIC idx) =
 		klsName = unpack kls
 		fldName = mangleMethod nt
 --
-compileInst klass _ (CHECKCAST idx) = "Java.checkCast(Java[\""++klsName++"\"](), stack[stack.length-1]);"
+compileInst klass _ (CHECKCAST idx) = "Java.checkCast(\""++klsName++"\", stack[stack.length-1]);"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
 		CClass kls = constant
 		klsName = unpack kls
-compileInst klass _ (INSTANCEOF idx) = "stack.push(Java.instanceOf(Java[\""++klsName++"\"](), stack.pop()));"
+compileInst klass _ (INSTANCEOF idx) = "stack.push(Java.instanceOf(\""++klsName++"\", stack.pop()));"
 	where
 		pool = constantPool klass
 		Just constant = M.lookup idx pool
@@ -434,8 +434,8 @@ compileExceptionHandler klass code = L.toStrict $ L.concat handlers
 		makeHandler (CodeException beg end to clsIdx) = substitute "\t\t\tif(${from} <= pc && pc <= ${to} && ${cond}){ pc = ${next}; continue; }\n" ctx
 																						where
 																							target = (M.lookup clsIdx pool) :: Maybe (Constant Direct)
-																							makeCond Nothing = T.concat ["Java.instanceOf(Java[\"java/lang/Object\"](),e)"]
-																							makeCond (Just (CClass name)) = T.concat ["Java.instanceOf(Java[",T.pack (show name),"](),e)"]
+																							makeCond Nothing = T.concat ["Java.instanceOf(\"java/lang/Object\",e)"]
+																							makeCond (Just (CClass name)) = T.concat ["Java.instanceOf(",T.pack (show name),",e)"]
 																							makeCond x = error $ show $ x
 																							ctx "from" = T.pack (show beg)
 																							ctx "to" = T.pack (show end)

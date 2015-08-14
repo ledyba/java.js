@@ -63,11 +63,12 @@ var Java = {};
 		};
 		return it;
 	};
-	Java.instanceOf = function(kls, obj){
+	Java.instanceOf = function(klsName, obj){
 		// more accurate!!
+		var kls = Java[klsName]();
 		return (kls.prototype.constructor === obj.constructor) ? 1 : 0;
 	};
-	Java.checkCast = function(kls, obj){
+	Java.checkCast = function(klsName, obj){
 		// FIXME: チェックしよう
 	};
 })();

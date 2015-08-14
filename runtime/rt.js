@@ -17161,11 +17161,10 @@ Java["java/lang/Double"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Double#parseDouble(Ljava/lang/String;)D");
 	};
 	klass["isNaN(D)Z"] = function(db0){
-		return !(db0 === db0)
+		return (db0 === db0) ? 0 : 1;
 	};
 	klass["isInfinite(D)Z"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Double#isInfinite(D)Z");
+		return (db0 === db0/0)?1:0;
 	};
 	proto["<init>(D)V"] = function(db0){
 		this.val = db0;
