@@ -1,8 +1,8 @@
 public class Pi {
 
-    public static void main(String[] args) {
+    public static double calc() {
         double pi = 16.0 * arcTan(1.0 / 5.0) - 4.0 * arcTan(1.0 / 239.0);
-        System.out.println(pi);
+        return pi;
     }
 
     private static double arcTan(double x) {

@@ -1,47 +1,35 @@
-Classfile /home/psi/Dropbox/src/haskell/java.js/sample/Pi.class
-  Last modified Aug 10, 2015; size 617 bytes
-  MD5 checksum e8ffba4cf69f3a2d8813794490149841
+Classfile /home/psi/Dropbox/src/haskell/java.js/sample/pi/Pi.class
+  Last modified Aug 14, 2015; size 474 bytes
+  MD5 checksum 309e8af62b163f0da79d25eb01e8ce37
   Compiled from "Pi.java"
 public class Pi
   minor version: 0
   major version: 50
   flags: ACC_PUBLIC, ACC_SUPER
 Constant pool:
-   #1 = Methodref          #14.#26        // java/lang/Object."<init>":()V
+   #1 = Methodref          #12.#24        // java/lang/Object."<init>":()V
    #2 = Double             16.0d
    #4 = Double             0.2d
-   #6 = Methodref          #13.#27        // Pi.arcTan:(D)D
+   #6 = Methodref          #11.#25        // Pi.arcTan:(D)D
    #7 = Double             4.0d
    #9 = Double             0.0041841004184100415d
-  #11 = Fieldref           #28.#29        // java/lang/System.out:Ljava/io/PrintStream;
-  #12 = Methodref          #30.#31        // java/io/PrintStream.println:(D)V
-  #13 = Class              #32            // Pi
-  #14 = Class              #33            // java/lang/Object
-  #15 = Utf8               <init>
-  #16 = Utf8               ()V
-  #17 = Utf8               Code
-  #18 = Utf8               LineNumberTable
-  #19 = Utf8               main
-  #20 = Utf8               ([Ljava/lang/String;)V
-  #21 = Utf8               arcTan
-  #22 = Utf8               (D)D
-  #23 = Utf8               StackMapTable
-  #24 = Utf8               SourceFile
-  #25 = Utf8               Pi.java
-  #26 = NameAndType        #15:#16        // "<init>":()V
-  #27 = NameAndType        #21:#22        // arcTan:(D)D
-  #28 = Class              #34            // java/lang/System
-  #29 = NameAndType        #35:#36        // out:Ljava/io/PrintStream;
-  #30 = Class              #37            // java/io/PrintStream
-  #31 = NameAndType        #38:#39        // println:(D)V
-  #32 = Utf8               Pi
-  #33 = Utf8               java/lang/Object
-  #34 = Utf8               java/lang/System
-  #35 = Utf8               out
-  #36 = Utf8               Ljava/io/PrintStream;
-  #37 = Utf8               java/io/PrintStream
-  #38 = Utf8               println
-  #39 = Utf8               (D)V
+  #11 = Class              #26            // Pi
+  #12 = Class              #27            // java/lang/Object
+  #13 = Utf8               <init>
+  #14 = Utf8               ()V
+  #15 = Utf8               Code
+  #16 = Utf8               LineNumberTable
+  #17 = Utf8               calc
+  #18 = Utf8               ()D
+  #19 = Utf8               arcTan
+  #20 = Utf8               (D)D
+  #21 = Utf8               StackMapTable
+  #22 = Utf8               SourceFile
+  #23 = Utf8               Pi.java
+  #24 = NameAndType        #13:#14        // "<init>":()V
+  #25 = NameAndType        #19:#20        // arcTan:(D)D
+  #26 = Utf8               Pi
+  #27 = Utf8               java/lang/Object
 {
   public Pi();
     descriptor: ()V
@@ -54,11 +42,11 @@ Constant pool:
       LineNumberTable:
         line 1: 0
 
-  public static void main(java.lang.String[]);
-    descriptor: ([Ljava/lang/String;)V
+  public static double calc();
+    descriptor: ()D
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=6, locals=3, args_size=1
+      stack=6, locals=2, args_size=0
          0: ldc2_w        #2                  // double 16.0d
          3: ldc2_w        #4                  // double 0.2d
          6: invokestatic  #6                  // Method arcTan:(D)D
@@ -68,15 +56,12 @@ Constant pool:
         16: invokestatic  #6                  // Method arcTan:(D)D
         19: dmul
         20: dsub
-        21: dstore_1
-        22: getstatic     #11                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        25: dload_1
-        26: invokevirtual #12                 // Method java/io/PrintStream.println:(D)V
-        29: return
+        21: dstore_0
+        22: dload_0
+        23: dreturn
       LineNumberTable:
         line 4: 0
         line 5: 22
-        line 6: 29
 
   private static double arcTan(double);
     descriptor: (D)D
