@@ -2923,12 +2923,9 @@ Java.registerClass("sun/util/calendar/CalendarSystem", false, "java/lang/Object"
 Java.registerClass("java/lang/RuntimeException", false, "java/lang/Exception", [], function(klass,proto){
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/RuntimeException#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/RuntimeException#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -3465,8 +3462,7 @@ Java.registerClass("java/lang/Long", false, "java/lang/Number", ["java/lang/Comp
 		throw new Error("NotImplemented: java/lang/Long#toString(JI)Ljava/lang/String;");
 	};
 	klass["toHexString(J)Ljava/lang/String;"] = function(l0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Long#toHexString(J)Ljava/lang/String;");
+		return Java.mkString(l0.toString(16));
 	};
 	klass["toOctalString(J)Ljava/lang/String;"] = function(l0){
 		var self = null;
@@ -3477,8 +3473,7 @@ Java.registerClass("java/lang/Long", false, "java/lang/Number", ["java/lang/Comp
 		throw new Error("NotImplemented: java/lang/Long#toBinaryString(J)Ljava/lang/String;");
 	};
 	klass["toString(J)Ljava/lang/String;"] = function(l0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Long#toString(J)Ljava/lang/String;");
+		return Java.mkString(l0.toString());
 	};
 	klass["parseLong(Ljava/lang/String;I)J"] = function(ref0,i1){
 		var self = null;
@@ -4051,8 +4046,7 @@ Java.registerClass("java/lang/Character", false, "java/lang/Object", ["java/io/S
 		throw new Error("NotImplemented: java/lang/Character#isTitleCase(I)Z");
 	};
 	klass["isDigit(C)Z"] = function(ch0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Character#isDigit(C)Z");
+		return (ch0 >= '0' && ch0 <= '9') ? 1 : 0;
 	};
 	klass["isDigit(I)Z"] = function(i0){
 		var self = null;
@@ -9125,8 +9119,7 @@ Java.registerClass("java/lang/Throwable", false, "java/lang/Object", ["java/io/S
 		throw new Error("NotImplemented: java/lang/Throwable#<init>(Ljava/lang/String;Ljava/lang/Throwable;ZZ)V");
 	};
 	proto["getMessage()Ljava/lang/String;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Throwable#getMessage()Ljava/lang/String;");
+		return Java.mkString(this.msg);
 	};
 	proto["getLocalizedMessage()Ljava/lang/String;"] = function(){
 		var self = this;
@@ -9187,8 +9180,7 @@ Java.registerClass("java/lang/Exception", false, "java/lang/Throwable", [], func
 		throw new Error("NotImplemented: java/lang/Exception#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Exception#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -13018,7 +13010,7 @@ Java.registerClass("java/io/IOException", false, "java/lang/Exception", [], func
 	proto["<init>()V"] = function(){
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		this.msg = ref0.msg;
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -14688,14 +14680,22 @@ Java.registerClass("java/io/StringReader", false, "java/io/Reader", [], function
 
 //"java/util/HashSet"
 Java.registerClass("java/util/HashSet", false, "java/util/AbstractSet", ["java/util/Set", "java/lang/Cloneable", "java/io/Serializable"], function(klass,proto){
-
+	var toKey = JSON.stringify;
 	proto["<init>()V"] = function(){
         this.set = {};
         this.size = 0;
 	};
 	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#<init>(Ljava/util/Collection;)V");
+		this.set = {};
+		if(ref0.list){
+			var lst = ref0.list;
+			for(var i = 0;i<lst.length;i++){
+				this.set[toKey(lst[i])] = true;
+			}
+		}else{
+			var self = this;
+			throw new Error("NotImplemented: java/util/HashSet#<init>(Ljava/util/Collection;)V");
+		}
 	};
 	proto["<init>(IF)V"] = function(i0,flt1){
 		var self = this;
@@ -14718,17 +14718,18 @@ Java.registerClass("java/util/HashSet", false, "java/util/AbstractSet", ["java/u
 		throw new Error("NotImplemented: java/util/HashSet#isEmpty()Z");
 	};
 	proto["contains(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#contains(Ljava/lang/Object;)Z");
+		return (this.set[toKey(ref0)]) ? 1 : 0;
 	};
 	proto["add(Ljava/lang/Object;)Z"] = function(ref0){
-        var has = Object.prototype.hasOwnProperty(this.set, ref0);
-        this.set[ref0] = true;
+		var key = toKey(ref0);
+        var has = Object.prototype.hasOwnProperty(this.set, key);
+        this.set[key] = true;
         return has;
 	};
 	proto["remove(Ljava/lang/Object;)Z"] = function(ref0){
-        var has = Object.prototype.hasOwnProperty(this.set, ref0);
-        delete this.set[ref0];
+		var key = toKey(ref0);
+        var has = Object.prototype.hasOwnProperty(this.set, key);
+        delete this.set[key];
         return has;
 	};
 	proto["clear()V"] = function(){
@@ -15147,6 +15148,447 @@ Java.registerClass("java/util/Formatter", false, "java/lang/Object", ["java/io/C
 	proto["format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;"] = function(ref0,ref1,arr_ref2){
 		var self = this;
 		throw new Error("NotImplemented: java/util/Formatter#format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;");
+	};
+
+});
+
+//"java/lang/NoSuchMethodException"
+Java.registerClass("java/lang/NoSuchMethodException", false, "java/lang/ReflectiveOperationException", [], function(klass,proto){
+
+	proto["<init>()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/NoSuchMethodException#<init>()V");
+	};
+	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/NoSuchMethodException#<init>(Ljava/lang/String;)V");
+	};
+
+});
+
+//"java/util/Arrays"
+Java.registerClass("java/util/Arrays", false, "java/lang/Object", [], function(klass,proto){
+
+	klass["sort([I)V"] = function(arr_i0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([I)V");
+	};
+	klass["sort([III)V"] = function(arr_i0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([III)V");
+	};
+	klass["sort([J)V"] = function(arr_l0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([J)V");
+	};
+	klass["sort([JII)V"] = function(arr_l0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([JII)V");
+	};
+	klass["sort([S)V"] = function(arr_sh0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([S)V");
+	};
+	klass["sort([SII)V"] = function(arr_sh0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([SII)V");
+	};
+	klass["sort([C)V"] = function(arr_ch0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([C)V");
+	};
+	klass["sort([CII)V"] = function(arr_ch0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([CII)V");
+	};
+	klass["sort([B)V"] = function(arr_sb0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([B)V");
+	};
+	klass["sort([BII)V"] = function(arr_sb0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([BII)V");
+	};
+	klass["sort([F)V"] = function(arr_flt0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([F)V");
+	};
+	klass["sort([FII)V"] = function(arr_flt0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([FII)V");
+	};
+	klass["sort([D)V"] = function(arr_db0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([D)V");
+	};
+	klass["sort([DII)V"] = function(arr_db0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([DII)V");
+	};
+	klass["sort([Ljava/lang/Object;)V"] = function(arr_ref0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([Ljava/lang/Object;)V");
+	};
+	klass["sort([Ljava/lang/Object;II)V"] = function(arr_ref0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([Ljava/lang/Object;II)V");
+	};
+	klass["sort([Ljava/lang/Object;Ljava/util/Comparator;)V"] = function(arr_ref0,ref1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([Ljava/lang/Object;Ljava/util/Comparator;)V");
+	};
+	klass["sort([Ljava/lang/Object;IILjava/util/Comparator;)V"] = function(arr_ref0,i1,i2,ref3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#sort([Ljava/lang/Object;IILjava/util/Comparator;)V");
+	};
+	klass["binarySearch([JJ)I"] = function(arr_l0,l1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([JJ)I");
+	};
+	klass["binarySearch([JIIJ)I"] = function(arr_l0,i1,i2,l3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([JIIJ)I");
+	};
+	klass["binarySearch([II)I"] = function(arr_i0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([II)I");
+	};
+	klass["binarySearch([IIII)I"] = function(arr_i0,i1,i2,i3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([IIII)I");
+	};
+	klass["binarySearch([SS)I"] = function(arr_sh0,sh1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([SS)I");
+	};
+	klass["binarySearch([SIIS)I"] = function(arr_sh0,i1,i2,sh3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([SIIS)I");
+	};
+	klass["binarySearch([CC)I"] = function(arr_ch0,ch1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([CC)I");
+	};
+	klass["binarySearch([CIIC)I"] = function(arr_ch0,i1,i2,ch3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([CIIC)I");
+	};
+	klass["binarySearch([BB)I"] = function(arr_sb0,sb1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([BB)I");
+	};
+	klass["binarySearch([BIIB)I"] = function(arr_sb0,i1,i2,sb3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([BIIB)I");
+	};
+	klass["binarySearch([DD)I"] = function(arr_db0,db1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([DD)I");
+	};
+	klass["binarySearch([DIID)I"] = function(arr_db0,i1,i2,db3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([DIID)I");
+	};
+	klass["binarySearch([FF)I"] = function(arr_flt0,flt1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([FF)I");
+	};
+	klass["binarySearch([FIIF)I"] = function(arr_flt0,i1,i2,flt3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([FIIF)I");
+	};
+	klass["binarySearch([Ljava/lang/Object;Ljava/lang/Object;)I"] = function(arr_ref0,ref1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([Ljava/lang/Object;Ljava/lang/Object;)I");
+	};
+	klass["binarySearch([Ljava/lang/Object;IILjava/lang/Object;)I"] = function(arr_ref0,i1,i2,ref3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([Ljava/lang/Object;IILjava/lang/Object;)I");
+	};
+	klass["binarySearch([Ljava/lang/Object;Ljava/lang/Object;Ljava/util/Comparator;)I"] = function(arr_ref0,ref1,ref2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([Ljava/lang/Object;Ljava/lang/Object;Ljava/util/Comparator;)I");
+	};
+	klass["binarySearch([Ljava/lang/Object;IILjava/lang/Object;Ljava/util/Comparator;)I"] = function(arr_ref0,i1,i2,ref3,ref4){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#binarySearch([Ljava/lang/Object;IILjava/lang/Object;Ljava/util/Comparator;)I");
+	};
+	klass["equals([J[J)Z"] = function(arr_l0,arr_l1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([J[J)Z");
+	};
+	klass["equals([I[I)Z"] = function(arr_i0,arr_i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([I[I)Z");
+	};
+	klass["equals([S[S)Z"] = function(arr_sh0,arr_sh1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([S[S)Z");
+	};
+	klass["equals([C[C)Z"] = function(arr_ch0,arr_ch1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([C[C)Z");
+	};
+	klass["equals([B[B)Z"] = function(arr_sb0,arr_sb1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([B[B)Z");
+	};
+	klass["equals([Z[Z)Z"] = function(arr_b0,arr_b1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([Z[Z)Z");
+	};
+	klass["equals([D[D)Z"] = function(arr_db0,arr_db1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([D[D)Z");
+	};
+	klass["equals([F[F)Z"] = function(arr_flt0,arr_flt1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([F[F)Z");
+	};
+	klass["equals([Ljava/lang/Object;[Ljava/lang/Object;)Z"] = function(arr_ref0,arr_ref1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#equals([Ljava/lang/Object;[Ljava/lang/Object;)Z");
+	};
+	klass["fill([JJ)V"] = function(arr_l0,l1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([JJ)V");
+	};
+	klass["fill([JIIJ)V"] = function(arr_l0,i1,i2,l3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([JIIJ)V");
+	};
+	klass["fill([II)V"] = function(arr_i0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([II)V");
+	};
+	klass["fill([IIII)V"] = function(arr_i0,i1,i2,i3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([IIII)V");
+	};
+	klass["fill([SS)V"] = function(arr_sh0,sh1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([SS)V");
+	};
+	klass["fill([SIIS)V"] = function(arr_sh0,i1,i2,sh3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([SIIS)V");
+	};
+	klass["fill([CC)V"] = function(arr_ch0,ch1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([CC)V");
+	};
+	klass["fill([CIIC)V"] = function(arr_ch0,i1,i2,ch3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([CIIC)V");
+	};
+	klass["fill([BB)V"] = function(arr_sb0,sb1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([BB)V");
+	};
+	klass["fill([BIIB)V"] = function(arr_sb0,i1,i2,sb3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([BIIB)V");
+	};
+	klass["fill([ZZ)V"] = function(arr_b0,b1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([ZZ)V");
+	};
+	klass["fill([ZIIZ)V"] = function(arr_b0,i1,i2,b3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([ZIIZ)V");
+	};
+	klass["fill([DD)V"] = function(arr_db0,db1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([DD)V");
+	};
+	klass["fill([DIID)V"] = function(arr_db0,i1,i2,db3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([DIID)V");
+	};
+	klass["fill([FF)V"] = function(arr_flt0,flt1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([FF)V");
+	};
+	klass["fill([FIIF)V"] = function(arr_flt0,i1,i2,flt3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([FIIF)V");
+	};
+	klass["fill([Ljava/lang/Object;Ljava/lang/Object;)V"] = function(arr_ref0,ref1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([Ljava/lang/Object;Ljava/lang/Object;)V");
+	};
+	klass["fill([Ljava/lang/Object;IILjava/lang/Object;)V"] = function(arr_ref0,i1,i2,ref3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#fill([Ljava/lang/Object;IILjava/lang/Object;)V");
+	};
+	klass["copyOf([Ljava/lang/Object;I)[Ljava/lang/Object;"] = function(arr_ref0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([Ljava/lang/Object;I)[Ljava/lang/Object;");
+	};
+	klass["copyOf([Ljava/lang/Object;ILjava/lang/Class;)[Ljava/lang/Object;"] = function(arr_ref0,i1,ref2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([Ljava/lang/Object;ILjava/lang/Class;)[Ljava/lang/Object;");
+	};
+	klass["copyOf([BI)[B"] = function(arr_sb0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([BI)[B");
+	};
+	klass["copyOf([SI)[S"] = function(arr_sh0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([SI)[S");
+	};
+	klass["copyOf([II)[I"] = function(arr_i0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([II)[I");
+	};
+	klass["copyOf([JI)[J"] = function(arr_l0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([JI)[J");
+	};
+	klass["copyOf([CI)[C"] = function(arr_ch0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([CI)[C");
+	};
+	klass["copyOf([FI)[F"] = function(arr_flt0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([FI)[F");
+	};
+	klass["copyOf([DI)[D"] = function(arr_db0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([DI)[D");
+	};
+	klass["copyOf([ZI)[Z"] = function(arr_b0,i1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOf([ZI)[Z");
+	};
+	klass["copyOfRange([Ljava/lang/Object;II)[Ljava/lang/Object;"] = function(arr_ref0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([Ljava/lang/Object;II)[Ljava/lang/Object;");
+	};
+	klass["copyOfRange([Ljava/lang/Object;IILjava/lang/Class;)[Ljava/lang/Object;"] = function(arr_ref0,i1,i2,ref3){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([Ljava/lang/Object;IILjava/lang/Class;)[Ljava/lang/Object;");
+	};
+	klass["copyOfRange([BII)[B"] = function(arr_sb0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([BII)[B");
+	};
+	klass["copyOfRange([SII)[S"] = function(arr_sh0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([SII)[S");
+	};
+	klass["copyOfRange([III)[I"] = function(arr_i0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([III)[I");
+	};
+	klass["copyOfRange([JII)[J"] = function(arr_l0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([JII)[J");
+	};
+	klass["copyOfRange([CII)[C"] = function(arr_ch0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([CII)[C");
+	};
+	klass["copyOfRange([FII)[F"] = function(arr_flt0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([FII)[F");
+	};
+	klass["copyOfRange([DII)[D"] = function(arr_db0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([DII)[D");
+	};
+	klass["copyOfRange([ZII)[Z"] = function(arr_b0,i1,i2){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#copyOfRange([ZII)[Z");
+	};
+	klass["asList([Ljava/lang/Object;)Ljava/util/List;"] = function(arr_ref0){
+		var obj = new (Java["java/util/ArrayList"])();
+		obj.list = arr_ref0;
+		return obj;
+	};
+	klass["hashCode([J)I"] = function(arr_l0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([J)I");
+	};
+	klass["hashCode([I)I"] = function(arr_i0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([I)I");
+	};
+	klass["hashCode([S)I"] = function(arr_sh0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([S)I");
+	};
+	klass["hashCode([C)I"] = function(arr_ch0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([C)I");
+	};
+	klass["hashCode([B)I"] = function(arr_sb0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([B)I");
+	};
+	klass["hashCode([Z)I"] = function(arr_b0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([Z)I");
+	};
+	klass["hashCode([F)I"] = function(arr_flt0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([F)I");
+	};
+	klass["hashCode([D)I"] = function(arr_db0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([D)I");
+	};
+	klass["hashCode([Ljava/lang/Object;)I"] = function(arr_ref0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#hashCode([Ljava/lang/Object;)I");
+	};
+	klass["deepHashCode([Ljava/lang/Object;)I"] = function(arr_ref0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#deepHashCode([Ljava/lang/Object;)I");
+	};
+	klass["deepEquals([Ljava/lang/Object;[Ljava/lang/Object;)Z"] = function(arr_ref0,arr_ref1){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#deepEquals([Ljava/lang/Object;[Ljava/lang/Object;)Z");
+	};
+	klass["toString([J)Ljava/lang/String;"] = function(arr_l0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([J)Ljava/lang/String;");
+	};
+	klass["toString([I)Ljava/lang/String;"] = function(arr_i0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([I)Ljava/lang/String;");
+	};
+	klass["toString([S)Ljava/lang/String;"] = function(arr_sh0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([S)Ljava/lang/String;");
+	};
+	klass["toString([C)Ljava/lang/String;"] = function(arr_ch0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([C)Ljava/lang/String;");
+	};
+	klass["toString([B)Ljava/lang/String;"] = function(arr_sb0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([B)Ljava/lang/String;");
+	};
+	klass["toString([Z)Ljava/lang/String;"] = function(arr_b0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([Z)Ljava/lang/String;");
+	};
+	klass["toString([F)Ljava/lang/String;"] = function(arr_flt0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([F)Ljava/lang/String;");
+	};
+	klass["toString([D)Ljava/lang/String;"] = function(arr_db0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([D)Ljava/lang/String;");
+	};
+	klass["toString([Ljava/lang/Object;)Ljava/lang/String;"] = function(arr_ref0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#toString([Ljava/lang/Object;)Ljava/lang/String;");
+	};
+	klass["deepToString([Ljava/lang/Object;)Ljava/lang/String;"] = function(arr_ref0){
+		var self = null;
+		throw new Error("NotImplemented: java/util/Arrays#deepToString([Ljava/lang/Object;)Ljava/lang/String;");
 	};
 
 });

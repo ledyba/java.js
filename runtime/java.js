@@ -65,12 +65,14 @@ var Java = {};
 				if(isInterface || superClassName === null){
 					cls.prototype = {};
 				}else{
-					cls.prototype = Object.create(Java[superClassName]().prototype);
+					var superClass = Java[superClassName]();
+					cls.__proto__ = superClass;
+					cls.prototype = Object.create(superClass.prototype);
 				}
 				var proto = cls.prototype;
 				proto.constructor = cls;
 				proto["$isJava"] = true;
-				cls["$name"] = name;
+				proto["$className"] = name;
 				cls["$super"] = superClassName;
 				cls["$isInterface"] = isInterface;
 				cls["$interfaces"] = implements;
@@ -115,10 +117,10 @@ var Java = {};
 			return 0;
 		}
 		// more accurate!!
-		var kls = Java[klsName]();
-		if(!kls){
+		if(!Java.hasOwnProperty(klsName)){
 			throw new Error("Unknown class: ["+klsName+"]");
 		}
+		var kls = Java[klsName]();
 		if(klsName[0] === "["){
 			throw new Error("[TODO] Support array cast");
 		}

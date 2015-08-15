@@ -40,10 +40,14 @@
 			window.run = function(){
 				var src = document.getElementById("src").value;
 				console.log(src);
-				var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString(src));
-				console.log(obj);
-				obj = obj["toDetailString()Ljava/lang/String;"]();
-				console.log(obj.asString());
+				try{
+					var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString(src));
+					console.log(obj);
+					obj = obj["toDetailString()Ljava/lang/String;"]();
+					console.log(obj.asString());
+				} catch (e){
+					console.log(e);
+				}
 			}
 		})();
 	</script>

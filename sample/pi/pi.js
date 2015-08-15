@@ -1,22 +1,25 @@
 //"java/lang/Object"
-Java["java/lang/Object"] = Java.mkNativeClass(function(klass){
-	var proto = klass.prototype = {};
-	proto.constructor = klass;
-	var id = 0;
-	klass["__interfaces__"] = [];
-	proto["__class__"] = Java.mkClassObj(klass, "java/lang/Object");
-
+Java.registerClass("java/lang/Object", false, null, [], function(klass,proto){
 	proto["<init>()V"] = function(){
-		this.id = id++;
 	};
 	proto["getClass()Ljava/lang/Class;"] = function(){
-		return this["__class__"];
+		var self = this;
+		/* Native Method */
+		throw new Error("NotImplemented: java/lang/Object#getClass()Ljava/lang/Class;");
 	};
 	proto["hashCode()I"] = function(){
-		return this.id;
+		var self = this;
+		/* Native Method */
+		throw new Error("NotImplemented: java/lang/Object#hashCode()I");
 	};
 	proto["equals(Ljava/lang/Object;)Z"] = function(ref0){
-		return this.id === ref0.id;
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Object#equals(Ljava/lang/Object;)Z");
+	};
+	proto["clone()Ljava/lang/Object;"] = function(){
+		var self = this;
+		/* Native Method */
+		throw new Error("NotImplemented: java/lang/Object#clone()Ljava/lang/Object;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
 		var self = this;
@@ -39,14 +42,14 @@ Java["java/lang/Object"] = Java.mkNativeClass(function(klass){
 	};
 	proto["wait(JI)V"] = null;
 	proto["wait()V"] = null;
+	proto["finalize()V"] = function(){
+		var self = this;
+		throw new Error("NotImplemented: java/lang/Object#finalize()V");
+	};
 
 });
-Java["Pi"]=Java.mkClass(function(klass){
-var proto = klass.prototype = Object.create(Java[java/lang/Object]().prototype);
-proto.constructor = klass;
-	klass["__interfaces__"] = [];
-	proto["__class__"] = Java.mkClassObj(klass, "Pi");
 
+Java.registerClass("Pi", false, "java/lang/Object", [], function(klass,proto){
 
 proto["<init>()V"] = function(){
 	var stack = [];

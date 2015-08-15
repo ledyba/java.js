@@ -3,7 +3,7 @@
 all:
 	cabal run build \
 			sample/fesi.jar \
-			runtime/out.js
+			sample/js_on_java_on_js/out.js
 
 gen:
 	cabal run gen \
@@ -24,7 +24,9 @@ gen:
 			java/lang/Math \
 			java/io/Serializable \
 			java/util/Formatter \
-			runtime/rt.js
+			java/lang/NoSuchMethodException \
+			java/util/Arrays \
+			sample/js_on_java_on_js/rt.js
 
 pi:
 	cabal run build \
