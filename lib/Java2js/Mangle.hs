@@ -36,4 +36,4 @@ instance Manglable (NameType (Method Direct)) where
 	mangleMethod nt = mangleMethod' (ntName nt) (ntSignature nt) ++ mangleReturn' (ntName nt) (ntSignature nt)
 --
 instance Manglable (Method Direct) where
-	mangleMethod meth = mangleMethod' (methodName meth) (methodSignature meth) ++ mangleMethod' (methodName meth) (methodSignature meth) ++ mangleReturn' (methodName meth) (methodSignature meth)
+	mangleMethod meth = mangleMethod' (methodName meth) (methodSignature meth) ++ mangleReturn' (methodName meth) (methodSignature meth)
