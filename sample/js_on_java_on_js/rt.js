@@ -1114,12 +1114,9 @@ Java.registerClass("java/security/Timestamp", false, "java/lang/Object", ["java/
 Java.registerClass("java/lang/Error", false, "java/lang/Throwable", [], function(klass,proto){
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Error#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Error#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.val;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -3127,8 +3124,7 @@ Java.registerClass("java/util/Vector", false, "java/util/AbstractList", ["java/u
 		throw new Error("NotImplemented: java/util/Vector#<init>(I)V");
 	};
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#<init>()V");
+        this.list = [];
 	};
 	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
 		var self = this;
@@ -3311,8 +3307,7 @@ Java.registerClass("java/util/Vector", false, "java/util/AbstractList", ["java/u
 		throw new Error("NotImplemented: java/util/Vector#listIterator()Ljava/util/ListIterator;");
 	};
 	proto["iterator()Ljava/util/Iterator;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#iterator()Ljava/util/Iterator;");
+        return Java.mkIterator(this.list);
 	};
 
 });
@@ -3491,8 +3486,7 @@ Java.registerClass("java/lang/Long", false, "java/lang/Number", ["java/lang/Comp
 		throw new Error("NotImplemented: java/lang/Long#parseLong(Ljava/lang/String;I)J");
 	};
 	klass["parseLong(Ljava/lang/String;)J"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Long#parseLong(Ljava/lang/String;)J");
+		return Java.mkLong(ref0.val);
 	};
 	klass["valueOf(Ljava/lang/String;I)Ljava/lang/Long;"] = function(ref0,i1){
 		var self = null;
@@ -12580,6 +12574,7 @@ Java.registerClass("java/util/Locale", false, "java/lang/Object", ["java/lang/Cl
 		var self = this;
 		throw new Error("NotImplemented: java/util/Locale#<init>(Ljava/lang/String;)V");
 	};
+	var defaultLocale = new klass();
 	klass["getDefault()Ljava/util/Locale;"] = function(){
 		return defaultLocale;
 	};
@@ -13024,12 +13019,9 @@ Java.registerClass("java/io/OutputStream", false, "java/lang/Object", ["java/io/
 Java.registerClass("java/io/IOException", false, "java/lang/Exception", [], function(klass,proto){
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/IOException#<init>()V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/io/IOException#<init>(Ljava/lang/String;)V");
+		this.msg = ref0.msg;
 	};
 	proto["<init>(Ljava/lang/String;Ljava/lang/Throwable;)V"] = function(ref0,ref1){
 		var self = this;
@@ -13824,7 +13816,7 @@ Java.registerClass("java/lang/Integer", false, "java/lang/Number", ["java/lang/C
 		throw new Error("NotImplemented: java/lang/Integer#toBinaryString(I)Ljava/lang/String;");
 	};
 	klass["toString(I)Ljava/lang/String;"] = function(i0){
-		return Java.mkString(io.toString());
+		return Java.mkString(i0.toString());
 	};
 	klass["parseInt(Ljava/lang/String;I)I"] = function(ref0,i1){
 		var self = null;
@@ -14656,16 +14648,23 @@ Java.registerClass("java/util/concurrent/ConcurrentHashMap", false, "java/util/A
 Java.registerClass("java/io/StringReader", false, "java/io/Reader", [], function(klass,proto){
 
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#<init>(Ljava/lang/String;)V");
+        this.buf = ref0.val;
+        this.ptr = 0;
 	};
 	proto["read()I"] = function(){
 		var self = this;
 		throw new Error("NotImplemented: java/io/StringReader#read()I");
 	};
 	proto["read([CII)I"] = function(arr_ch0,i1,i2){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#read([CII)I");
+        if(this.buf.length === this.ptr){
+            return -1;
+        }
+        var len = Math.min(this.buf.length - this.ptr, i2);
+        for(var i=0;i<len;i++){
+            arr_ch0[i+i1] = this.buf.charCodeAt(i+this.ptr);
+        }
+        this.ptr += len;
+        return len;
 	};
 	proto["skip(J)J"] = function(l0){
 		var self = this;
@@ -14688,8 +14687,6 @@ Java.registerClass("java/io/StringReader", false, "java/io/Reader", [], function
 		throw new Error("NotImplemented: java/io/StringReader#reset()V");
 	};
 	proto["close()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/io/StringReader#close()V");
 	};
 
 });
@@ -14698,8 +14695,8 @@ Java.registerClass("java/io/StringReader", false, "java/io/Reader", [], function
 Java.registerClass("java/util/HashSet", false, "java/util/AbstractSet", ["java/util/Set", "java/lang/Cloneable", "java/io/Serializable"], function(klass,proto){
 
 	proto["<init>()V"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#<init>()V");
+        this.set = {};
+        this.size = 0;
 	};
 	proto["<init>(Ljava/util/Collection;)V"] = function(ref0){
 		var self = this;
@@ -14730,12 +14727,14 @@ Java.registerClass("java/util/HashSet", false, "java/util/AbstractSet", ["java/u
 		throw new Error("NotImplemented: java/util/HashSet#contains(Ljava/lang/Object;)Z");
 	};
 	proto["add(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#add(Ljava/lang/Object;)Z");
+        var has = Object.prototype.hasOwnProperty(this.set, ref0);
+        this.set[ref0] = true;
+        return has;
 	};
 	proto["remove(Ljava/lang/Object;)Z"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/HashSet#remove(Ljava/lang/Object;)Z");
+        var has = Object.prototype.hasOwnProperty(this.set, ref0);
+        delete this.set[ref0];
+        return has;
 	};
 	proto["clear()V"] = function(){
 		var self = this;

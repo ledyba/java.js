@@ -70,6 +70,8 @@ var Java = {};
 				var proto = cls.prototype;
 				proto.constructor = cls;
 				proto["$isJava"] = true;
+				cls["$name"] = name;
+				cls["$super"] = superClassName;
 				cls["$isInterface"] = isInterface;
 				cls["$interfaces"] = implements;
 				cls["$class"] = cls;
@@ -97,19 +99,19 @@ var Java = {};
 	Java.mkIterator=function(list){
 		var it = new (Java["java/util/Iterator"]())();
 		var pt = 0;
-		it["hasNext()"] = function(){
+		it["hasNext()Z"] = function(){
 			return pt < list.length;
 		};
-		it["next()"] = function(){
+		it["next()Ljava/lang/Object;"] = function(){
 			return list[pt++];
 		};
-		it["remove()"] = function(){
+		it["remove()V"] = function(){
 			throw Error("Iterator#remove is not supported");
 		};
 		return it;
 	};
 	Java.instanceOf = function(klsName, obj){
-		if(!obj || !obj["isJava"]){
+		if(!obj || !obj["$isJava"]){
 			return 0;
 		}
 		// more accurate!!
@@ -123,6 +125,7 @@ var Java = {};
 		if(obj instanceof kls){
 			return 1;
 		}else{
+			console.log("[TODO] Support interface cast");
 			throw new Error("[TODO] Support interface cast");
 		}
 	};

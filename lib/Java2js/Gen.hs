@@ -37,14 +37,14 @@ initValue (Array _ _) = "null"
 compileKlass :: Klass -> String
 compileKlass klass = L.unpack $ render klassTemplate ctx
 			where
-				hasClinit = M.member "<clinit>()" $ methods klass
+				hasClinit = M.member "<clinit>()V" $ methods klass
 				isInterface = S.member ACC_INTERFACE (accessFlags $ klassClass $ klass)
 				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "\"",(decodeUtf8 f),T.pack "\""]) (fmap BL.toStrict $ interfaces (klassClass klass)))
 				ctx "klassName" = T.pack (klassName klass)
 				ctx "isInterface" = T.pack $ if isInterface then "true" else "false"
 				ctx "superKlassName" = T.pack $ if (isInterface || "" == (superKlass klass)) then "null" else concat ["\"",(superKlass klass),"\""]
 				ctx "fields" = compileFields klass
-				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()\"].call(null);\n"
+				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()V\"].call(null);\n"
 																										else ""
 				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
 												where

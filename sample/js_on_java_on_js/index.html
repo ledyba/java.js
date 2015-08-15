@@ -35,14 +35,14 @@
 	<script type="text/javascript">
 		(function(){
 			var jsutil = Java["FESI/jslib/JSUtil"]();
-			var env = jsutil["makeEvaluator()"]();
+			var env = jsutil["makeEvaluator()LFESI/jslib/JSGlobalObject;"]();
 			var machine = env.evaluator;
 			window.run = function(){
 				var src = document.getElementById("src").value;
 				console.log(src);
-				var obj = machine["evaluate(Ljava/lang/String;)"](Java.mkString(src));
+				var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString(src));
 				console.log(obj);
-				obj = obj["toDetailString()"]();
+				obj = obj["toDetailString()Ljava/lang/String;"]();
 				console.log(obj.asString());
 			}
 		})();
