@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" charset="UTF-8" />
+<title>JS on Java on JS</title>
+</head>
+<body>
+<div id="main">
+	<div id="header">Execute JavaScript on (Java Interpreter on JS)</div>
+	<div id="discription">
+	</div>
+	<div id="panel">
+		<div>
+			<h3>Source:</h3>
+			<div>
+				<textarea id="src" rows="20" cols="80"></textarea>
+			</div>
+			<input class="convert_button" type="button" value="exec" onclick="run();" />
+			<h3>Result:</h3>
+			<textarea id="res" rows="4" cols="80"></textarea>
+		</div>
+	</div>
+	<div id="footer">
+	(C)2015 <A href="http://ledyba.org/">PSI</a>
+	</div>
+	<script type="text/javascript" src="../../runtime/bigdecimal.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../../runtime/sprintf.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../../runtime/java.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./rt.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./out.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		(function(){
+			var jsutil = Java["FESI/jslib/JSUtil"]();
+			var env = jsutil["makeEvaluator()LFESI/jslib/JSGlobalObject;"]();
+			var machine = env.evaluator;
+			window.run = function(){
+				var src = document.getElementById("src").value;
+				console.log(src);
+				var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString(src));
+				console.log(obj);
+				obj = obj["toDetailString()Ljava/lang/String;"]();
+				console.log(obj.asString());
+			}
+		})();
+	</script>
+</div>
+</body>
+</html>

@@ -56,6 +56,7 @@ var Java = {};
 			return kls;
 		};
 	};
+	Java.Array = function(){};
 	Java.makeAAray = function(len){
 		var array = new Array(len);
 		var i=len; while (i) array[--i] = null;
@@ -81,7 +82,17 @@ var Java = {};
 		}
 		// more accurate!!
 		var kls = Java[klsName]();
-		return (obj instanceof kls) ? 1 : 0;
+		if(!kls){
+			throw new Error("Unknown class: ["+klsName+"]");
+		}
+		if(klsName[0] === "["){
+			throw new Error("[TODO] Support array cast");
+		}
+		if(obj instanceof kls){
+			return 1;
+		}else{
+			throw new Error("[TODO] Support interface cast");
+		}
 	};
 	Java.checkCast = function(klsName, obj){
 		// FIXME: チェックしよう

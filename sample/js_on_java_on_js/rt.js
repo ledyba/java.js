@@ -5593,8 +5593,7 @@ Java["java/lang/Long"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Long#parseLong(Ljava/lang/String;I)J");
 	};
 	klass["parseLong(Ljava/lang/String;)J"] = function(ref0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Long#parseLong(Ljava/lang/String;)J");
+		return Java.mkLong(ref0.val);
 	};
 	klass["valueOf(Ljava/lang/String;I)Ljava/lang/Long;"] = function(ref0,i1){
 		var self = null;
@@ -11494,8 +11493,7 @@ Java["java/util/ArrayList"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/util/ArrayList#listIterator()Ljava/util/ListIterator;");
 	};
 	proto["iterator()Ljava/util/Iterator;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/util/ArrayList#iterator()Ljava/util/Iterator;");
+		return Java.mkIterator(this.list);
 	};
 	proto["subList(II)Ljava/util/List;"] = function(i0,i1){
 		var self = this;
@@ -14298,8 +14296,7 @@ Java["java/lang/Integer"] = Java.mkNativeClass(function(klass){
 		throw new Error("NotImplemented: java/lang/Integer#toBinaryString(I)Ljava/lang/String;");
 	};
 	klass["toString(I)Ljava/lang/String;"] = function(i0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Integer#toString(I)Ljava/lang/String;");
+		return Java.mkString(io.toString());
 	};
 	klass["parseInt(Ljava/lang/String;I)I"] = function(ref0,i1){
 		var self = null;
