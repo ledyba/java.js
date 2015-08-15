@@ -46,7 +46,7 @@ compileKlass klass = L.unpack $ render klassTemplate ctx
 				ctx "fields" = compileFields klass
 				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()\"].call(null);\n"
 																										else ""
-				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] /*"++(mangleMethodReturn meth)++"*/ = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
+				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
 												where
 													stored meth = if S.member ACC_STATIC maccs then "klass" else "proto"
 																				where maccs = methodAccessFlags meth

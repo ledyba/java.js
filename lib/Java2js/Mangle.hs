@@ -7,8 +7,6 @@ import Data.List (intercalate)
 
 class Manglable a where
 	mangleMethod :: a -> String
-	mangleMethodReturn :: a -> String
-	mangleMethodFull :: a -> String
 
 sigToSym :: FieldType -> String
 sigToSym SignedByte = "B"
@@ -35,11 +33,7 @@ mangleReturn' name (MethodSignature _ ret) = retToSym ret
 
 --
 instance Manglable (NameType (Method Direct)) where
-	mangleMethod nt = mangleMethod' (ntName nt) (ntSignature nt)
-	mangleMethodReturn nt = mangleReturn' (ntName nt) (ntSignature nt)
-	mangleMethodFull nt = mangleMethod' (ntName nt) (ntSignature nt) ++ mangleReturn' (ntName nt) (ntSignature nt)
+	mangleMethod nt = mangleMethod' (ntName nt) (ntSignature nt) ++ mangleReturn' (ntName nt) (ntSignature nt)
 --
 instance Manglable (Method Direct) where
-	mangleMethod meth = mangleMethod' (methodName meth) (methodSignature meth)
-	mangleMethodReturn meth = mangleReturn' (methodName meth) (methodSignature meth)
-	mangleMethodFull meth = mangleMethod' (methodName meth) (methodSignature meth) ++ mangleReturn' (methodName meth) (methodSignature meth)
+	mangleMethod meth = mangleMethod' (methodName meth) (methodSignature meth) ++ mangleMethod' (methodName meth) (methodSignature meth) ++ mangleReturn' (methodName meth) (methodSignature meth)

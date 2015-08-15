@@ -90,7 +90,7 @@ generateNativeClass cls = (L.unpack $ render classTemplate ctx, deps)
 				ctx "superKlassName" = if (isInterface || 0 == T.length (superClassName)) then T.pack "null" else T.concat [T.pack "\"", superClassName, T.pack"\""]
 				ctx "fields" = compileFields cls visibleFields
 				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "\"",(decodeUtf8 f),T.pack "\""]) (fmap BL.toStrict $ interfaces cls))
-				ctx "methods" = T.pack (foldl (\l meth -> l++"\t"++stored meth++"[\""++mangleMethod meth++"\"] /*"++mangleMethodReturn meth++"*/= "++generateNativeMethod cls (meth,methodCode cls (methodName meth))++";\n") "" visibleMethods)
+				ctx "methods" = T.pack (foldl (\l meth -> l++"\t"++stored meth++"[\""++mangleMethod meth++"\"] = "++generateNativeMethod cls (meth,methodCode cls (methodName meth))++";\n") "" visibleMethods)
 												where
 													stored meth = if isStaticMethod meth then "klass" else "proto"
 				ctx k = error (show k)
