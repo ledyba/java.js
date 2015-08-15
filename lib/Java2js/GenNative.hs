@@ -18,20 +18,9 @@ import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
 
 classTemplate = template "\
-\Java[\"${className}\"] = Java.mkNativeClass(function(klass){\n\
-\\tvar proto = klass.prototype = ${proto};\n\
-\\tproto.constructor = klass;\n\
-\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
-\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${className}\");\n\
+\Java.registerClass(\"${klassName}\", ${isInterface}, ${superKlassName}, [${interfaces}], function(klass,proto){\n\
 \${fields}\n\
 \${methods}\n\
-\});\n\
-\"
-interfaceTemplate = template "\
-\Java[\"${className}\"] = Java.mkNativeClass(function(klass){\n\
-\\tvar proto = klass.prototype = {};\n\
-\\tproto.constructor = klass;\n\
-\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
 \});\n\
 \"
 
@@ -80,10 +69,9 @@ extractDepsFromType (Array _ ft) = extractDepsFromType ft
 extractDepsFromType _ = []
 
 generateNativeClass :: Class Direct -> (String, [String])
-generateNativeClass cls = (L.unpack $ render templ ctx, deps)
+generateNativeClass cls = (L.unpack $ render classTemplate ctx, deps)
 			where
 				isInterface =S.member (ACC_INTERFACE) (accessFlags cls)
-				templ = if isInterface then interfaceTemplate else classTemplate
 				deps = concat [superClassDep, visibleFields >>= extractDepsFromField, classMethods cls >>= extractMethodDeps, fmap (B8.unpack . BL.toStrict) (interfaces cls) ]
 				superClassDep = if name == [] then [] else [name]
 					where name = T.unpack superClassName
@@ -97,11 +85,12 @@ generateNativeClass cls = (L.unpack $ render templ ctx, deps)
 												ReturnsVoid -> []
 												Returns t -> extractDepsFromType t
 				superClassName = decodeUtf8 $ BL.toStrict $ superClass cls
-				ctx "className" = decodeUtf8 (BL.toStrict $ thisClass cls)
-				ctx "proto" = T.pack $ if (0 == T.length superClassName || isInterface) then "{}" else "Object.create(Java["++(show superClassName)++"]().prototype)"
+				ctx "isInterface" = T.pack $ if isInterface then "true" else "false"
+				ctx "klassName" = decodeUtf8 $ BL.toStrict $ thisClass cls
+				ctx "superKlassName" = if (isInterface || 0 == T.length (superClassName)) then T.pack "null" else T.concat [T.pack "\"", superClassName, T.pack"\""]
 				ctx "fields" = compileFields cls visibleFields
-				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "Java[\"",(decodeUtf8 f),T.pack "\"]()"]) (fmap BL.toStrict $ interfaces cls))
-				ctx "methods" = T.pack (foldl (\l meth -> l++"\t"++stored meth++"[\""++mangleMethod meth++"\"] = "++generateNativeMethod cls (meth,methodCode cls (methodName meth))++";\n") "" visibleMethods)
+				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "\"",(decodeUtf8 f),T.pack "\""]) (fmap BL.toStrict $ interfaces cls))
+				ctx "methods" = T.pack (foldl (\l meth -> l++"\t"++stored meth++"[\""++mangleMethod meth++"\"] /*"++mangleMethodReturn meth++"*/= "++generateNativeMethod cls (meth,methodCode cls (methodName meth))++";\n") "" visibleMethods)
 												where
 													stored meth = if isStaticMethod meth then "klass" else "proto"
 				ctx k = error (show k)

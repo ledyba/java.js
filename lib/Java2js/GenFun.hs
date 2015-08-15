@@ -28,7 +28,7 @@ compileConstant (CInteger v) =  "(" ++ show v ++")"
 compileConstant (CFloat v) =  "(" ++ show v ++")"
 compileConstant (CLong v) =  "Java.mkLong(\"" ++ show v ++"\")"
 compileConstant (CDouble v) =  "(" ++ show v ++")"
-compileConstant (CClass kls) =  "(Java[" ++ show kls ++"]().prototype['__class__'])"
+compileConstant (CClass kls) =  "(Java.classObjectOf(" ++ show kls ++"))"
 compileConstant v =  error $ "(" ++ show v ++")"
 
 popStacks :: [FieldType] -> (String, String)

@@ -28,12 +28,6 @@ var Java = {};
 			return Java.Long.ZERO;
 		}
 	};
-	Java.mkClassObj = function(klass, name){
-		var classClass =Java["java/lang/Class"]();
-		var obj = new classClass();
-		obj.init(klass, name);
-		return obj;
-	};
 	Java.mkNativeClass = function(clinit){
 		var kls = null;
 		return function(){
@@ -56,6 +50,44 @@ var Java = {};
 			return kls;
 		};
 	};
+	Java.classObjectOf = function (name) {
+		if(Java.hasOwnProperty(name)){
+			var cls = Java[name]();
+			return (cls["$classObject"])();
+		}
+		throw new Error("Unknown Class: "+name);
+	}
+	Java.registerClass = function(name, isInterface, superClassName, implements, clinit){
+		var cls = null;
+		Java[name] = function(){
+			if(cls === null){
+				cls = function(){};
+				if(isInterface || superClassName === null){
+					cls.prototype = {};
+				}else{
+					cls.prototype = Object.create(Java[superClassName]().prototype);
+				}
+				var proto = cls.prototype;
+				proto.constructor = cls;
+				proto["$isJava"] = true;
+				cls["$isInterface"] = isInterface;
+				cls["$interfaces"] = implements;
+				cls["$class"] = cls;
+				var clsObj = null;
+				cls["$classObject"] = function(){
+					if(clsObj === null){
+						var classClass =Java["java/lang/Class"]();
+						clsObj = new classClass();
+						clsObj["class"] = cls;
+						clsObj["name"] = name;
+					}
+					return clsObj;
+				};
+				clinit(cls, proto);
+			}
+			return cls;
+		};
+	};
 	Java.Array = function(){};
 	Java.makeAAray = function(len){
 		var array = new Array(len);
@@ -65,19 +97,19 @@ var Java = {};
 	Java.mkIterator=function(list){
 		var it = new (Java["java/util/Iterator"]())();
 		var pt = 0;
-		it["hasNext()Z"] = function(){
+		it["hasNext()"] = function(){
 			return pt < list.length;
 		};
-		it["next()Ljava/lang/Object;"] = function(){
+		it["next()"] = function(){
 			return list[pt++];
 		};
-		it["remove()V"] = function(){
+		it["remove()"] = function(){
 			throw Error("Iterator#remove is not supported");
 		};
 		return it;
 	};
 	Java.instanceOf = function(klsName, obj){
-		if(!obj || !obj.__is_java__){
+		if(!obj || !obj["isJava"]){
 			return 0;
 		}
 		// more accurate!!

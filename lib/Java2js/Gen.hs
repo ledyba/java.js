@@ -6,6 +6,7 @@ import qualified Data.Map.Strict as M
 import Java2js.Type
 import Data.Text.Template (template, render)
 import Java2js.GenFun
+import Java2js.Mangle
 import Java2js.JVM.ClassFile
 import qualified Data.Set as S
 import qualified Data.Text as T
@@ -14,11 +15,7 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Text.Encoding (decodeUtf8)
 
 klassTemplate = template "\
-\Java[\"${klassName}\"]=Java.mkClass(function(klass){\n\
-\var proto = klass.prototype = ${proto};\n\
-\proto.constructor = klass;\n\
-\\tklass[\"__interfaces__\"] = [${interfaces}];\n\
-\\tproto[\"__class__\"] = Java.mkClassObj(klass, \"${klassName}\");\n\
+\Java.registerClass(\"${klassName}\", ${isInterface}, ${superKlassName}, [${interfaces}], function(klass,proto){\n\
 \${fields}\n\
 \${methods}\n\
 \${invokeClinit}\
@@ -40,15 +37,16 @@ initValue (Array _ _) = "null"
 compileKlass :: Klass -> String
 compileKlass klass = L.unpack $ render klassTemplate ctx
 			where
-				hasClinit = M.member "<clinit>()V" $ methods klass
+				hasClinit = M.member "<clinit>()" $ methods klass
 				isInterface = S.member ACC_INTERFACE (accessFlags $ klassClass $ klass)
-				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "Java[\"",(decodeUtf8 f),T.pack "\"]()"]) (fmap BL.toStrict $ interfaces (klassClass klass)))
+				ctx "interfaces" =  T.intercalate (T.pack ", ") (fmap (\f -> T.concat [T.pack "\"",(decodeUtf8 f),T.pack "\""]) (fmap BL.toStrict $ interfaces (klassClass klass)))
 				ctx "klassName" = T.pack (klassName klass)
-				ctx "proto" = T.pack $ if (isInterface || "" == (superKlass klass)) then "{}" else concat ["Object.create(Java[\"",(superKlass klass),"\"]().prototype)"]
+				ctx "isInterface" = T.pack $ if isInterface then "true" else "false"
+				ctx "superKlassName" = T.pack $ if (isInterface || "" == (superKlass klass)) then "null" else concat ["\"",(superKlass klass),"\""]
 				ctx "fields" = compileFields klass
-				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()V\"].call(null);\n"
+				ctx "invokeClinit" = T.pack $ if hasClinit	then "klass[\"<clinit>()\"].call(null);\n"
 																										else ""
-				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
+				ctx "methods" = T.pack (M.foldlWithKey (\l key (meth,code) -> l++stored meth++"[\""++key++"\"] /*"++(mangleMethodReturn meth)++"*/ = "++compileMethod klass (meth,code)++";\n") "" $ methods klass)
 												where
 													stored meth = if S.member ACC_STATIC maccs then "klass" else "proto"
 																				where maccs = methodAccessFlags meth
