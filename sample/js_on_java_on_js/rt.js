@@ -3207,8 +3207,7 @@ Java.registerClass("java/util/Vector", false, "java/util/AbstractList", ["java/u
 		throw new Error("NotImplemented: java/util/Vector#insertElementAt(Ljava/lang/Object;I)V");
 	};
 	proto["addElement(Ljava/lang/Object;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Vector#addElement(Ljava/lang/Object;)V");
+        this.list.push(ref0);
 	};
 	proto["removeElement(Ljava/lang/Object;)Z"] = function(ref0){
 		var self = this;
@@ -9546,8 +9545,7 @@ Java.registerClass("java/lang/StringBuffer", false, "java/lang/AbstractStringBui
 		throw new Error("NotImplemented: java/lang/StringBuffer#<init>(I)V");
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#<init>(Ljava/lang/String;)V");
+		this.buf = ref0.val;
 	};
 	proto["<init>(Ljava/lang/CharSequence;)V"] = function(ref0){
 		var self = this;
@@ -9606,8 +9604,8 @@ Java.registerClass("java/lang/StringBuffer", false, "java/lang/AbstractStringBui
 		throw new Error("NotImplemented: java/lang/StringBuffer#append(Ljava/lang/Object;)Ljava/lang/StringBuffer;");
 	};
 	proto["append(Ljava/lang/String;)Ljava/lang/StringBuffer;"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#append(Ljava/lang/String;)Ljava/lang/StringBuffer;");
+		this.buf += ref0.val;
+		return this;
 	};
 	proto["append(Ljava/lang/StringBuffer;)Ljava/lang/StringBuffer;"] = function(ref0){
 		var self = this;
@@ -9750,8 +9748,7 @@ Java.registerClass("java/lang/StringBuffer", false, "java/lang/AbstractStringBui
 		throw new Error("NotImplemented: java/lang/StringBuffer#reverse()Ljava/lang/StringBuffer;");
 	};
 	proto["toString()Ljava/lang/String;"] = function(){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/StringBuffer#toString()Ljava/lang/String;");
+		return Java.mkString(this.buf);
 	};
 	proto["reverse()Ljava/lang/AbstractStringBuilder;"] = function(){
 		var self = this;
@@ -13997,12 +13994,10 @@ Java.registerClass("java/lang/Double", false, "java/lang/Number", ["java/lang/Co
         return (db0 === db0/0)?1:0;
 	};
 	proto["<init>(D)V"] = function(db0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#<init>(D)V");
+		this.val = db0;
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
-		var self = this;
-		throw new Error("NotImplemented: java/lang/Double#<init>(Ljava/lang/String;)V");
+        this.val = parseFloat(ref0.val);
 	};
 	proto["isNaN()Z"] = function(){
 		var self = this;
@@ -14894,8 +14889,7 @@ Java.registerClass("java/lang/Math", false, "java/lang/Object", [], function(kla
 		throw new Error("NotImplemented: java/lang/Math#ceil(D)D");
 	};
 	klass["floor(D)D"] = function(db0){
-		var self = null;
-		throw new Error("NotImplemented: java/lang/Math#floor(D)D");
+		return Math.floor(db0);
 	};
 	klass["rint(D)D"] = function(db0){
 		var self = null;
@@ -15072,8 +15066,8 @@ Java.registerClass("java/util/Formatter", false, "java/lang/Object", ["java/io/C
 		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/util/Locale;)V");
 	};
 	proto["<init>(Ljava/lang/Appendable;Ljava/util/Locale;)V"] = function(ref0,ref1){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Formatter#<init>(Ljava/lang/Appendable;Ljava/util/Locale;)V");
+		this.appendable = ref0;
+		this.locale = ref1;
 	};
 	proto["<init>(Ljava/lang/String;)V"] = function(ref0){
 		var self = this;
@@ -15140,8 +15134,15 @@ Java.registerClass("java/util/Formatter", false, "java/lang/Object", ["java/io/C
 		throw new Error("NotImplemented: java/util/Formatter#ioException()Ljava/io/IOException;");
 	};
 	proto["format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;"] = function(ref0,arr_ref1){
-		var self = this;
-		throw new Error("NotImplemented: java/util/Formatter#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;");
+		var arr = Array.prototype.slice.call(arr_ref1);
+		arr.unshift(ref0);
+		// Ugly Hack
+		for(var i = 0; i<arr.length;i++){
+			arr[i] = arr[i].val;
+		}
+		var str = sprintf.apply(null, arr);
+		this.appendable.buf += str;
+		return this;
 	};
 	proto["format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/util/Formatter;"] = function(ref0,ref1,arr_ref2){
 		var self = this;

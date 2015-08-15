@@ -122,8 +122,8 @@ var Java = {};
 		if(klsName[0] === "["){
 			throw new Error("[TODO] Support array cast");
 		}
-		if(obj instanceof kls){
-			return 1;
+		if(!kls["$isInterface"]){
+			return (obj instanceof kls)?1:0;
 		}else{
 			console.log("[TODO] Support interface cast");
 			throw new Error("[TODO] Support interface cast");
