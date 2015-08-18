@@ -128,7 +128,7 @@ klass["calc()D"] = function(){
 });
 ```
 
-You also need *** Runtime Library *** . For this example, you are enough to prepare a js code for "java.lang.Object".
+You also need **Runtime Library** . For this example, you are enough to prepare a js code for **"java.lang.Object"**.
 
 You can generate a stab with:
 
