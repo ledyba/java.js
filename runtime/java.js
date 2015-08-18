@@ -1,6 +1,6 @@
+//
 var Java = {};
 (function(){
-	var log = Function.prototype.bind.call(console.log, console);
 	Java.mkString = function(str){
 		var kls = Java["java/lang/String"]();
 		var obj = new kls();

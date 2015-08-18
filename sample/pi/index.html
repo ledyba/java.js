@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" charset="UTF-8" />
+<title>JS on Java on JS</title>
+</head>
+<body>
+<div id="main">
+	<div id="header">Execute Pi.java</div>
+	<div id="discription">
+  <p>Demonstration of <a href="https://github.com/ledyba/java.js">Java.js</a>.</p>
+  <p>Compiling a PI calculus program from Java to JS, and execute it in the browser.</p>
+	</div>
+	<div id="panel">
+		<div>
+			<h3>Original Java souce code:</h3>
+		<div>
+    <iframe src="./Pi.java" width="100%"></iframe>
+		</div>
+		<h3>Compiled JavaScript source code:</h3>
+		<div>
+		  <iframe src="./pi.js" width="100%"></iframe>
+		</div>
+		<h3>Result:</h3>
+		<div id ="result"></div>
+	</div>
+	<div id="footer">
+	(C)2015 <A href="http://ledyba.org/">PSI</a> / <A href="https://github.com/ledyba/java.js">Java.js</a>
+	</div>
+	<script type="text/javascript" src="../../runtime/bigdecimal.js" charset="utf-8"></script>
+	<script type="text/javascript" src="../../runtime/java.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./rt.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./pi.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		(function(){
+			window.onload = function(){
+				var piClass = Java["Pi"]();
+				var r = piClass["calc()D"]();
+				document.getElementById("result").innerText = r.toString();
+			}
+		})();
+	</script>
+</div>
+</body>
+</html>

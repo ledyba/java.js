@@ -39,14 +39,19 @@
 			var machine = env.evaluator;
 			window.run = function(){
 				var src = document.getElementById("src").value;
+				var res = document.getElementById("res");
 				console.log(src);
 				try{
 					var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString(src));
-					console.log(obj);
 					obj = obj["toDetailString()Ljava/lang/String;"]();
-					console.log(obj.asString());
+					res.value = obj.asString();
 				} catch (e){
-					console.log(e);
+					res.value = "Error: \n";
+					if(e instanceof Error){
+						res.value += res.message;
+					}else{
+						res.value += JSON.stringify(e);
+					}
 				}
 			}
 		})();
