@@ -198,7 +198,7 @@ Java.registerClass("java/lang/Object", false, null, [], function(klass,proto){
 });
 ```
 
-This example program uses "<init>()V" only, so you can implement like this:
+This example program uses "&lt;init&gt;()V" only, so you can implement like this:
 
 ```js
 /*... ... ...*/
