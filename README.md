@@ -20,7 +20,7 @@
 
 We can also run (Java program (compiled to JS)) on (JavaScript Interpreter (written in Java) (compiled to JS)) on (your JavaScript Engine in browser). In other words, executing **Java on JS on Java on JS**!!
 
-[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/js_on_java_on_js/demo1.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html)
+[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/js_on_java_on_js/demo2.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html)
 
 ## How to build
 
