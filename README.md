@@ -1,14 +1,26 @@
-# Java.js: a coverter from JVM bytecode into javascript!
+# Java.js: Java bytecode to javascript compiler!
 
- Java.js is a *** Java bytecode to JavaScript *** compiler! You can run your Java program in your web browser.
+ Java.js is a **Java bytecode to JavaScript compiler** ! You can run your Java program in your web browser.
 
 ## Requirement
 
 - Haskell Platform: https://www.haskell.org/platform/
 
-## Demonstration!
+## Demonstrations
 
+### PI calculation
 
+[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/pi/pi.png)](https://cdn.rawgit.com/ledyba/java.js/master/sample/pi/index.html)
+
+### Executing "JavaScript Interpreter" on JavaScript (JS on Java on JS)
+
+[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/js_on_java_on_js/demo1.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html)
+
+### Java on JS on Java on JS
+
+We can also run (Java program (compiled to JS)) on (JavaScript Interpreter (written in Java) (compiled to JS)) on (your JavaScript Engine in browser). In other words, executing **Java on JS on Java on JS**!!
+
+[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/js_on_java_on_js/demo1.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html)
 
 ## How to build
 
@@ -219,6 +231,8 @@ All of the preparation is in order! You can call Pi.calc() method in your js cod
 </script>
 ```
 Now you can calculate PI:
+
+[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/pi/pi.png)](https://cdn.rawgit.com/ledyba/java.js/master/sample/pi/index.html)
 
 ## Limitation
 
