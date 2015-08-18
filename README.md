@@ -2,6 +2,10 @@
 
  Java.js is a **Java bytecode to JavaScript compiler** ! You can run your Java program in your web browser.
 
+## Background
+
+ JavaApplet is mostly dead... :'( But you can run JavaScript in your browser. That's it. :-)
+
 ## Requirement
 
 - Haskell Platform: https://www.haskell.org/platform/
