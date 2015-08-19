@@ -1,10 +1,10 @@
 # Java.js: Java bytecode to javascript compiler!
 
- Java.js is a **Java bytecode to JavaScript compiler** ! You can run your Java program in your web browser.
+ Java.js is a **Java bytecode to JavaScript compiler**!! You can run your Java program in your web browser.
 
 ## Background
 
- JavaApplet is mostly dead... :'( But you can run JavaScript in your browser. That's it. :-)
+ JavaApplet is mostly dead... :'( But we can run JavaScript in browsers. That's it. :-)
 
 ## Requirement
 
