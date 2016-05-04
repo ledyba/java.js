@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, GADTs #-}
 module Java2js.Gen(compileKlass) where
 
 import Data.List (intercalate)

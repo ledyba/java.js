@@ -1,12 +1,12 @@
 .PHONY: all gen
 
 all:
-	cabal run build \
+	stack exec java.js build \
 			sample/fesi.jar \
 			sample/js_on_java_on_js/out.js
 
 gen:
-	cabal run gen \
+	stack exec java.js gen \
 			sample/rt.jar \
 			java/lang/Object \
 			java/lang/String \
@@ -36,6 +36,6 @@ rhino:
 	rhino -opt -1 -f str
 
 pi:
-	cabal run build \
+	stack exec java.js build \
 			sample/pi/Pi.class \
 			sample/pi/pi.js

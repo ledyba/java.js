@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, GADTs #-}
 module Java2js.Load(loadKlass, withKlass, loadCPEntry, entry2Direct) where
 --
 

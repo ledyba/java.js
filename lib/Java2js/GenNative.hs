@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings,GADTs,FlexibleContexts #-}
 module Java2js.GenNative(generateNativeClass) where
 
 import Data.List (intercalate)

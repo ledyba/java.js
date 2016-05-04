@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, FlexibleContexts #-}
 module Java2js.GenFun(compileMethod, compileConstant) where
 --
 import Java2js.Type
