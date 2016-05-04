@@ -1,0 +1,17 @@
+flags: {}
+extra-package-dbs: []
+packages:
+- '.'
+- location:
+    hg: https://bitbucket.org/astanin/hs-libzip
+    commit: 1.0.1-dev
+  subdirs:
+  - LibZip
+  - bindings-libzip
+extra-deps:
+- binary-state-0.1.1
+- bindings-libzip-0.11
+- control-monad-exception-0.11.2
+- failure-0.2.0.3
+- text-1.2.2.1
+resolver: lts-5.13

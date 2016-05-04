@@ -44,18 +44,40 @@ Library
                  Java2js.Java.META.Parser
 
   hs-source-dirs:       lib
-  Build-Depends:        base >= 4.6 && <= 5, containers, binary >= 0.7.0.0,
-                  mtl, directory, filepath, utf8-string, array,
-                  bytestring, data-binary-ieee754, binary-state >= 0.1.1,
-                  control-monad-exception, data-default >= 0.5.0,
-                  MissingH, LibZip, Glob, parsec >= 3 && <4,
-                  template, text
+  Build-Depends:
+                  base >= 4.6 && <= 5,
+                  LibZip >= 0.11.1,
+                  containers,
+                  binary >= 0.7.0.0,
+                  mtl,
+                  directory,
+                  filepath,
+                  utf8-string,
+                  array,
+                  bytestring,
+                  data-binary-ieee754,
+                  binary-state >= 0.1.1,
+                  control-monad-exception,
+                  data-default >= 0.5.0,
+                  MissingH,
+                  Glob,
+                  parsec >= 3 && <4,
+                  template,
+                  text
 
 executable java.js
   main-is:             Main.hs
   -- other-modules:
   -- other-extensions:
-  build-depends:       base >=4.6 && <4.7, java2js, bytestring, containers, template, MissingH, filepath, split
+  build-depends:
+                  base >=4.8 && < 5,
+                  java2js,
+                  bytestring,
+                  containers,
+                  template,
+                  MissingH,
+                  filepath,
+                  split
   -- hs-source-dirs:
   default-language:    Haskell2010
   hs-source-dirs:      src
