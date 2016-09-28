@@ -2,18 +2,13 @@ flags: {}
 extra-package-dbs: []
 packages:
 - '.'
-- location:
-    hg: https://bitbucket.org/astanin/hs-libzip
-    commit: 1.0.1-dev
-  subdirs:
-  - LibZip
-  - bindings-libzip
 extra-deps:
+  - LibZip-1.0.1
   - binary-state-0.1.1
   - control-monad-exception-0.11.2
   - failure-0.2.0.3
   - text-1.2.2.1
-  - ghc-mod-5.5.0.0
-  - cabal-helper-0.6.3.1
-  - cabal-install-1.22.8.0
-resolver: lts-5.15
+  - ghc-mod-5.6.0.0
+  - cabal-helper-0.7.2.0
+  - cabal-install-1.24.0.0
+resolver: lts-7.1
