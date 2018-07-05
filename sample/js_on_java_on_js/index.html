@@ -31,9 +31,9 @@
 	<script type="text/javascript">
 		(function(){
 			var q = window.location.search;
-			if(!!q) {
+			if(!!q && q.length > 1) {
 				window.addEventListener('DOMContentLoaded', function(){
-					fetch('./'+q)
+					fetch('./'+q.substring(1))
 					.then(function(response) {
 						return response.text();
 					})
