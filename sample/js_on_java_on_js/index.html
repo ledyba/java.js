@@ -30,15 +30,17 @@
 	</div>
 	<script type="text/javascript">
 		(function(){
+			var src = document.getElementById("src");
 			var q = window.location.search;
+			src.value='Now loading...';
 			if(!!q && q.length > 1) {
 				window.addEventListener('DOMContentLoaded', function(){
 					fetch('./'+q.substring(1))
 					.then(function(response) {
 						return response.text();
 					})
-					.then(function(src) {
-						document.getElementById('src').value=src;
+					.then(function(srcText) {
+						src.value=srcText;
 					});
 				});
 			}
@@ -57,19 +59,22 @@
 			window.run = function(){
 				var src = document.getElementById("src").value;
 				var res = document.getElementById("res");
+				res.value = 'Be patient...';
 				console.log(src);
-				try{
-					var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString(src));
-					obj = obj["toDetailString()Ljava/lang/String;"]();
-					res.value = obj.asString();
-				} catch (e){
-					res.value = "Error: \n";
-					if(e instanceof Error){
-						res.value += res.message;
-					}else{
-						res.value += JSON.stringify(e);
+				setTimeout(function(){
+					try{
+						var obj = machine["evaluate(Ljava/lang/String;)LFESI/Data/ESValue;"](Java.mkString(src));
+						obj = obj["toDetailString()Ljava/lang/String;"]();
+						res.value = obj.asString();
+					} catch (e){
+						res.value = "Error: \n";
+						if(e instanceof Error){
+							res.value += res.message;
+						}else{
+							res.value += JSON.stringify(e);
+						}
 					}
-				}
+				}, 0);
 			}
 		})();
 	</script>

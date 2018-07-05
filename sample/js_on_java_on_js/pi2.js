@@ -8,7 +8,7 @@ function arcTan(x) {
 	var sig = x;
 	var sqx = x * x;
 	for (var i = 0; sig != 0.0; i++) {
-			ret += sig / (double) (i + i + 1);
+			ret += sig / (i + i + 1);
 			sig = -sig * sqx;
 	}
 	return ret;
