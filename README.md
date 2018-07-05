@@ -14,17 +14,17 @@
 
 ### PI calculation
 
-[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/pi/pi.png)](https://cdn.rawgit.com/ledyba/java.js/master/sample/pi/index.html)
+[![](https://ledyba.github.io/java.js/sample/pi/pi.png)](https://ledyba.github.io/java.js/sample/pi/index.html)
 
 ### Executing "JavaScript Interpreter" on JavaScript (JS on Java on JS)
 
-[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/js_on_java_on_js/demo1.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html)
+[![](https://ledyba.github.io/java.js/sample/js_on_java_on_js/demo1.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html?pi2.js)
 
 ### Java on JS on Java on JS
 
 We can also run (Java program (compiled to JS)) on (JavaScript Interpreter (written in Java) (compiled to JS)) on (your JavaScript Engine in browser). In other words, executing **Java on JS on Java on JS**!!
 
-[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/js_on_java_on_js/demo2.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html)
+[![](https://ledyba.github.io/java.js/sample/js_on_java_on_js/demo2.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html?pi.js)
 
 ## How to build
 
@@ -236,7 +236,7 @@ All of the preparation is in order! You can call Pi.calc() method in your js cod
 ```
 Now you can calculate PI:
 
-[![](https://raw.githubusercontent.com/ledyba/java.js/master/sample/pi/pi.png)](https://cdn.rawgit.com/ledyba/java.js/master/sample/pi/index.html)
+[![](https://ledyba.github.io/java.js/sample/pi/pi.png)](https://cdn.rawgit.com/ledyba/java.js/master/sample/pi/index.html)
 
 ## Limitation
 

@@ -26,8 +26,24 @@
 		</div>
 	</div>
 	<div id="footer">
-	(C)2015 <A href="http://ledyba.org/">PSI</a> / <A href="https://github.com/ledyba/java.js">Java.js</a>
+	(C)2015 <A href="http://7io.org/">PSI</a> / <A href="https://github.com/ledyba/java.js">Java.js</a>
 	</div>
+	<script type="text/javascript">
+		(function(){
+			var q = window.location.search;
+			if(!!q) {
+				window.addEventListener('DOMContentLoaded', function(){
+					fetch('./'+q)
+					.then(function(response) {
+						return response.text();
+					})
+					.then(function(src) {
+						window.getElementById('src').value=src;
+					});
+				});
+			}
+		})();
+	</script>
 	<script type="text/javascript" src="../../runtime/bigdecimal.js" charset="utf-8"></script>
 	<script type="text/javascript" src="../../runtime/sprintf.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="../../runtime/java.js" charset="utf-8"></script>
