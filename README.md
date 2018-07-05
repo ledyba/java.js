@@ -18,13 +18,13 @@
 
 ### Executing "JavaScript Interpreter" on JavaScript (JS on Java on JS)
 
-[![](https://ledyba.github.io/java.js/sample/js_on_java_on_js/demo1.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html?pi2.js)
+[![](https://ledyba.github.io/java.js/sample/js_on_java_on_js/demo1.png)](https://ledyba.github.io/java.js/sample/js_on_java_on_js/index.html?pi2.js)
 
 ### Java on JS on Java on JS
 
 We can also run (Java program (compiled to JS)) on (JavaScript Interpreter (written in Java) (compiled to JS)) on (your JavaScript Engine in browser). In other words, executing **Java on JS on Java on JS**!!
 
-[![](https://ledyba.github.io/java.js/sample/js_on_java_on_js/demo2.png)](https://rawgit.com/ledyba/java.js/master/sample/js_on_java_on_js/index.html?pi.js)
+[![](https://ledyba.github.io/java.js/sample/js_on_java_on_js/demo2.png)](https://ledyba.github.io/java.js/sample/js_on_java_on_js/index.html?pi.js)
 
 ## How to build
 
