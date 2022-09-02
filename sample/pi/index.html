@@ -28,24 +28,21 @@
 	(C)2015 <A href="http://7io.org/">PSI</a> / <A href="https://github.com/ledyba/java.js">Java.js</a>
 	</div>
 	<script type="text/javascript">
-		function loader(domId, path) {
-			var src = document.getElementById(domId);
-			var q = window.location.search;
-			src.value='Now loading...';
-			if(!!q && q.length > 1) {
-				window.addEventListener('DOMContentLoaded', function(){
-					fetch(path)
-					.then(function(response) {
-						return response.text();
-					})
-					.then(function(srcText) {
-						src.value=srcText;
+		window.addEventListener('DOMContentLoaded', () => {
+			function load(domId, path) {
+				var dom = document.getElementById(domId);
+				dom.value='Now loading...';
+				fetch(path)
+					.then((response) => response.text())
+					.then((srcText) => {
+						dom.value = srcText;
 					});
-				});
 			}
-		};
-		loader('original', './Pi.java');
-		loader('compiled', './pi.js');
+
+			load('original', './Pi.java');
+			load('compiled', './pi.js');
+		});
+
 	</script>
 	<script type="text/javascript" src="../../runtime/bigdecimal.js" charset="utf-8"></script>
 	<script type="text/javascript" src="../../runtime/java.js" charset="utf-8"></script>
