@@ -18,13 +18,9 @@
 	<div id="panel">
 		<div>
 			<h3>Original Java souce code:</h3>
-		<div>
-			<textarea id="original" rows="20" cols="80"></textarea>
-		</div>
+			<textarea id="original" rows="20" style="width: 90%; height: 20vh; margin: 0;"></textarea>
 		<h3>Compiled JavaScript source code:</h3>
-		<div>
-			<textarea id="compiled" rows="20" cols="80"></textarea>
-		</div>
+		<textarea id="compiled" rows="20" style="width: 90%; height: 20vh; margin: 0;"></textarea>
 		<h3>Result:</h3>
 		<div id ="result"></div>
 	</div>
@@ -32,7 +28,7 @@
 	(C)2015 <A href="http://7io.org/">PSI</a> / <A href="https://github.com/ledyba/java.js">Java.js</a>
 	</div>
 	<script type="text/javascript">
-		const loader = (function(domId, path){
+		function loader(domId, path) {
 			var src = document.getElementById(domId);
 			var q = window.location.search;
 			src.value='Now loading...';
@@ -47,7 +43,7 @@
 					});
 				});
 			}
-		})();
+		};
 		loader('original', './Pi.java');
 		loader('compiled', './po.js');
 	</script>
